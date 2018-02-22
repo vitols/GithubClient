@@ -1,4 +1,4 @@
-package com.example.android.githubclient.base.model;
+package com.example.android.githubclient.base.presentation.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

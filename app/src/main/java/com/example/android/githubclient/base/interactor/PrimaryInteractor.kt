@@ -1,9 +1,9 @@
 package com.example.android.githubclient.base.interactor
 
-import com.example.android.githubclient.base.dataManager.AbstractRepository
-import com.example.android.githubclient.base.dataManager.PrimaryRepository
-import com.example.android.githubclient.base.model.Repo
-import com.example.android.githubclient.base.model.User
+import com.example.android.githubclient.base.data.AbstractRepository
+import com.example.android.githubclient.base.data.PrimaryRepository
+import com.example.android.githubclient.base.presentation.model.Repo
+import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.requests.CommonRequestInterface
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

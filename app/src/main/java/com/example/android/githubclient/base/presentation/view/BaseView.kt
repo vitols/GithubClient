@@ -1,4 +1,4 @@
-package com.example.android.githubclient.base.view
+package com.example.android.githubclient.base.presentation.view
 
 /**
  * Created by admin on 22.02.2018.

@@ -1,6 +1,6 @@
 package com.example.android.githubclient.base.requests
 
-import com.example.android.githubclient.base.model.User
+import com.example.android.githubclient.base.presentation.model.User
 import io.reactivex.Observable
 
 /**

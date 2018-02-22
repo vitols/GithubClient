@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.android.githubclient.R
-import com.example.android.githubclient.base.model.User
-import com.example.android.githubclient.base.presenter.UserPresenter
-import com.example.android.githubclient.base.view.UserView
+import com.example.android.githubclient.base.presentation.model.User
+import com.example.android.githubclient.base.presentation.presenter.UserPresenter
+import com.example.android.githubclient.base.presentation.view.UserView
 
 /**
  * Created by admin on 19.02.2018.

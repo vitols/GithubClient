@@ -1,7 +1,10 @@
-package com.example.android.githubclient.base.dataManager
+package com.example.android.githubclient.base.data
 
-import com.example.android.githubclient.base.model.Repo
-import com.example.android.githubclient.base.model.User
+import com.example.android.githubclient.base.data.storage.StorageDataManager
+import com.example.android.githubclient.base.data.storage.StorageDataManagerInterface
+import com.example.android.githubclient.base.data.network.NetworkDataManager
+import com.example.android.githubclient.base.presentation.model.Repo
+import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.requests.CommonRequestInterface
 import io.reactivex.Observable
 

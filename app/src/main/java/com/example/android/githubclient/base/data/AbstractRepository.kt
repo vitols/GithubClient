@@ -1,4 +1,4 @@
-package com.example.android.githubclient.base.dataManager
+package com.example.android.githubclient.base.data
 
 import com.example.android.githubclient.base.requests.CommonRequestInterface
 

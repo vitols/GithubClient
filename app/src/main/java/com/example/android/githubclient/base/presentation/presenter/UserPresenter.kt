@@ -1,10 +1,10 @@
-package com.example.android.githubclient.base.presenter
+package com.example.android.githubclient.base.presentation.presenter
 
 import com.example.android.githubclient.base.interactor.PrimaryInteractor
-import com.example.android.githubclient.base.model.User
+import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.requests.CommonRequestInterface
 import com.example.android.githubclient.base.requests.UsersRequestInterface
-import com.example.android.githubclient.base.view.UserView
+import com.example.android.githubclient.base.presentation.view.UserView
 import io.reactivex.Observable
 
 /**

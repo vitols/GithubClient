@@ -1,4 +1,4 @@
-package com.example.android.githubclient.base.presenter
+package com.example.android.githubclient.base.presentation.presenter
 
 
 /**
