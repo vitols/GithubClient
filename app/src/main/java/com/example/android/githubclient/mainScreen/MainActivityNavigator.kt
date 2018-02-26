@@ -2,6 +2,7 @@ package com.example.android.githubclient.mainScreen
 
 import android.support.v4.app.FragmentManager
 import com.example.android.githubclient.base.navigator.*
+import com.example.android.githubclient.mainScreen.mainFragments.FragmentAuth
 import com.example.android.githubclient.mainScreen.mainFragments.FragmentProfile
 import com.example.android.githubclient.mainScreen.mainFragments.FragmentRepos
 import com.example.android.githubclient.mainScreen.mainFragments.FragmentUsers
@@ -17,21 +18,28 @@ class MainActivityNavigator(fragmentManager: FragmentManager, containerId: Int) 
             override var data: Any? = null
             override fun getTag() = "SCREEN_PROFILE"
             override fun getLastScreen() = null
-            override fun createFragment() = FragmentProfile.newInstance()
+            override fun createFragment(data: Any?) = FragmentProfile.newInstance()
             override fun setAnimation(fragmentManager: FragmentManager) = fragmentManager.beginTransaction()
         },
         SCREEN_USERS {
             override var data: Any? = null
             override fun getTag() = "SCREEN_USERS"
             override fun getLastScreen() = null
-            override fun createFragment() = FragmentUsers.newInstance()
+            override fun createFragment(data: Any?) = FragmentUsers.newInstance()
             override fun setAnimation(fragmentManager: FragmentManager) = fragmentManager.beginTransaction()
         },
         SCREEN_REPOS {
             override var data: Any? = null
             override fun getTag() = "SCREEN_REPOS"
             override fun getLastScreen() = null
-            override fun createFragment() = FragmentRepos.newInstance()
+            override fun createFragment(data: Any?) = FragmentRepos.newInstance()
+            override fun setAnimation(fragmentManager: FragmentManager) = fragmentManager.beginTransaction()
+        },
+        SCREEN_AUTH {
+            override var data: Any? = null
+            override fun getTag() = "SCREEN_AUTH"
+            override fun getLastScreen() = null
+            override fun createFragment(data: Any?) = FragmentAuth.newInstance(data.toString())
             override fun setAnimation(fragmentManager: FragmentManager) = fragmentManager.beginTransaction()
         }
     }
@@ -48,7 +56,7 @@ class MainActivityNavigator(fragmentManager: FragmentManager, containerId: Int) 
     }
 
     override fun openFirstFragment() {
-        showFirstFragment(Screens.SCREEN_PROFILE, null)
+        showFirstFragment(Screens.SCREEN_USERS, null)
     }
 
     override fun showScreen(screen: ScreenInterface, data: Any?) {

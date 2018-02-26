@@ -3,6 +3,7 @@ package com.example.android.githubclient.base.navigator
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
+import android.util.Log
 
 /**
  * Created by admin on 20.02.2018.
@@ -14,10 +15,9 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
     private var curScreen: ScreenInterface? = null
 
     override fun showFragment(screen: ScreenInterface, data: Any?) {
-
         if (curScreen === screen)
             return
-
+        Log.e("showFragment", screen.getTag())
         if (tags.contains(screen)) {
             screen.setAnimation(fragmentManager)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -28,11 +28,11 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
             tags.add(screen)
             screen.setAnimation(fragmentManager)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .add(containerId, screen.createFragment(), screen.getTag())
+                    .add(containerId, screen.createFragment(data), screen.getTag())
                     .hide(fragmentManager.findFragmentByTag(curScreen?.getTag()))
                     .commit()
         }
-
+        Log.e("tags", tags.elementAt(tags.size - 1)!!.getTag())
         curScreen = screen
     }
 
@@ -44,6 +44,13 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
         screen.setAnimation(fragmentManager)
                 .add(containerId, screen.createFragment(), screen.getTag())
                 .commit()
+    }
+
+    fun showFragmentByTag(tag: String) {
+        for (screen in tags) {
+            if (screen!!.getTag() == tag)
+                showFragment(screen)
+        }
     }
 
     override fun popFragment() {

@@ -6,6 +6,6 @@ package com.example.android.githubclient.base.presentation.view
 
 interface BaseView<P> {
     var presenter: P?
-    fun showError()
+    fun showError(error: String)
 }
 

@@ -18,8 +18,8 @@ object RestApi {
     fun init(authenticator: Authenticator) {
 
         val okHttpClient = OkHttpClient.Builder()
-                .addInterceptor(Interceptor())
-                .authenticator(authenticator)
+                /*.addInterceptor(Interceptor())
+                .authenticator(authenticator)*/
 
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY

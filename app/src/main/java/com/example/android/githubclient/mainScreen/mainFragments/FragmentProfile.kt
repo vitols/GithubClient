@@ -14,11 +14,11 @@ import com.example.android.githubclient.base.presentation.view.UserView
  * Created by admin on 19.02.2018.
  */
 class FragmentProfile : Fragment(), UserView<UserPresenter> {
-    override var presenter: UserPresenter? = UserPresenter(this)
-
-    override fun showError() {
+    override fun showError(error: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override var presenter: UserPresenter? = UserPresenter(this)
 
     override fun showUsers(): List<User> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

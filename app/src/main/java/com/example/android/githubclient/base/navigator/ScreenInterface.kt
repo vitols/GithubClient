@@ -11,6 +11,6 @@ interface ScreenInterface {
 
     fun getTag(): String
     fun getLastScreen(): ScreenInterface?
-    fun createFragment(): Fragment
+    fun createFragment(data: Any? = null): Fragment
     fun setAnimation(fragmentManager: FragmentManager): FragmentTransaction = fragmentManager.beginTransaction()
 }

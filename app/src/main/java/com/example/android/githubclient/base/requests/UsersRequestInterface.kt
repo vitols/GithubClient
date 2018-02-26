@@ -8,5 +8,5 @@ import io.reactivex.Observable
  */
 interface UsersRequestInterface {
     fun getUsers(): Observable<List<User>>
-    fun getUserByLogin(): Observable<User>
+    fun getUserByLogin(login: String): Observable<User>
 }
