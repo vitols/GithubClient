@@ -13,10 +13,12 @@ object ConstValues {
     }
     object Api {
         const val BASE_URL = "https://api.github.com"
-        const val AUTH_URL = "https://github.com/login/oauth/authorize"
+        const val GET_CODE_URL = "https://github.com/login/oauth/authorize"
+        const val GET_TOKEN_URL = "https://github.com/login/oauth/access_token"
     }
 
     object Auth {
         const val CLIENT_ID = "c0a8a765ce30cfa59ae4"
+        const val CLIENT_SECRET = "8f923109671140ddcd55e6de26b4d936ebeecb93"
     }
 }

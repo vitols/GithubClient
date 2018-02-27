@@ -14,9 +14,7 @@ import kotlinx.android.synthetic.main.fragment_screen_auth.*
 import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
 import android.util.Log
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.api.RequestContainer
 
@@ -82,14 +80,21 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
         super.onViewCreated(view, savedInstanceState)
 
         var webView = view!!.findViewById<WebView>(R.id.screen_auth_webview)
-        Log.e("webView", (webView != null).toString())
         webView.settings.javaScriptEnabled = true
         //webView.settings.domStorageEnabled = true
         webView.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                view!!.loadUrl(ConstValues.Api.AUTH_URL + "?client_id=" + ConstValues.Auth.CLIENT_ID)
-                return false
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
             }
+
+            /*override fun onReceivedHttpAuthRequest(view: WebView?, handler: HttpAuthHandler?, host: String?, realm: String?) {
+                super.onReceivedHttpAuthRequest(view, handler, host, realm)
+                Log.e("onReceive", handler.toString())
+
+            }*/
         }
+        webView.loadUrl(ConstValues.Api.GET_CODE_URL
+                + "?client_id=" + ConstValues.Auth.CLIENT_ID)
+
     }
 }

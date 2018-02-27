@@ -32,6 +32,7 @@
         android:layout_width="64dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_gravity="right"
         android:layout_marginTop="?attr/actionBarSize"
         android:background="@color/colorPrimaryDark">
 

@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
                 if(LoginController.instance.isLoggedIn()) {
                 Log.e("MainActivity", "Profile Clicked")
                 navigator.showScreen(MainActivityNavigator.Screens.SCREEN_PROFILE)
-            } else {
+                } else {
                 Log.e("MainActivity", "Profile AUTH start")
                 navigator.showScreen(MainActivityNavigator.Screens.SCREEN_AUTH,
                         MainActivityNavigator.Screens.SCREEN_PROFILE.getTag())
