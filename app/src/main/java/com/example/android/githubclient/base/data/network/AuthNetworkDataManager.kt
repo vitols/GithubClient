@@ -1,5 +1,6 @@
 package com.example.android.githubclient.base.data.network
 
+import android.util.Log
 import com.example.android.githubclient.base.api.RequestContainer
 import com.example.android.githubclient.base.api.RestApi
 import com.example.android.githubclient.base.data.network.services.AuthService
@@ -17,8 +18,9 @@ class AuthNetworkDataManager : AuthRequestInterface {
         service = RestApi.createService(AuthService::class.java)
     }
 
-    override fun tryToLogIn(request: RequestContainer): Call<String> {
-        return service!!.tryToLogIn(request)
+    override fun tryToLogIn(encoded: String): Call<String> {
+        Log.e("DataManager", "login")
+        return service!!.tryToLogIn(encoded)
     }
 
 }

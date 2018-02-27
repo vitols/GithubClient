@@ -1,5 +1,6 @@
 package com.example.android.githubclient.base.api
 
+import com.example.android.githubclient.base.ConstValues
 import okhttp3.Authenticator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -12,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
  * Created by admin on 22.02.2018.
  */
 object RestApi {
-    private val URL = "https://api.github.com"
     private var retrofit: Retrofit? = null
 
     fun init(authenticator: Authenticator) {
@@ -28,7 +28,7 @@ object RestApi {
         retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(URL)
+                .baseUrl(ConstValues.Api.BASE_URL)
                 .client(okHttpClient.build())
                 .build()
     }

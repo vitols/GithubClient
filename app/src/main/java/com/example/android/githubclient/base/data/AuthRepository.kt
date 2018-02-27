@@ -1,5 +1,6 @@
 package com.example.android.githubclient.base.data
 
+import android.util.Log
 import com.example.android.githubclient.base.api.RequestContainer
 import com.example.android.githubclient.base.data.network.AuthNetworkDataManager
 import com.example.android.githubclient.base.requests.AuthRequestInterface
@@ -13,8 +14,10 @@ class AuthRepository : AuthRequestInterface {
 
     private val networkDM: AuthRequestInterface = AuthNetworkDataManager()
 
-    override fun tryToLogIn(request: RequestContainer): Call<String> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun tryToLogIn(encoded: String): Call<String> {
+        Log.e("Repository", "login")
+        return networkDM.tryToLogIn(encoded)
+
     }
 
 }

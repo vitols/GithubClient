@@ -14,6 +14,10 @@ import kotlinx.android.synthetic.main.fragment_screen_auth.*
 import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.api.RequestContainer
 
 
@@ -34,15 +38,14 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
         private val TAG = "TAG_FRAGMENT_AUTH"
 
         fun newInstance(data: String? = null): Fragment {
-            Log.e("FragmentAuth", "HERE")
-            return FragmentUsers().apply {
+            Log.e("FragmentAuth", "created!")
+            return FragmentAuth().apply {
                 arguments = Bundle().apply {
                     putString("Screen", data)
                 }
             }
         }
     }
-
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -71,17 +74,22 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        presenter = AuthPresenter(this)
-        Log.e("FragmentAuth", "onCreate")
-        return inflater!!.inflate(R.layout.fragment_screen_auth, container, false)
+        var view = inflater!!.inflate(R.layout.fragment_screen_auth, container, false)
+        return view
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        screen_auth_button_login.setOnClickListener {
-            if (!screen_auth_login.text.isEmpty() && !screen_auth_password.text.isEmpty())
-                presenter!!.tryToLogIn(RequestContainer(screen_auth_login.text.toString(),
-                        screen_auth_password.text.toString()), Bundle().getString("Screen"))
+
+        var webView = view!!.findViewById<WebView>(R.id.screen_auth_webview)
+        Log.e("webView", (webView != null).toString())
+        webView.settings.javaScriptEnabled = true
+        //webView.settings.domStorageEnabled = true
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                view!!.loadUrl(ConstValues.Api.AUTH_URL + "?client_id=" + ConstValues.Auth.CLIENT_ID)
+                return false
+            }
         }
     }
 }

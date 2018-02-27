@@ -14,12 +14,13 @@ import retrofit2.Call
  */
 class AuthPresenter(override var view: AuthView<*>?) : BasePresenter<AuthView<*>>{
 
-    private val interactor: AuthRequestInterface = AuthInteractor()
+    private val interactor = AuthInteractor()
 
 
-    fun tryToLogIn(request: RequestContainer, tag: String): Call<String>  {
-        return interactor.tryToLogIn(request)
-        Log.e("AuthPresenter", request.toString())
+    fun tryToLogIn(login: String, password: String, tag: String): String  {
+        interactor.tryToLogIn(login, password).execute()
+        return ""
+        //Log.e("AuthPresenter", request.toString())
         /*if (interactor.tryToLogIn(login, password)) {
             view!!.showScreen(screen)
         } else {

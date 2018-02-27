@@ -7,5 +7,5 @@ import retrofit2.Call
  * Created by admin on 26.02.2018.
  */
 interface AuthRequestInterface {
-    fun tryToLogIn(request: RequestContainer): Call<String>
+    fun tryToLogIn(encoded: String): Call<String>
 }

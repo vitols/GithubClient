@@ -11,6 +11,10 @@ import com.example.android.githubclient.base.presentation.presenter.UserPresente
 import com.example.android.githubclient.base.presentation.view.UserView
 import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
+import android.support.v7.widget.RecyclerView
+import android.util.Log
+import android.widget.Adapter
+import android.widget.AdapterView
 
 
 /**
@@ -54,7 +58,6 @@ class FragmentUsers : Fragment(), UserView<UserPresenter> {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 
 }

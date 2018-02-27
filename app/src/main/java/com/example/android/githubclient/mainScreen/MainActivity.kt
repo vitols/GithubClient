@@ -24,7 +24,8 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
     }
 
     private fun setListeners() {
-        main_sidebar_me.setOnClickListener{
+        main_sidebar_me.setOnClickListener {
+
             if (navigator.getCurrentScreen() != MainActivityNavigator.Screens.SCREEN_PROFILE) {
                 if(LoginController.instance.isLoggedIn()) {
                 Log.e("MainActivity", "Profile Clicked")
@@ -49,10 +50,10 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
                     navigator.getCurrentScreen() != MainActivityNavigator.Screens.SCREEN_REPOS) {
                 Log.e("MainActivity", "Repos Clicked")
                 navigator.showScreen(MainActivityNavigator.Screens.SCREEN_REPOS)
-
-                // main_sidebar_me.background =
-                // main_sidebar_users.background =
-                // main_sidebar_repos.background =
+/*
+                 main_sidebar_me.background =
+                 main_sidebar_users.background =
+                 main_sidebar_repos.background =*/
             } else {
 
             }

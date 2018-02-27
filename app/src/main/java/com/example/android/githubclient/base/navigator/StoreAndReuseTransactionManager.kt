@@ -17,7 +17,6 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
     override fun showFragment(screen: ScreenInterface, data: Any?) {
         if (curScreen === screen)
             return
-        Log.e("showFragment", screen.getTag())
         if (tags.contains(screen)) {
             screen.setAnimation(fragmentManager)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -32,7 +31,6 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
                     .hide(fragmentManager.findFragmentByTag(curScreen?.getTag()))
                     .commit()
         }
-        Log.e("tags", tags.elementAt(tags.size - 1)!!.getTag())
         curScreen = screen
     }
 
