@@ -7,6 +7,7 @@ import com.example.android.githubclient.MainApp
 import com.example.android.githubclient.base.navigator.ScreenInterface
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.api.RestApi
+import com.example.android.githubclient.base.api.RestApiAuth
 import com.example.android.githubclient.base.controllers.LoginController
 import com.example.android.githubclient.base.utils.Prefs
 import com.example.android.githubclient.mainScreen.mainFragments.FragmentAuth
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
 
         Prefs.Companion.init(this)
         RestApi.init(LoginController.instance.authenticator)
+        RestApiAuth.init()
 
         setListeners()
         navigator.openFirstFragment()

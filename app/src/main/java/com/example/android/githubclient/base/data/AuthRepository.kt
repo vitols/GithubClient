@@ -1,23 +1,19 @@
 package com.example.android.githubclient.base.data
 
-import android.util.Log
-import com.example.android.githubclient.base.api.RequestContainer
+import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.data.network.AuthNetworkDataManager
 import com.example.android.githubclient.base.requests.AuthRequestInterface
-import com.example.android.githubclient.base.utils.Prefs
 import retrofit2.Call
 
 /**
  * Created by admin on 26.02.2018.
  */
-class AuthRepository : AuthRequestInterface {
+class AuthRepository {
 
     private val networkDM: AuthRequestInterface = AuthNetworkDataManager()
 
-    override fun tryToLogIn(encoded: String): Call<String> {
-        Log.e("Repository", "login")
-        return networkDM.tryToLogIn(encoded)
-
+    fun getAccessToken(code: String): Call<String> {
+        return networkDM.getAccessToken(ConstValues.Auth.CLIENT_ID, ConstValues.Auth.CLIENT_SECRET, code)
     }
 
 }

@@ -9,16 +9,14 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 /**
- * Created by admin on 22.02.2018.
+ * Created by admin on 27.02.2018.
  */
-object RestApi {
+object RestApiAuth {
     private var retrofit: Retrofit? = null
 
-    fun init(authenticator: Authenticator) {
+    fun init() {
 
         val okHttpClient = OkHttpClient.Builder()
-                /*.addInterceptor(Interceptor())
-                .authenticator(authenticator)*/
 
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -38,6 +36,5 @@ object RestApi {
         }
         return retrofit!!.create(serviceClass)
     }
-
 
 }

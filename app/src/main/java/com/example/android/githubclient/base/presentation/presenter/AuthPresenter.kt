@@ -1,13 +1,11 @@
 package com.example.android.githubclient.base.presentation.presenter
 
-import android.support.v4.app.Fragment
 import android.util.Log
-import com.example.android.githubclient.base.api.RequestContainer
 import com.example.android.githubclient.base.interactor.AuthInteractor
-import com.example.android.githubclient.base.navigator.ScreenInterface
 import com.example.android.githubclient.base.presentation.view.AuthView
-import com.example.android.githubclient.base.requests.AuthRequestInterface
 import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /**
  * Created by admin on 26.02.2018.
@@ -17,15 +15,16 @@ class AuthPresenter(override var view: AuthView<*>?) : BasePresenter<AuthView<*>
     private val interactor = AuthInteractor()
 
 
-    fun tryToLogIn(login: String, password: String, tag: String): String  {
-        interactor.tryToLogIn(login, password).execute()
-        return ""
-        //Log.e("AuthPresenter", request.toString())
-        /*if (interactor.tryToLogIn(login, password)) {
-            view!!.showScreen(screen)
-        } else {
-            view!!.showError()
-        }*/
+    fun getAccessToken(code: String) {
+        interactor.getAccessToken(code).enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>?, t: Throwable?) {
+
+            };
+            override fun onResponse(call: Call<String>?, response: Response<String>?) {
+                Log.e("Presenter", response!!.headers().toString())
+            }
+        })
+        //headers["access_token"]
     }
 
     override fun onStop() {
