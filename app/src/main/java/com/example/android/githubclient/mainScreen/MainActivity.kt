@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
 import com.example.android.githubclient.base.navigator.ScreenInterface
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.api.RestApi
@@ -35,6 +36,8 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
                 main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
                         android.R.color.darker_gray, null));
 
+                hideSideBar()
+
                 if(LoginController.instance.isLoggedIn()) {
                     Log.e("OpenProfile", "LoggedIn")
                     navigator.showScreen(MainActivityNavigator.Screens.SCREEN_PROFILE)
@@ -56,6 +59,8 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
                 main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
                         android.R.color.darker_gray, null));
 
+                hideSideBar()
+
                 Log.e("MainActivity", "Users Clicked")
                 navigator.showScreen(MainActivityNavigator.Screens.SCREEN_USERS)
             }
@@ -70,6 +75,8 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
                         android.R.color.darker_gray, null));
                 main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
                         android.R.color.holo_red_dark, null));
+
+                hideSideBar()
 
                 if (LoginController.instance.isLoggedIn()) {
                     Log.e("OpenRepos", "LoggedIn")
@@ -94,6 +101,13 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
         RestAuth.init()
 
         setListeners()
+
+        floatingActionButton.setOnClickListener {
+            if(main_sidebar.visibility == View.INVISIBLE)
+                openSideBar()
+        }
+        hideSideBar()
+
         navigator.openFirstFragment()
     }
 
@@ -111,5 +125,14 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
             navigator.showScreen(MainActivityNavigator.Screens.SCREEN_PROFILE)
         else if(tag == MainActivityNavigator.Screens.SCREEN_REPOS.getTag())
             navigator.showScreen(MainActivityNavigator.Screens.SCREEN_REPOS)
+    }
+
+    fun hideSideBar() {
+        floatingActionButton.translationX += main_sidebar.width
+        main_sidebar.visibility = View.INVISIBLE
+    }
+    fun openSideBar() {
+        floatingActionButton.translationX -= main_sidebar.width
+        main_sidebar.visibility = View.VISIBLE
     }
 }

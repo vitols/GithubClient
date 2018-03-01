@@ -1,18 +1,17 @@
 package com.example.android.githubclient.mainScreen.mainFragments
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.presentation.presenter.AuthPresenter
 import com.example.android.githubclient.base.presentation.view.AuthView
 import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.*
 import android.webkit.*
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.mainScreen.AuthWebViewClient
@@ -27,6 +26,8 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
     var spinner: ProgressDialog? = null
 
     var onLoggedInCallback: onLoggedIn? = null
+
+    var window: Window? = null
 
     interface onLoggedIn {
         fun authFragmentCallback(tag: String);
@@ -76,7 +77,12 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         var view = inflater!!.inflate(R.layout.fragment_screen_auth, container, false)
+
+        window = activity.window
+        window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         spinner = ProgressDialog(context)
         presenter = AuthPresenter(this)
@@ -85,11 +91,12 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var webView = view!!.findViewById<WebView>(R.id.screen_auth_webview)
-        webView.settings.javaScriptEnabled = true
-        webView.webViewClient = AuthWebViewClient(spinner, presenter)
-        webView.loadUrl(ConstValues.Urls.GET_CODE_URL + "?client_id=" + ConstValues.ParamValues.CLIENT_ID)
-        //showScreen(arguments.get("Screen").toString())
+
+        var webView = view?.findViewById<WebView>(R.id.screen_auth_webview)
+
+        webView?.settings?.javaScriptEnabled = true
+        webView?.webViewClient = AuthWebViewClient(spinner, presenter, activity)
+        webView?.loadUrl(ConstValues.Urls.GET_CODE_URL + "?client_id=" + ConstValues.ParamValues.CLIENT_ID)
     }
 
 

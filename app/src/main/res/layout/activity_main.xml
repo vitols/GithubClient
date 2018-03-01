@@ -7,17 +7,31 @@
     android:layout_height="match_parent"
     tools:context=".mainScreen.MainActivity">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        android:clickable="true"
+        app:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/ic_fab_menu"/>
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/main_activity_appbar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
-            app:layout_collapseMode="pin"/>
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_collapseMode="none"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -29,12 +43,13 @@
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width="32dp"
+        android:layout_width="64dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="right"
         android:layout_marginTop="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/colorPrimaryDark"
+        android:id="@+id/main_sidebar">
 
         <Button
             android:layout_width="wrap_content"
