@@ -5,6 +5,7 @@ import com.example.android.githubclient.base.data.network.services.UserService
 import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.requests.UsersRequestInterface
 import io.reactivex.Observable
+import retrofit2.Call
 
 /**
  * Created by admin on 21.02.2018.
@@ -17,12 +18,16 @@ class UserNetworkDataManager : UsersRequestInterface {
         service = RestApi.createService(UserService::class.java)
     }
 
-    override fun getUsers(): Observable<List<User>> {
-        return service!!.getUsers()
+    override fun getMe(): Call<User>? {
+        return service?.getMe()
     }
 
-    override fun getUserByLogin(login: String): Observable<User> {
-        return service!!.getUserByLogin(login)
+    override fun getUsers(): Observable<List<User>>? {
+        return service?.getUsers()
+    }
+
+    override fun getUserByLogin(login: String): Call<User>? {
+        return service?.getUserByLogin(login)
     }
 
 

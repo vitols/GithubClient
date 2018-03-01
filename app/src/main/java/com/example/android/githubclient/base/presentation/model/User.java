@@ -3,7 +3,13 @@ package com.example.android.githubclient.base.presentation.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+import java.io.Serializable;
+
+/**
+ * Created by admin on 01.03.2018.
+ */
+
+public class User implements Serializable{
 
     @SerializedName("login")
     @Expose
@@ -73,10 +79,10 @@ public class User {
     private Object email;
     @SerializedName("hireable")
     @Expose
-    private Object hireable;
+    private Boolean hireable;
     @SerializedName("bio")
     @Expose
-    private Object bio;
+    private String bio;
     @SerializedName("public_repos")
     @Expose
     private Integer publicRepos;
@@ -272,19 +278,19 @@ public class User {
         this.email = email;
     }
 
-    public Object getHireable() {
+    public Boolean getHireable() {
         return hireable;
     }
 
-    public void setHireable(Object hireable) {
+    public void setHireable(Boolean hireable) {
         this.hireable = hireable;
     }
 
-    public Object getBio() {
+    public String getBio() {
         return bio;
     }
 
-    public void setBio(Object bio) {
+    public void setBio(String bio) {
         this.bio = bio;
     }
 
@@ -335,5 +341,4 @@ public class User {
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 }

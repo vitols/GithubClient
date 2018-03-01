@@ -3,7 +3,9 @@ package com.example.android.githubclient.base.presentation.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Repo {
+import java.io.Serializable;
+
+public class Repo implements Serializable{
 
     @SerializedName("id")
     @Expose

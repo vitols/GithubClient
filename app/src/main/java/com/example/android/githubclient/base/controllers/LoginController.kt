@@ -21,7 +21,7 @@ class LoginController private constructor(){
     var user: User? = null
     get() {
         if (field == null)
-            field = Prefs.load("USER")
+            field = Prefs.load("USER", User::class.java)
         return field
     }
     set(value) {
@@ -32,13 +32,13 @@ class LoginController private constructor(){
 
     var accessToken: String = ""
     get() {
-        if (field != null && !field.isEmpty())
-            field = Prefs.load(ConstValues.Prefs.ACCESS_TOKEN)
+        if (field.isNullOrEmpty())
+            field = Prefs.load(ConstValues.ParamNames.ACCESS_TOKEN, field::class.java)
         return field
     }
     set(value) {
         field = value
-        Prefs.save(ConstValues.Prefs.ACCESS_TOKEN, field)
+        Prefs.save(ConstValues.ParamNames.ACCESS_TOKEN, field)
     }
 
     var authenticator: Authenticator = Authenticator { _, response ->
@@ -48,7 +48,7 @@ class LoginController private constructor(){
     }
 
     fun isLoggedIn(): Boolean {
-        return Prefs.contains("USER") && !accessToken.isNullOrEmpty()
+        return Prefs.contains("USER") && !accessToken.isEmpty()
     }
 
 }

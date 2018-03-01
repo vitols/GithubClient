@@ -1,13 +1,13 @@
 package com.example.android.githubclient.mainScreen
 
 import android.os.Bundle
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.example.android.githubclient.MainApp
 import com.example.android.githubclient.base.navigator.ScreenInterface
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.api.RestApi
-import com.example.android.githubclient.base.api.RestApiAuth
+import com.example.android.githubclient.base.api.RestAuth
 import com.example.android.githubclient.base.controllers.LoginController
 import com.example.android.githubclient.base.utils.Prefs
 import com.example.android.githubclient.mainScreen.mainFragments.FragmentAuth
@@ -26,36 +26,59 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
 
     private fun setListeners() {
         main_sidebar_me.setOnClickListener {
-
             if (navigator.getCurrentScreen() != MainActivityNavigator.Screens.SCREEN_PROFILE) {
+
+                main_sidebar_me.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        android.R.color.holo_red_dark, null));
+                main_sidebar_users.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        android.R.color.darker_gray, null));
+                main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        android.R.color.darker_gray, null));
+
                 if(LoginController.instance.isLoggedIn()) {
-                Log.e("MainActivity", "Profile Clicked")
-                navigator.showScreen(MainActivityNavigator.Screens.SCREEN_PROFILE)
+                    Log.e("OpenProfile", "LoggedIn")
+                    navigator.showScreen(MainActivityNavigator.Screens.SCREEN_PROFILE)
                 } else {
-                Log.e("MainActivity", "Profile AUTH start")
-                navigator.showScreen(MainActivityNavigator.Screens.SCREEN_AUTH,
-                        MainActivityNavigator.Screens.SCREEN_PROFILE.getTag())
+                    Log.e("OpenProfile", "notLoggedIn")
+                    navigator.showScreen(MainActivityNavigator.Screens.SCREEN_AUTH,
+                            MainActivityNavigator.Screens.SCREEN_PROFILE.getTag())
                 }
             }
         }
 
         main_sidebar_users.setOnClickListener {
             if (navigator.getCurrentScreen() != MainActivityNavigator.Screens.SCREEN_USERS) {
+
+                main_sidebar_me.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        android.R.color.darker_gray, null));
+                main_sidebar_users.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        android.R.color.holo_red_dark, null));
+                main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        android.R.color.darker_gray, null));
+
                 Log.e("MainActivity", "Users Clicked")
                 navigator.showScreen(MainActivityNavigator.Screens.SCREEN_USERS)
             }
         }
 
         main_sidebar_repos.setOnClickListener {
-            if (LoginController.instance.isLoggedIn() &&
-                    navigator.getCurrentScreen() != MainActivityNavigator.Screens.SCREEN_REPOS) {
-                Log.e("MainActivity", "Repos Clicked")
-                navigator.showScreen(MainActivityNavigator.Screens.SCREEN_REPOS)
-/*
-                 main_sidebar_me.background =
-                 main_sidebar_users.background =
-                 main_sidebar_repos.background =*/
-            } else {
+            if (navigator.getCurrentScreen() != MainActivityNavigator.Screens.SCREEN_REPOS) {
+
+                main_sidebar_me.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        android.R.color.darker_gray, null));
+                main_sidebar_users.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        android.R.color.darker_gray, null));
+                main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        android.R.color.holo_red_dark, null));
+
+                if (LoginController.instance.isLoggedIn()) {
+                    Log.e("OpenRepos", "LoggedIn")
+                    navigator.showScreen(MainActivityNavigator.Screens.SCREEN_REPOS)
+                } else {
+                    Log.e("OpenRepos", "notLoggedIn")
+                    navigator.showScreen(MainActivityNavigator.Screens.SCREEN_AUTH,
+                            MainActivityNavigator.Screens.SCREEN_REPOS.getTag())
+                }
 
             }
         }
@@ -68,7 +91,7 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
 
         Prefs.Companion.init(this)
         RestApi.init(LoginController.instance.authenticator)
-        RestApiAuth.init()
+        RestAuth.init()
 
         setListeners()
         navigator.openFirstFragment()
@@ -84,6 +107,9 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
     }
 
     override fun authFragmentCallback(tag: String) {
-        navigator.showFragmentByTag(tag)
+        if (tag == MainActivityNavigator.Screens.SCREEN_PROFILE.getTag())
+            navigator.showScreen(MainActivityNavigator.Screens.SCREEN_PROFILE)
+        else if(tag == MainActivityNavigator.Screens.SCREEN_REPOS.getTag())
+            navigator.showScreen(MainActivityNavigator.Screens.SCREEN_REPOS)
     }
 }

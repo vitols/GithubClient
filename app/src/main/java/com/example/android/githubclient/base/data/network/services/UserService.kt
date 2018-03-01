@@ -1,8 +1,8 @@
 package com.example.android.githubclient.base.data.network.services
 
 import com.example.android.githubclient.base.presentation.model.User
-import com.example.android.githubclient.base.requests.UsersRequestInterface
 import io.reactivex.Observable
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -11,10 +11,13 @@ import retrofit2.http.Path
  */
 interface UserService {
 
+    @GET("/user")
+    fun getMe(): Call<User>
+
     @GET("/users")
     fun getUsers(): Observable<List<User>>
 
     @GET("/users/{user}")
-    fun getUserByLogin(@Path("user") loign: String): Observable<User>
+    fun getUserByLogin(@Path("user") loign: String): Call<User>
 
 }

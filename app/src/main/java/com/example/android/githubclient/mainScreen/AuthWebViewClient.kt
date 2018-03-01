@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.util.Log
 import android.webkit.WebView
 import com.example.android.githubclient.base.ConstValues
+import com.example.android.githubclient.base.controllers.LoginController
 import com.example.android.githubclient.base.presentation.presenter.AuthPresenter
 
 /**
@@ -20,6 +21,7 @@ class AuthWebViewClient(val spinner: ProgressDialog? = null, val presenter: Auth
             val urls = url.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             Log.e("AuthWebViewClient", "Call presenter")
             presenter?.getAccessToken(urls[1])
+
             return true
         }
         return false

@@ -6,22 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.android.githubclient.R
-import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.presentation.presenter.UserPresenter
 import com.example.android.githubclient.base.presentation.view.UserView
-import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.RecyclerView
-import android.util.Log
-import android.widget.Adapter
-import android.widget.AdapterView
+import com.example.android.githubclient.base.presentation.model.User
+import com.example.android.githubclient.base.presentation.presenter.UserListPresenter
+import com.example.android.githubclient.base.presentation.view.UserListView
 
 
 /**
  * Created by admin on 20.02.2018.
  */
-class FragmentUsers : Fragment(), UserView<UserPresenter> {
-    override var presenter: UserPresenter? = null
+class FragmentUsers : Fragment(), UserListView<UserListPresenter> {
+    override var presenter: UserListPresenter? = null
     var adapter: Any? = null
 
     override fun showError(error: String) {
@@ -39,10 +36,6 @@ class FragmentUsers : Fragment(), UserView<UserPresenter> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun showUserByLogin(): List<User> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     companion object {
         private val TAG = "TAG_FRAGMENT_USERS"
 
@@ -52,7 +45,7 @@ class FragmentUsers : Fragment(), UserView<UserPresenter> {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        presenter = UserPresenter(this)
+        presenter = UserListPresenter(this)
         return inflater!!.inflate(R.layout.fragment_screen_users, container, false)
     }
 

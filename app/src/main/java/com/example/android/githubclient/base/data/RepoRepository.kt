@@ -4,7 +4,6 @@ import com.example.android.githubclient.base.data.network.RepoNetworkDataManager
 import com.example.android.githubclient.base.data.storage.RepoStorageDataManager
 import com.example.android.githubclient.base.data.storage.RepoStorageDataManagerInterface
 import com.example.android.githubclient.base.presentation.model.Repo
-import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.requests.ReposRequestInterface
 import io.reactivex.Observable
 

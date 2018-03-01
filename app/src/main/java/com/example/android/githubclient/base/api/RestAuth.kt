@@ -7,11 +7,12 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 /**
  * Created by admin on 27.02.2018.
  */
-object RestApiAuth {
+object RestAuth {
     private var retrofit: Retrofit? = null
 
     fun init() {
@@ -23,7 +24,7 @@ object RestApiAuth {
         okHttpClient.addNetworkInterceptor(interceptor)
 
         retrofit = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .baseUrl(ConstValues.Urls.BASE_URL)
                 .client(okHttpClient.build())

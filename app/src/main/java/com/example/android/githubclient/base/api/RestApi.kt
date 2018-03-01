@@ -1,12 +1,15 @@
 package com.example.android.githubclient.base.api
 
+import android.util.Log
 import com.example.android.githubclient.base.ConstValues
-import okhttp3.Authenticator
-import okhttp3.OkHttpClient
+import com.example.android.githubclient.base.controllers.LoginController
+import com.google.gson.Gson
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 /**
  * Created by admin on 22.02.2018.
@@ -24,10 +27,27 @@ object RestApi {
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         okHttpClient.addNetworkInterceptor(interceptor)
 
+        okHttpClient.addInterceptor(object: Interceptor {
+            override fun intercept(chain: Interceptor.Chain?): Response {
+                var original = chain?.request();
+
+                var requestBuilder = original
+                        ?.newBuilder()
+                        ?.addHeader("Authorization", "token " + LoginController.instance.accessToken)
+                        ?.build();
+                try {
+                    return chain!!.proceed(requestBuilder);
+                } catch (e: Exception) {
+                    Log.e("RestApi", e.message)
+                    return chain!!.proceed(requestBuilder)
+                }
+            }
+        })
+
         retrofit = Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(ConstValues.Urls.BASE_URL)
+                .baseUrl(ConstValues.Urls.BASE_API_URL)
                 .client(okHttpClient.build())
                 .build()
     }

@@ -7,22 +7,31 @@ import com.example.android.githubclient.base.requests.UsersRequestInterface
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import retrofit2.Call
 
 /**
  * Created by admin on 23.02.2018.
  */
 class UserInteractor: UsersRequestInterface {
 
-    val repository: UserRepositoryInterface = UserRepository()
+    var repository: UserRepositoryInterface? = null
 
-    override fun getUsers(): Observable<List<User>> {
-        return repository.getUsers()
-                .subscribeOn(Schedulers.io())
-                .filter { it != null && it.isNotEmpty() }
-                .observeOn(AndroidSchedulers.mainThread())
+    constructor() {
+        repository = UserRepository()
     }
 
-    override fun getUserByLogin(login: String): Observable<User> {
+    override fun getMe(): Call<User>? {
+        return repository?.getMe()
+    }
+
+    override fun getUsers(): Observable<List<User>>? {
+        return repository?.getUsers()
+                ?.subscribeOn(Schedulers.io())
+                ?.filter { it != null && it.isNotEmpty() }
+                ?.observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun getUserByLogin(login: String): Call<User>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

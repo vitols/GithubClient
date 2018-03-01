@@ -44,13 +44,6 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
                 .commit()
     }
 
-    fun showFragmentByTag(tag: String) {
-        for (screen in tags) {
-            if (screen!!.getTag() == tag)
-                showFragment(screen)
-        }
-    }
-
     override fun popFragment() {
         fragmentManager.popBackStack()
     }

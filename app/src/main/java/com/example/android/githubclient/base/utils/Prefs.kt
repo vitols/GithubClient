@@ -21,7 +21,6 @@ class Prefs private constructor() {
         private var editor: SharedPreferences.Editor? = null
 
         fun init(context: Context) {
-            Log.e("Prefs", "Object")
             prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
             editor = prefs!!.edit()
         }
@@ -31,14 +30,12 @@ class Prefs private constructor() {
                     .apply()
         }
 
-        fun <T> load(key: String) : T {
-            Log.e("Prefs", "load")
+        fun <T> load(key: String, type: Class<T>) : T {
             return gson.fromJson<T>(prefs!!.getString(key, null),
-                                    object : TypeToken<T>() {}.type)
+                                    type)
         }
 
         fun contains(key: String): Boolean {
-            Log.e("Prefs", "Contains")
             return prefs!!.contains(key)
         }
 

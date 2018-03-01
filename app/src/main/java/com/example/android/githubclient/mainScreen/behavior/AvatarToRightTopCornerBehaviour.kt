@@ -35,13 +35,13 @@ class AvatarToRightTopCornerBehaviour(context: Context, attrs: AttributeSet) :
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: CircleImageView,
                                 target: View, dxConsumed: Int, dyConsumed: Int,
                                 dxUnconsumed: Int, dyUnconsumed: Int, type: Int) {
-        Log.e("onNestedScroll", (target as NestedScrollView).getChildAt(0).toString())
+        /*Log.e("onNestedScroll", (target as NestedScrollView).getChildAt(0).toString())
         child.setY(child.y - 5)
         child.setX(child.x + 5)
         var childParams = child.layoutParams as CoordinatorLayout.LayoutParams
         childParams.height -= 5
         childParams.width -= 5
-        child.layoutParams = childParams
+        child.layoutParams = childParams*/
     }
 
 }

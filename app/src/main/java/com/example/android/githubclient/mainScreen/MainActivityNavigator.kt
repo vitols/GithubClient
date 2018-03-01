@@ -1,11 +1,13 @@
 package com.example.android.githubclient.mainScreen
 
 import android.support.v4.app.FragmentManager
+import android.util.Log
 import com.example.android.githubclient.base.navigator.*
 import com.example.android.githubclient.mainScreen.mainFragments.FragmentAuth
 import com.example.android.githubclient.mainScreen.mainFragments.FragmentProfile
 import com.example.android.githubclient.mainScreen.mainFragments.FragmentRepos
 import com.example.android.githubclient.mainScreen.mainFragments.FragmentUsers
+import java.io.Serializable
 
 /**
  * Created by admin on 20.02.2018.
@@ -39,7 +41,7 @@ class MainActivityNavigator(fragmentManager: FragmentManager, containerId: Int) 
             override var data: Any? = null
             override fun getTag() = "SCREEN_AUTH"
             override fun getLastScreen() = null
-            override fun createFragment(data: Any?) = FragmentAuth.newInstance(data.toString())
+            override fun createFragment(data: Any?) = FragmentAuth.newInstance(data)
             override fun setAnimation(fragmentManager: FragmentManager) = fragmentManager.beginTransaction()
         }
     }

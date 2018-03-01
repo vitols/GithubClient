@@ -35,11 +35,10 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
     companion object {
         private val TAG = "TAG_FRAGMENT_AUTH"
 
-        fun newInstance(data: String? = null): Fragment {
-            Log.e("FragmentAuth", "created!")
+        fun newInstance(data: Any? = null): Fragment {
             return FragmentAuth().apply {
                 arguments = Bundle().apply {
-                    putString("Screen", data)
+                    putString("Screen", data.toString())
                 }
             }
         }
@@ -55,12 +54,17 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
         }
     }
 
-    override fun showScreen(tag: String) {
-        onLoggedInCallback!!.authFragmentCallback(tag)
+    override fun showScreen() {
+        var tag: String = arguments?.get("Screen").toString()
+        if(!tag.isNullOrEmpty())
+            onLoggedInCallback!!.authFragmentCallback(tag)
+        else
+            Log.e("showScreen", "argumentsIsEmpty")
+
     }
 
     override fun showError(error: String) {
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(context)
 
         builder.setMessage(error.toString())
                 .setTitle("Error")
@@ -73,6 +77,7 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater!!.inflate(R.layout.fragment_screen_auth, container, false)
+
         spinner = ProgressDialog(context)
         presenter = AuthPresenter(this)
         return view
@@ -83,7 +88,9 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
         var webView = view!!.findViewById<WebView>(R.id.screen_auth_webview)
         webView.settings.javaScriptEnabled = true
         webView.webViewClient = AuthWebViewClient(spinner, presenter)
-        webView.loadUrl(ConstValues.Urls.GET_CODE_URL + "?client_id=" + ConstValues.Auth.CLIENT_ID)
-
+        webView.loadUrl(ConstValues.Urls.GET_CODE_URL + "?client_id=" + ConstValues.ParamValues.CLIENT_ID)
+        //showScreen(arguments.get("Screen").toString())
     }
+
+
 }
