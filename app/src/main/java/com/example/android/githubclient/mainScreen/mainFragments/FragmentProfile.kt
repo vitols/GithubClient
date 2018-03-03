@@ -17,7 +17,10 @@ import com.example.android.githubclient.base.presentation.view.UserView
 import de.hdodenhof.circleimageview.CircleImageView
 import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.example.android.githubclient.base.ConstValues
+import org.w3c.dom.Text
 
 
 /**
@@ -31,12 +34,14 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
     var user: User? = null
 
     var image: CircleImageView? = null
-    var name: EditText? = null
-    var login: EditText? = null
-    var bio: EditText? = null
-    var company: EditText? = null
-    var location: EditText? = null
-    var email:EditText? = null
+    var name: TextView? = null
+    var login: TextView? = null
+    var bio: TextView? = null
+    var company: TextView? = null
+    var location: TextView? = null
+    var locationField: LinearLayout? = null
+    var email:TextView? = null
+    var emailField: LinearLayout? = null
 
     override fun onRefresh() {
         presenter?.getMe()
@@ -94,7 +99,9 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         bio = view?.findViewById(R.id.screen_profile_bio)
         company = view?.findViewById(R.id.screen_profile_company)
         location = view?.findViewById(R.id.screen_profile_location)
+        locationField = view?.findViewById(R.id.profile_field_location)
         email = view?.findViewById(R.id.screen_profile_email)
+        emailField = view?.findViewById(R.id.profile_field_email)
 
         user = LoginController.instance.user
         if(user == null) {
@@ -106,15 +113,46 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
     }
 
     fun updateUser() {
+
         Glide.with(context)
                 .load(user?.avatarUrl)
                 .into(image)
 
-        name?.setText(user?.name?:"")
-        login?.setText(user?.login?:"")
-        bio?.setText(user?.bio?.toString()?:"")
-        company?.setText(user?.company?.toString()?:"")
-        location?.setText(user?.location?:"")
-        email?.setText(user?.email?.toString()?:"")
+        if(user?.name == null)
+            name?.visibility = View.GONE
+        else {
+            name?.visibility = View.VISIBLE
+            name?.text = user?.name
+        }
+
+        login?.setText(user?.login)
+
+        if(user?.bio == null)
+            bio?.visibility = View.GONE
+        else {
+            bio?.visibility = View.VISIBLE
+            bio?.text = user?.bio
+        }
+
+        if(user?.company == null)
+            company?.visibility = View.GONE
+        else {
+            company?.visibility = View.VISIBLE
+            company?.text = user?.company.toString()
+        }
+
+        if(user?.location == null)
+            locationField?.visibility = View.GONE
+        else {
+            locationField?.visibility = View.VISIBLE
+            location?.text = user?.location
+        }
+
+        if(user?.email == null)
+            emailField?.visibility = View.GONE
+        else {
+            emailField?.visibility = View.VISIBLE
+            email?.text = user?.email.toString()
+        }
     }
 }

@@ -1,10 +1,18 @@
 package com.example.android.githubclient.mainScreen
 
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
+import android.view.ViewPropertyAnimator
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.TranslateAnimation
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import com.bumptech.glide.request.animation.ViewPropertyAnimation
 import com.example.android.githubclient.base.navigator.ScreenInterface
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.api.RestApi
@@ -18,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLoggedIn {
 
     var navigator: MainActivityNavigator = MainActivityNavigator(supportFragmentManager, R.id.main_activity_container)
+    var sideBarHidden = false
 
     companion object {
         private val TAG = "MainActivity"
@@ -29,14 +38,15 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
         main_sidebar_me.setOnClickListener {
             if (navigator.getCurrentScreen() != MainActivityNavigator.Screens.SCREEN_PROFILE) {
 
-                main_sidebar_me.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        android.R.color.holo_red_dark, null));
-                main_sidebar_users.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        android.R.color.darker_gray, null));
-                main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        android.R.color.darker_gray, null));
+                if(!sideBarHidden)
+                    hideSideBar()
 
-                hideSideBar()
+                /*main_sidebar_me.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        R.color.transparentRed, null));
+                main_sidebar_users.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        R.color.transparentBlack, null));
+                main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        R.color.transparentBlack, null));*/
 
                 if(LoginController.instance.isLoggedIn()) {
                     Log.e("OpenProfile", "LoggedIn")
@@ -52,14 +62,16 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
         main_sidebar_users.setOnClickListener {
             if (navigator.getCurrentScreen() != MainActivityNavigator.Screens.SCREEN_USERS) {
 
-                main_sidebar_me.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        android.R.color.darker_gray, null));
-                main_sidebar_users.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        android.R.color.holo_red_dark, null));
-                main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        android.R.color.darker_gray, null));
+                if(!sideBarHidden)
+                    hideSideBar()
 
-                hideSideBar()
+/*                main_sidebar_me.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        R.color.transparentBlack, null));
+                main_sidebar_users.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        R.color.transparentRed, null));
+                main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        R.color.transparentBlack, null));*/
+
 
                 Log.e("MainActivity", "Users Clicked")
                 navigator.showScreen(MainActivityNavigator.Screens.SCREEN_USERS)
@@ -67,16 +79,17 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
         }
 
         main_sidebar_repos.setOnClickListener {
+
             if (navigator.getCurrentScreen() != MainActivityNavigator.Screens.SCREEN_REPOS) {
+                if(!sideBarHidden)
+                    hideSideBar()
 
-                main_sidebar_me.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        android.R.color.darker_gray, null));
+                /*main_sidebar_me.setBackgroundColor(ResourcesCompat.getColor(getResources(),
+                        R.color.transparentBlack, null));
                 main_sidebar_users.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        android.R.color.darker_gray, null));
+                        R.color.transparentBlack, null));
                 main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        android.R.color.holo_red_dark, null));
-
-                hideSideBar()
+                        R.color.transparentRed, null));*/
 
                 if (LoginController.instance.isLoggedIn()) {
                     Log.e("OpenRepos", "LoggedIn")
@@ -103,10 +116,12 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
         setListeners()
 
         floatingActionButton.setOnClickListener {
-            if(main_sidebar.visibility == View.INVISIBLE)
+            if(sideBarHidden)
                 openSideBar()
+            else
+                hideSideBar()
         }
-        hideSideBar()
+        //hideSideBar()
 
         navigator.openFirstFragment()
     }
@@ -127,12 +142,23 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
             navigator.showScreen(MainActivityNavigator.Screens.SCREEN_REPOS)
     }
 
+
     fun hideSideBar() {
-        floatingActionButton.translationX += main_sidebar.width
-        main_sidebar.visibility = View.INVISIBLE
+        if(!sideBarHidden) {
+            main_sidebar.animate()
+                    .translationXBy(main_sidebar.width * 1f)
+                    .setDuration(200)
+                    .start()
+            sideBarHidden = true
+        }
     }
     fun openSideBar() {
-        floatingActionButton.translationX -= main_sidebar.width
-        main_sidebar.visibility = View.VISIBLE
+        if(sideBarHidden) {
+            main_sidebar.animate()
+                    .translationXBy(main_sidebar.width * -1f)
+                    .setDuration(200)
+                    .start()
+            sideBarHidden = false
+        }
     }
 }

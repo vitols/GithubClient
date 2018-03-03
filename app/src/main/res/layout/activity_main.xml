@@ -5,18 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".mainScreen.MainActivity">
+    tools:context=".mainScreen.MainActivity"
+    android:id="@+id/main_coordinator">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
         android:layout_marginBottom="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="72dp"
         android:clickable="true"
         app:backgroundTint="@color/colorPrimary"
-        android:src="@drawable/ic_fab_menu"/>
+        android:src="@drawable/ic_fab_menu"
+        app:layout_behavior=".mainScreen.behavior.FabBehavior"/>
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -43,35 +45,35 @@
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width="64dp"
-        android:layout_height="match_parent"
+        android:layout_width="66dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="right"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:background="@color/colorPrimaryDark"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="4dp"
+        android:background="@android:color/transparent"
         android:id="@+id/main_sidebar">
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
             android:id="@+id/main_sidebar_me"
-            android:background="@android:color/darker_gray"
-            android:text="ME"
-            android:layout_weight="1"/>
+            android:background="@drawable/circle_button"
+            android:layout_margin="4dp"
+            android:text="ME"/>
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
             android:id="@+id/main_sidebar_repos"
-            android:background="@android:color/darker_gray"
-            android:text="R"
-            android:layout_weight="1"/>
+            android:background="@drawable/circle_button"
+            android:layout_margin="4dp"
+            android:text="REPOS"/>
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="58dp"
+            android:layout_height="58dp"
             android:id="@+id/main_sidebar_users"
-            android:background="@android:color/holo_red_dark"
-            android:text="U"
-            android:layout_weight="1"/>
+            android:background="@drawable/circle_button"
+            android:layout_margin="4dp"
+            android:text="USERS"/>
     </LinearLayout>
 
     <!--<android.support.design.widget.AppBarLayout
