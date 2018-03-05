@@ -31,8 +31,7 @@ import com.example.android.githubclient.R
  * Created by admin on 27.02.2018.
  */
 class WebViewAuthClient(val spinner: ProgressDialog? = null,
-                        val presenter: AuthPresenter? = null,
-                        val activity: Activity? = null) : WebViewClient() {
+                        val presenter: AuthPresenter? = null) : WebViewClient() {
 
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
         super.shouldOverrideUrlLoading(view, url)

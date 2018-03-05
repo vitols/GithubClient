@@ -79,10 +79,6 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
 
         var view = inflater!!.inflate(R.layout.fragment_screen_auth, container, false)
 
-        window = activity.window
-        window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN)
-
         spinner = ProgressDialog(context)
         presenter = AuthPresenter(this)
         return view
@@ -94,7 +90,7 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
         var webView = view?.findViewById<WebView>(R.id.screen_auth_webview)
 
         webView?.settings?.javaScriptEnabled = true
-        webView?.webViewClient = WebViewAuthClient(spinner, presenter, activity)
+        webView?.webViewClient = WebViewAuthClient(spinner, presenter)
         webView?.loadUrl(ConstValues.Urls.GET_CODE_URL + "?client_id=" + ConstValues.ParamValues.CLIENT_ID)
     }
 
