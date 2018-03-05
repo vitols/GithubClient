@@ -20,10 +20,11 @@ import com.example.android.githubclient.base.api.RestAuth
 import com.example.android.githubclient.base.controllers.LoginController
 import com.example.android.githubclient.base.utils.Prefs
 import com.example.android.githubclient.mainScreen.mainFragments.FragmentAuth
+import com.example.android.githubclient.mainScreen.mainFragments.FragmentProfile
 
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLoggedIn {
+class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLoggedIn, FragmentProfile.logOutInterface {
 
     var navigator: MainActivityNavigator = MainActivityNavigator(supportFragmentManager, R.id.main_activity_container)
     var sideBarHidden = false
@@ -139,6 +140,10 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
             navigator.showScreen(MainActivityNavigator.Screens.SCREEN_PROFILE)
         else if(tag == MainActivityNavigator.Screens.SCREEN_REPOS.getTag())
             navigator.showScreen(MainActivityNavigator.Screens.SCREEN_REPOS)
+    }
+
+    override fun showAuthScreen() {
+        navigator.showScreen(MainActivityNavigator.Screens.SCREEN_AUTH)
     }
 
 

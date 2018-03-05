@@ -16,5 +16,8 @@ class AuthRepository {
     fun getAccessToken(code: String): Call<String> {
         return networkDM.getAccessToken(ConstValues.ParamValues.CLIENT_ID, ConstValues.ParamValues.CLIENT_SECRET, code)
     }
+    fun logOut() : Call<String> {
+        return networkDM.logOut()
+    }
 
 }

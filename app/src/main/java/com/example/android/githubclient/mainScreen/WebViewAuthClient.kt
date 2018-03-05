@@ -39,7 +39,10 @@ class WebViewAuthClient(val spinner: ProgressDialog? = null,
         if (url.startsWith(ConstValues.Urls.REDIRECT_URL)) {
             val urls = url.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             Log.e("WebViewAuthClient", "Call presenter")
-            presenter?.getAccessToken(urls[1])
+            if (!LoginController.instance.tryToLogOut)
+                presenter?.getAccessToken(urls[1])
+            else
+                presenter?.logOut()
             return true
         }
         return false

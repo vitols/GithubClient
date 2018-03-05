@@ -11,9 +11,15 @@ import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.*
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.webkit.*
 import com.example.android.githubclient.base.ConstValues
+import com.example.android.githubclient.base.controllers.LoginController
 import com.example.android.githubclient.mainScreen.WebViewAuthClient
+import android.view.animation.AnimationSet
+
+
 
 
 /**
@@ -23,6 +29,7 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
 
     override var presenter: AuthPresenter? = null
     var spinner: ProgressDialog? = null
+    var webView: WebView? = null
 
     var onLoggedInCallback: onLoggedIn? = null
 
@@ -87,12 +94,32 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var webView = view?.findViewById<WebView>(R.id.screen_auth_webview)
+        webView = view?.findViewById<WebView>(R.id.screen_auth_webview)
 
         webView?.settings?.javaScriptEnabled = true
         webView?.webViewClient = WebViewAuthClient(spinner, presenter)
         webView?.loadUrl(ConstValues.Urls.GET_CODE_URL + "?client_id=" + ConstValues.ParamValues.CLIENT_ID)
     }
 
+    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation {
+        var animation = AnimationUtils.loadAnimation(activity, nextAnim)
+        animation.setAnimationListener(object: Animation.AnimationListener {
+            override fun onAnimationRepeat(p0: Animation?) {
+            }
+
+            override fun onAnimationEnd(p0: Animation?) {
+                if (LoginController.instance.tryToLogOut)
+                    webView?.loadUrl(ConstValues.Urls.LOGOUT_URL)
+            }
+
+            override fun onAnimationStart(p0: Animation?) {
+            }
+
+        })
+        val animSet = AnimationSet(true)
+        animSet.addAnimation(animation)
+
+        return animSet
+    }
 
 }

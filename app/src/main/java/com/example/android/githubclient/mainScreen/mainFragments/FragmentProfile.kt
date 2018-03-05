@@ -1,5 +1,6 @@
 package com.example.android.githubclient.mainScreen.mainFragments
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -17,8 +18,10 @@ import de.hdodenhof.circleimageview.CircleImageView
 import android.content.DialogInterface
 import android.support.design.widget.CoordinatorLayout
 import android.support.v7.app.AlertDialog
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.example.android.githubclient.base.ConstValues
 
 
@@ -42,12 +45,22 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
     var email:TextView? = null
     var emailField: LinearLayout? = null
 
+    var exitButton: ImageView? = null
+
+    interface logOutInterface {
+        fun showAuthScreen()
+    }
+
+    var logoutCallback: logOutInterface? = null
+
     override fun onRefresh() {
         presenter?.getMe()
     }
 
     override fun showMe() {
         user = LoginController.instance.user
+        if(user == null)
+            Log.e("showMe", "userIsNUll")
         updateUser()
         swipeRefreshLayout?.isRefreshing = false
     }
@@ -59,7 +72,7 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
                 .setTitle(ConstValues.Errors.TITLE)
                 .setPositiveButton(ConstValues.Errors.OK,
                         DialogInterface.OnClickListener {
-                            dialog, id -> dialog.cancel();
+                            dialog, _ -> dialog.cancel()
                         })
 
         val dialog = builder.create()
@@ -76,6 +89,16 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
 
         fun newInstance(): FragmentProfile {
             return FragmentProfile()
+        }
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        try {
+            logoutCallback = activity as logOutInterface
+        } catch (e: ClassCastException) {
+            throw ClassCastException(context.toString() + " must implement Profile callback")
         }
     }
 
@@ -98,6 +121,28 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         var params = image?.layoutParams as CoordinatorLayout.LayoutParams
         params.topMargin += resources.getDimension(R.dimen.avatar_margin_top).toInt()
         image?.layoutParams = params
+
+        exitButton = view?.findViewById(R.id.screen_profile_exit)
+        params = exitButton?.layoutParams as CoordinatorLayout.LayoutParams
+        params.topMargin += resources.getDimension(R.dimen.exit_button_margin_top).toInt()
+        exitButton?.layoutParams = params
+        exitButton?.setOnClickListener {
+            val builder = AlertDialog.Builder(activity)
+
+            builder.setMessage("Are you sure you want to exit?")
+                    .setPositiveButton("Yes",
+                            DialogInterface.OnClickListener {
+                                _, _ -> LoginController.instance.tryToLogOut = true; logoutCallback?.showAuthScreen()
+                            })
+                    .setNegativeButton("No",
+                            DialogInterface.OnClickListener {
+                                    dialog, _ -> dialog.cancel()
+                    })
+
+            val dialog = builder.create()
+            dialog.show()
+            swipeRefreshLayout?.isRefreshing = false
+        }
 
         name = view?.findViewById(R.id.screen_profile_name)
         login = view?.findViewById(R.id.screen_profile_login)
@@ -171,13 +216,11 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         var newStartOffset: Int = (actionBarSize * 1.1).toInt()
         var newEndOffset: Int = (actionBarSize * 2).toInt()
 
-        Log.e("NewstartOffset", newStartOffset.toString())
+        /*Log.e("NewstartOffset", newStartOffset.toString())
         Log.e("NewEndOffset", newEndOffset.toString())
         Log.e("beforeMarginStart", swipeRefreshLayout!!.progressViewStartOffset.toString() + "!")
-        Log.e("beforeMarginEnd", swipeRefreshLayout!!.progressViewEndOffset.toString() + "!")
+        Log.e("beforeMarginEnd", swipeRefreshLayout!!.progressViewEndOffset.toString() + "!")*/
 
         swipeRefreshLayout?.setProgressViewOffset(false, newStartOffset, newEndOffset)
-
-        Log.e("AfterMargin", swipeRefreshLayout?.progressViewStartOffset.toString() + "!")
     }
 }

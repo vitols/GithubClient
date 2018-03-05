@@ -8,4 +8,5 @@ import retrofit2.Call
  */
 interface AuthRequestInterface {
     fun getAccessToken(client_id: String, client_secret: String, code: String): Call<String>
+    fun logOut(): Call<String>
 }

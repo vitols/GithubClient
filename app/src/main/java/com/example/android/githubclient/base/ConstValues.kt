@@ -19,10 +19,12 @@ object ConstValues {
         const val BASE_API_URL = "https://api.github.com"
         const val GET_CODE_URL = "https://github.com/login/oauth/authorize"
         const val REDIRECT_URL = "https://github.com/vitols/GithubClient"
+        const val LOGOUT_URL = "https://github.com/logout"
     }
     object Path {
         const val GET_TOKEN_PATH = "/login/oauth/access_token?"
         const val GET_USER_PATH = "/user?"
+        const val LOGOUT = "/logout"
     }
     object Errors {
         const val TITLE = "Error occurred"

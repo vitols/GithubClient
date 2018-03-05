@@ -14,5 +14,7 @@ interface AuthService {
                        @Query(ConstValues.ParamNames.CLIENT_SECRET) client_secret: String,
                        @Query(ConstValues.ParamNames.CODE) code: String)
             : Call<String>
+    @POST(ConstValues.Path.LOGOUT)
+    fun logOut() : Call<String>
 }
 

@@ -20,4 +20,8 @@ class AuthNetworkDataManager : AuthRequestInterface {
         return serviceAuth!!.getAccessToken(client_id, client_secret, code)
     }
 
+    override fun logOut(): Call<String> {
+        return serviceAuth!!.logOut()
+    }
+
 }

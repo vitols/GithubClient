@@ -14,4 +14,7 @@ class AuthInteractor {
     fun getAccessToken(code: String) : Call<String> {
         return repository.getAccessToken(code)
     }
+    fun logOut() : Call<String> {
+        return repository.logOut()
+    }
 }

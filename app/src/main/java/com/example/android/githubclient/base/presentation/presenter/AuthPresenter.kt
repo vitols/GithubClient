@@ -17,6 +17,18 @@ class AuthPresenter(override var view: AuthView<*>?) : BasePresenter<AuthView<*>
 
     private val interactor = AuthInteractor()
 
+    fun logOut() {
+        interactor.logOut().enqueue(object : Callback<String> {
+            override fun onFailure(call: Call<String>?, t: Throwable?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onResponse(call: Call<String>?, response: Response<String>?) {
+                Log.e("onResponseLogOut", response?.body())
+            }
+
+        })
+    }
 
     fun getAccessToken(code: String) {
         interactor.getAccessToken(code).enqueue(object : Callback<String> {
