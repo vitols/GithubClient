@@ -35,10 +35,8 @@ class AvatarBehavior(var context: Context, var attrs: AttributeSet) :
     private var nestedScrollStartMarginTop = 0.0f
 
     private var appBarHeight = 0.0f
-    private var distance = 0.0f
-    private var appBarWidth = 0.0f
     init {
-        //TODO: Find toolbar's coords(C) and size(S), C + S - (Image.Size) - Image.padding
+
         if(attrs != null) {
             val attr = context.obtainStyledAttributes(attrs, R.styleable.AvatarBehavior)
             avatarFinalMargin = attr.getDimension(R.styleable.AvatarBehavior_avatarFinalMargin, 0f)
@@ -58,24 +56,17 @@ class AvatarBehavior(var context: Context, var attrs: AttributeSet) :
         nestedScrollStartMarginTop = context.resources.getDimension(R.dimen.nested_scroll_margin_top)
         nestedScrollStartY = nestedScrollStartMarginTop + appBarHeight
 
-        distance = nestedScrollStartMarginTop - avatarStartMarginTop
-
         var windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         avatarFinalX = windowManager.defaultDisplay.width - avatarFinalSize - avatarFinalMargin
         avatarStartX = windowManager.defaultDisplay.width / 2 - avatarStartSize / 2
 
-        Log.e("startSize", avatarStartSize.toString())
-        Log.e("finalSize", avatarFinalSize.toString())
+        /*Log.e("startSize", avatarStartSize.toString())
+        Log.e("finalSize", avatarFinalSize.toString())*/
 
     }
 
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout, child: CircleImageView, directTargetChild: View, target: View, axes: Int, type: Int): Boolean {
         return axes == ViewCompat.SCROLL_AXIS_VERTICAL
-    }
-
-    override fun onNestedPreScroll(coordinatorLayout: CoordinatorLayout, child: CircleImageView, target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
-        super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type)
-        //val diff = child.bottom - nestedContent.top
     }
 
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: CircleImageView, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int) {
@@ -109,9 +100,9 @@ class AvatarBehavior(var context: Context, var attrs: AttributeSet) :
                 percentageOfDistance = minMaxRatioPercent + (1 - nestedScroll.scrollY / nestedScrollStartMarginTop) * (100 - minMaxRatioPercent)
                 newSize = (percentageOfDistance * avatarStartSize / 100).toInt()
 
-                Log.e("newSize", newSize.toString())
+                /*Log.e("newSize", newSize.toString())
                 Log.e("maxSize", avatarStartSize.toString())
-                Log.e("distance", (nestedScrollStartMarginTop - nestedScroll.scrollY).toString())
+                Log.e("distance", (nestedScrollStartMarginTop - nestedScroll.scrollY).toString())*/
 
                 params.height = newSize
                 params.width = newSize
