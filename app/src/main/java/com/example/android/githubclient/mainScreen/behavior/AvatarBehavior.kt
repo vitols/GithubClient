@@ -12,6 +12,8 @@ import android.opengl.ETC1.getHeight
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import com.example.android.githubclient.R
+import android.util.DisplayMetrics
+import android.view.WindowManager
 
 
 /**
@@ -21,12 +23,20 @@ class AvatarBehavior(var context: Context, var attrs: AttributeSet) :
         CoordinatorLayout.Behavior<CircleImageView>(context, attrs) {
 
     private var avatarStartSize = 0.0f
+    private var avatarStartX = 0.0f
+    private var avatarStartY = 0.0f
     private var avatarStartMarginTop = 0.0f
+    private var avatarFinalSize = 0.0f
+    private var avatarFinalX = 0.0f
+    private var avatarFinalY = 0.0f
     private var avatarFinalMargin = 0.0f
+
+    private var nestedScrollStartY = 0.0f
+    private var nestedScrollStartMarginTop = 0.0f
+
     private var appBarHeight = 0.0f
     private var distance = 0.0f
     private var appBarWidth = 0.0f
-    private var finalNestedScrollY = 0.0f
     init {
         //TODO: Find toolbar's coords(C) and size(S), C + S - (Image.Size) - Image.padding
         if(attrs != null) {
@@ -38,16 +48,29 @@ class AvatarBehavior(var context: Context, var attrs: AttributeSet) :
             appBarHeight = appBarAttr.getDimension(0,0f)
             appBarAttr.recycle()
         }
+
         avatarStartSize = context.resources.getDimension(R.dimen.max_avatar_size)
         avatarStartMarginTop = context.resources.getDimension(R.dimen.avatar_margin_top)
-        distance = avatarStartSize + avatarStartMarginTop
-        //Log.e("threshold", threshold.toString())/
-        //Log.e("avatarMargin", avatarStartMarginTop.toString())
+        avatarStartY = appBarHeight + avatarStartMarginTop
+        avatarFinalSize = appBarHeight - 2 * avatarFinalMargin
+        avatarFinalY = avatarFinalMargin
+
+        nestedScrollStartMarginTop = context.resources.getDimension(R.dimen.nested_scroll_margin_top)
+        nestedScrollStartY = nestedScrollStartMarginTop + appBarHeight
+
+        distance = nestedScrollStartMarginTop - avatarStartMarginTop
+
+        var windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        avatarFinalX = windowManager.defaultDisplay.width - avatarFinalSize - avatarFinalMargin
+        avatarStartX = windowManager.defaultDisplay.width / 2 - avatarStartSize / 2
+
+        Log.e("startSize", avatarStartSize.toString())
+        Log.e("finalSize", avatarFinalSize.toString())
 
     }
 
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout, child: CircleImageView, directTargetChild: View, target: View, axes: Int, type: Int): Boolean {
-        return type == ViewCompat.TYPE_TOUCH
+        return axes == ViewCompat.SCROLL_AXIS_VERTICAL
     }
 
     override fun onNestedPreScroll(coordinatorLayout: CoordinatorLayout, child: CircleImageView, target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
@@ -60,63 +83,52 @@ class AvatarBehavior(var context: Context, var attrs: AttributeSet) :
 
         var nestedScroll = target as NestedScrollView
         val params = child.layoutParams as CoordinatorLayout.LayoutParams
-        Log.e("dyConsumed", dyConsumed.toString())
 
-        if(dyConsumed > 0)
-        {
-            if (nestedScroll.scrollY + dyConsumed < distance) {
-
-                child.y -= 1
-                child.x += 1
-
-            } else  {
-                params.height = appBarHeight.toInt()
-                params.width = appBarHeight.toInt()
-                params.setMargins(0, avatarFinalMargin.toInt(), avatarFinalMargin.toInt(), avatarFinalMargin.toInt())
-                child.layoutParams = params
-                child.y -= 1
-                child.x += 1
-            }
-        } else if (nestedScroll.scrollY - dyConsumed < distance) {
-
-                child.y += 1
-                child.x -= 1
-
-            } else  {
-                params.height = appBarHeight.toInt()
-                params.width = appBarHeight.toInt()
-                params.setMargins(0, avatarFinalMargin.toInt(), avatarFinalMargin.toInt(), avatarFinalMargin.toInt())
-                child.layoutParams = params
-            }
-
-    }
-
-    fun startOfView(view: NestedScrollView, child: CircleImageView): Boolean {
-
-            Log.e("startOfView", "diff is <")
-        return false
-    }
-
-/*    override fun layoutDependsOn(parent: CoordinatorLayout?, child: CircleImageView?, dependency: View?): Boolean {
-        return dependency is LinearLayout
-    }
-
-    override fun onDependentViewChanged(parent: CoordinatorLayout?, child: CircleImageView?, dependency: View?): Boolean {
-        if(child == null || dependency == null)
-            return false
-
-        var params = child.layoutParams as CoordinatorLayout.LayoutParams
-
-        val diff = child.bottom - dependency.top
-        Log.e("viewChanged", diff.toString())
-        if(diff < 30) {
-            params.width -=10
-            params.height -=10
+        if (nestedScroll.scrollY <= 0) {
+            params.height = avatarStartSize.toInt()
+            params.width = avatarStartSize.toInt()
             child.layoutParams = params
-            return true
-        }
-        return false
 
-    }*/
+            child.x = avatarStartX
+            child.y = avatarStartY
+        } else {
+            if (nestedScroll.scrollY >= nestedScrollStartMarginTop) {
+                params.height = avatarFinalSize.toInt()
+                params.width = avatarFinalSize.toInt()
+                child.layoutParams = params
+
+                child.x = avatarFinalX
+                child.y = avatarFinalY
+
+            } else {
+
+                var minMaxRatioPercent = avatarFinalSize / avatarStartSize * 100
+                var percentageOfDistance = 0f
+                var newSize = 0
+
+                percentageOfDistance = minMaxRatioPercent + (1 - nestedScroll.scrollY / nestedScrollStartMarginTop) * (100 - minMaxRatioPercent)
+                newSize = (percentageOfDistance * avatarStartSize / 100).toInt()
+
+                Log.e("newSize", newSize.toString())
+                Log.e("maxSize", avatarStartSize.toString())
+                Log.e("distance", (nestedScrollStartMarginTop - nestedScroll.scrollY).toString())
+
+                params.height = newSize
+                params.width = newSize
+                child.layoutParams = params
+
+                var minMaxYRatio = avatarFinalY / avatarStartY * 100
+                var percentageOfY = minMaxYRatio + (1 - nestedScroll.scrollY / nestedScrollStartMarginTop) * (100 - minMaxYRatio)
+                var newY = percentageOfY * avatarStartY / 100
+                child.y = newY
+
+                var minMaxXRatio = avatarFinalX / avatarStartX * 100
+                var percentageOfX = minMaxXRatio + (1 - nestedScroll.scrollY / nestedScrollStartMarginTop) * (100 - minMaxXRatio)
+                var newX = percentageOfX * avatarStartX / 100
+                child.x = newX
+            }
+        }
+
+    }
 
 }

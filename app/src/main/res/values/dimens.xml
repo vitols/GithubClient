@@ -3,4 +3,5 @@
     <dimen name="max_avatar_size">146dp</dimen>
     <dimen name="avatar_margin_top">24dp</dimen>
     <dimen name="nested_scroll_margin_top">176dp</dimen>
+    <dimen name="appbar_width">-1.0px</dimen>
 </resources>

@@ -2,5 +2,7 @@
 <resources>
     <declare-styleable name="AvatarBehavior">
         <attr name="avatarFinalMargin" format="dimension"/>
+        <attr name="nestedScrollStartMarginTop" format="dimension"/>
+        <attr name="avatarStartY" format="dimension"/>
     </declare-styleable>
 </resources>

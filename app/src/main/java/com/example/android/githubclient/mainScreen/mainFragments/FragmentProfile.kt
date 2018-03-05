@@ -15,6 +15,7 @@ import com.example.android.githubclient.base.presentation.presenter.UserPresente
 import com.example.android.githubclient.base.presentation.view.UserView
 import de.hdodenhof.circleimageview.CircleImageView
 import android.content.DialogInterface
+import android.support.design.widget.CoordinatorLayout
 import android.support.v7.app.AlertDialog
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -94,6 +95,10 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         swipeRefreshLayout?.setOnRefreshListener(this);
 
         image = view?.findViewById(R.id.screen_profile_avatar)
+        var params = image?.layoutParams as CoordinatorLayout.LayoutParams
+        params.topMargin += resources.getDimension(R.dimen.avatar_margin_top).toInt()
+        image?.layoutParams = params
+
         name = view?.findViewById(R.id.screen_profile_name)
         login = view?.findViewById(R.id.screen_profile_login)
         bio = view?.findViewById(R.id.screen_profile_bio)
