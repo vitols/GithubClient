@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import com.bumptech.glide.Glide
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.controllers.LoginController
@@ -20,7 +19,6 @@ import android.support.v7.app.AlertDialog
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.android.githubclient.base.ConstValues
-import org.w3c.dom.Text
 
 
 /**
@@ -82,6 +80,7 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater!!.inflate(R.layout.fragment_screen_profile, container, false)
+
         presenter = UserPresenter(this)
         return view
 
@@ -91,7 +90,8 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         super.onViewCreated(view, savedInstanceState)
 
         swipeRefreshLayout = view?.findViewById(R.id.profile_swiperefresh_layout)
-        swipeRefreshLayout?.setOnRefreshListener(this)
+        setProgressViewOffset()
+        swipeRefreshLayout?.setOnRefreshListener(this);
 
         image = view?.findViewById(R.id.screen_profile_avatar)
         name = view?.findViewById(R.id.screen_profile_name)
@@ -154,5 +154,25 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
             emailField?.visibility = View.VISIBLE
             email?.text = user?.email.toString()
         }
+    }
+    fun setProgressViewOffset() {
+
+        var typedArray = context.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
+        var actionBarSize = typedArray.getDimension(0, 0f)
+        typedArray.recycle()
+
+        Log.e("MarginSwipeOffset", actionBarSize.toString())
+
+        var newStartOffset: Int = (actionBarSize * 1.1).toInt()
+        var newEndOffset: Int = (actionBarSize * 2).toInt()
+
+        Log.e("NewstartOffset", newStartOffset.toString())
+        Log.e("NewEndOffset", newEndOffset.toString())
+        Log.e("beforeMarginStart", swipeRefreshLayout!!.progressViewStartOffset.toString() + "!")
+        Log.e("beforeMarginEnd", swipeRefreshLayout!!.progressViewEndOffset.toString() + "!")
+
+        swipeRefreshLayout?.setProgressViewOffset(false, newStartOffset, newEndOffset)
+
+        Log.e("AfterMargin", swipeRefreshLayout?.progressViewStartOffset.toString() + "!")
     }
 }

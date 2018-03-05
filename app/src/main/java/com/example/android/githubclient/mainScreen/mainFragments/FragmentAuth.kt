@@ -1,6 +1,5 @@
 package com.example.android.githubclient.mainScreen.mainFragments
 
-import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.os.Bundle
@@ -14,7 +13,7 @@ import android.util.Log
 import android.view.*
 import android.webkit.*
 import com.example.android.githubclient.base.ConstValues
-import com.example.android.githubclient.mainScreen.AuthWebViewClient
+import com.example.android.githubclient.mainScreen.WebViewAuthClient
 
 
 /**
@@ -95,7 +94,7 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
         var webView = view?.findViewById<WebView>(R.id.screen_auth_webview)
 
         webView?.settings?.javaScriptEnabled = true
-        webView?.webViewClient = AuthWebViewClient(spinner, presenter, activity)
+        webView?.webViewClient = WebViewAuthClient(spinner, presenter, activity)
         webView?.loadUrl(ConstValues.Urls.GET_CODE_URL + "?client_id=" + ConstValues.ParamValues.CLIENT_ID)
     }
 

@@ -107,7 +107,6 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
 
         Prefs.Companion.init(this)
         RestApi.init(LoginController.instance.authenticator)
