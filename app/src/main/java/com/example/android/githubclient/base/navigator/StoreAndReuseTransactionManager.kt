@@ -18,12 +18,15 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
         if (curScreen === screen)
             return
         if (tags.contains(screen)) {
+            Log.e("showScreenAuthInTags", screen.getTag())
             screen.setAnimation(fragmentManager)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .hide(fragmentManager.findFragmentByTag(curScreen?.getTag()))
                     .show(fragmentManager.findFragmentByTag(screen.getTag()))
                     .commit()
         } else {
+
+            Log.e("showScreenAuthNotInTags", screen.getTag())
             tags.add(screen)
             screen.setAnimation(fragmentManager)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

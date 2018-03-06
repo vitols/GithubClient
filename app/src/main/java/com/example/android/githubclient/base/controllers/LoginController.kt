@@ -41,7 +41,10 @@ class LoginController private constructor(){
     set(value) {
         field = value
         Prefs.save(ConstValues.ParamNames.ACCESS_TOKEN, field)
+        tokenReceived = true
     }
+
+    var tokenReceived: Boolean = !accessToken.isNullOrEmpty()
 
     var authenticator: Authenticator = Authenticator { _, response ->
         if (response.code() != 200)
@@ -59,6 +62,10 @@ class LoginController private constructor(){
     fun logOut() {
         Log.e("LoginControllerLogOut", "here")
         user = null
+        accessToken = ""
+        tryToLogOut = false
+        tokenReceived = false
+
         Prefs.remove("USER")
         Prefs.remove(ConstValues.ParamNames.ACCESS_TOKEN)
     }

@@ -19,6 +19,7 @@ object ConstValues {
         const val BASE_API_URL = "https://api.github.com"
         const val GET_CODE_URL = "https://github.com/login/oauth/authorize"
         const val REDIRECT_URL = "https://github.com/vitols/GithubClient"
+        const val REDIRECT_LOGOUT_URL = "https://github.com/"
         const val LOGOUT_URL = "https://github.com/logout"
     }
     object Path {

@@ -18,8 +18,8 @@ import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.controllers.LoginController
 import com.example.android.githubclient.mainScreen.WebViewAuthClient
 import android.view.animation.AnimationSet
-
-
+import android.widget.ProgressBar
+import kotlinx.android.synthetic.main.item_repo.view.*
 
 
 /**
@@ -28,7 +28,7 @@ import android.view.animation.AnimationSet
 class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
 
     override var presenter: AuthPresenter? = null
-    var spinner: ProgressDialog? = null
+    var progressBar: ProgressBar? = null
     var webView: WebView? = null
 
     var onLoggedInCallback: onLoggedIn? = null
@@ -86,7 +86,7 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
 
         var view = inflater!!.inflate(R.layout.fragment_screen_auth, container, false)
 
-        spinner = ProgressDialog(context)
+        progressBar = view.findViewById<ProgressBar>(R.id.screen_auth_progress_bar)
         presenter = AuthPresenter(this)
         return view
     }
@@ -94,32 +94,30 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.e("onViewCreated", "here")
+
         webView = view?.findViewById<WebView>(R.id.screen_auth_webview)
 
         webView?.settings?.javaScriptEnabled = true
-        webView?.webViewClient = WebViewAuthClient(spinner, presenter)
-        webView?.loadUrl(ConstValues.Urls.GET_CODE_URL + "?client_id=" + ConstValues.ParamValues.CLIENT_ID)
+        webView?.webViewClient = WebViewAuthClient(context, presenter, progressBar)
+
+        if(!LoginController.instance.tryToLogOut)
+            webView?.loadUrl(ConstValues.Urls.GET_CODE_URL + "?client_id=" + ConstValues.ParamValues.CLIENT_ID)
+        else
+            webView?.loadUrl(ConstValues.Urls.LOGOUT_URL)
+
     }
 
-    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation {
-        var animation = AnimationUtils.loadAnimation(activity, nextAnim)
-        animation.setAnimationListener(object: Animation.AnimationListener {
-            override fun onAnimationRepeat(p0: Animation?) {
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            if(LoginController.instance.tryToLogOut) {
+                Log.e("onHiddenChanged", "isCalled")
+                webView?.loadUrl(ConstValues.Urls.LOGOUT_URL)
             }
 
-            override fun onAnimationEnd(p0: Animation?) {
-                if (LoginController.instance.tryToLogOut)
-                    webView?.loadUrl(ConstValues.Urls.LOGOUT_URL)
-            }
 
-            override fun onAnimationStart(p0: Animation?) {
-            }
-
-        })
-        val animSet = AnimationSet(true)
-        animSet.addAnimation(animation)
-
-        return animSet
+        }
     }
 
 }

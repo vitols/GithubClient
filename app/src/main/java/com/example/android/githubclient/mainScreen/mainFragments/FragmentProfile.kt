@@ -59,8 +59,6 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
 
     override fun showMe() {
         user = LoginController.instance.user
-        if(user == null)
-            Log.e("showMe", "userIsNUll")
         updateUser()
         swipeRefreshLayout?.isRefreshing = false
     }
@@ -96,7 +94,7 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         super.onAttach(context)
 
         try {
-            logoutCallback = activity as logOutInterface
+            logoutCallback = context as logOutInterface
         } catch (e: ClassCastException) {
             throw ClassCastException(context.toString() + " must implement Profile callback")
         }
@@ -112,6 +110,8 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Log.e("FragmentProfile", "ViewCreated")
 
         swipeRefreshLayout = view?.findViewById(R.id.profile_swiperefresh_layout)
         setProgressViewOffset()
@@ -132,7 +132,7 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
             builder.setMessage("Are you sure you want to exit?")
                     .setPositiveButton("Yes",
                             DialogInterface.OnClickListener {
-                                _, _ -> LoginController.instance.tryToLogOut = true; logoutCallback?.showAuthScreen()
+                                _,_ -> logoutCallback?.showAuthScreen()
                             })
                     .setNegativeButton("No",
                             DialogInterface.OnClickListener {
@@ -141,7 +141,6 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
 
             val dialog = builder.create()
             dialog.show()
-            swipeRefreshLayout?.isRefreshing = false
         }
 
         name = view?.findViewById(R.id.screen_profile_name)
@@ -155,9 +154,7 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
 
         user = LoginController.instance.user
         if(user == null) {
-            swipeRefreshLayout?.post({swipeRefreshLayout?.isRefreshing = true})
-            presenter?.getMe()
-            Log.e("FragmentProfile", "USER IS NULL")
+            getProfileData()
         } else
             updateUser()
     }
@@ -211,7 +208,7 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         var actionBarSize = typedArray.getDimension(0, 0f)
         typedArray.recycle()
 
-        Log.e("MarginSwipeOffset", actionBarSize.toString())
+        /*Log.e("MarginSwipeOffset", actionBarSize.toString())*/
 
         var newStartOffset: Int = (actionBarSize * 1.1).toInt()
         var newEndOffset: Int = (actionBarSize * 2).toInt()
@@ -222,5 +219,21 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         Log.e("beforeMarginEnd", swipeRefreshLayout!!.progressViewEndOffset.toString() + "!")*/
 
         swipeRefreshLayout?.setProgressViewOffset(false, newStartOffset, newEndOffset)
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (!hidden) {
+            if(LoginController.instance.user == null && LoginController.instance.tokenReceived) {
+                getProfileData()
+            }
+
+
+        }
+    }
+
+    fun getProfileData() {
+        swipeRefreshLayout?.post({swipeRefreshLayout?.isRefreshing = true})
+        presenter?.getMe()
     }
 }

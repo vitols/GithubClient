@@ -20,7 +20,7 @@ class AuthPresenter(override var view: AuthView<*>?) : BasePresenter<AuthView<*>
     fun logOut() {
         interactor.logOut().enqueue(object : Callback<String> {
             override fun onFailure(call: Call<String>?, t: Throwable?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                Log.e("onFailureLogOut", "failure")
             }
 
             override fun onResponse(call: Call<String>?, response: Response<String>?) {

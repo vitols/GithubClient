@@ -3,6 +3,7 @@ package com.example.android.githubclient.mainScreen
 import android.app.ActionBar
 import android.app.Activity
 import android.app.ProgressDialog
+import android.content.Context
 import android.webkit.WebViewClient
 import android.graphics.Bitmap
 import android.util.Log
@@ -22,7 +23,10 @@ import android.view.View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
 import android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+import android.webkit.RenderProcessGoneDetail
 import android.widget.FrameLayout
+import android.widget.ProgressBar
+import android.widget.Toast
 import android.widget.Toolbar
 import com.example.android.githubclient.R
 
@@ -30,19 +34,25 @@ import com.example.android.githubclient.R
 /**
  * Created by admin on 27.02.2018.
  */
-class WebViewAuthClient(val spinner: ProgressDialog? = null,
-                        val presenter: AuthPresenter? = null) : WebViewClient() {
+class WebViewAuthClient(val context: Context? = null,
+                        val presenter: AuthPresenter? = null,
+                        val progressBar: ProgressBar? = null
+                        ) : WebViewClient() {
 
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
         super.shouldOverrideUrlLoading(view, url)
+        if(url == ConstValues.Urls.REDIRECT_LOGOUT_URL && LoginController.instance.tryToLogOut) {
+            Log.e("Redirected", "should be logged out")
+            LoginController.instance.logOut()
+            view.loadUrl(ConstValues.Urls.GET_CODE_URL + "?client_id=" + ConstValues.ParamValues.CLIENT_ID)
+            Toast.makeText(context, "You have logged out successfully", Toast.LENGTH_SHORT).show()
+        }
 
         if (url.startsWith(ConstValues.Urls.REDIRECT_URL)) {
             val urls = url.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             Log.e("WebViewAuthClient", "Call presenter")
             if (!LoginController.instance.tryToLogOut)
                 presenter?.getAccessToken(urls[1])
-            else
-                presenter?.logOut()
             return true
         }
         return false
@@ -57,14 +67,16 @@ class WebViewAuthClient(val spinner: ProgressDialog? = null,
 
     override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
         Log.e("onPageStarted", "here")
+        Log.e("URL:    ", "is empty " + url.toString())
 
         super.onPageStarted(view, url, favicon)
-        spinner?.show()
+        progressBar?.visibility = View.VISIBLE
     }
 
     override fun onPageFinished(view: WebView, url: String) {
         Log.e("onPageFinished", "here")
         super.onPageFinished(view, url)
-        spinner?.dismiss()
+        progressBar?.visibility = View.INVISIBLE
     }
+
 }

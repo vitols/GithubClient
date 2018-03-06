@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
     private fun setListeners() {
         main_sidebar_me.setOnClickListener {
             if (navigator.getCurrentScreen() != MainActivityNavigator.Screens.SCREEN_PROFILE) {
-
+                Log.e("Main AccessToken = ", LoginController.instance.tokenReceived.toString())
                 if(!sideBarHidden)
                     hideSideBar()
 
@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
                 main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
                         R.color.transparentBlack, null));*/
 
-                if(LoginController.instance.isLoggedIn()) {
+                if(LoginController.instance.isLoggedIn() || LoginController.instance.tokenReceived) {
                     Log.e("OpenProfile", "LoggedIn")
                     navigator.showScreen(MainActivityNavigator.Screens.SCREEN_PROFILE)
                 } else {
@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
                 main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
                         R.color.transparentRed, null));*/
 
-                if (LoginController.instance.isLoggedIn()) {
+                if (LoginController.instance.isLoggedIn() || LoginController.instance.tokenReceived) {
                     Log.e("OpenRepos", "LoggedIn")
                     navigator.showScreen(MainActivityNavigator.Screens.SCREEN_REPOS)
                 } else {
@@ -136,14 +136,18 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
     }
 
     override fun authFragmentCallback(tag: String) {
-        if (tag == MainActivityNavigator.Screens.SCREEN_PROFILE.getTag())
+        if (tag == MainActivityNavigator.Screens.SCREEN_PROFILE.getTag()) {
             navigator.showScreen(MainActivityNavigator.Screens.SCREEN_PROFILE)
-        else if(tag == MainActivityNavigator.Screens.SCREEN_REPOS.getTag())
+        }
+        else if(tag == MainActivityNavigator.Screens.SCREEN_REPOS.getTag()) {
             navigator.showScreen(MainActivityNavigator.Screens.SCREEN_REPOS)
+        }
     }
 
     override fun showAuthScreen() {
-        navigator.showScreen(MainActivityNavigator.Screens.SCREEN_AUTH)
+        LoginController.instance.tryToLogOut = true
+        Log.e("showScreenAuth", "callBack")
+        navigator.showScreen(MainActivityNavigator.Screens.SCREEN_AUTH, MainActivityNavigator.Screens.SCREEN_PROFILE)
     }
 
 
