@@ -146,7 +146,6 @@ class MainActivity : AppCompatActivity(), MainActivityParent, FragmentAuth.onLog
 
     override fun showAuthScreen() {
         LoginController.instance.tryToLogOut = true
-        Log.e("showScreenAuth", "callBack")
         navigator.showScreen(MainActivityNavigator.Screens.SCREEN_AUTH, MainActivityNavigator.Screens.SCREEN_PROFILE)
     }
 

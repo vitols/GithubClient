@@ -22,7 +22,6 @@ class LoginController private constructor(){
     get() {
         if (field == null)
             field = Prefs.load("USER", User::class.java)
-        Log.e("LoginControllerUser", field.toString() + "!")
         return field
     }
     set(value) {
@@ -55,12 +54,10 @@ class LoginController private constructor(){
     var tryToLogOut = false
 
     fun isLoggedIn(): Boolean {
-        Log.e("isLoggedIn", (Prefs.contains("USER") && !accessToken.isNullOrEmpty()).toString())
         return Prefs.contains("USER") && accessToken != null
     }
 
     fun logOut() {
-        Log.e("LoginControllerLogOut", "here")
         user = null
         accessToken = ""
         tryToLogOut = false

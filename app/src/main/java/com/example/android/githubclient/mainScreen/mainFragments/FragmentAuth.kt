@@ -94,8 +94,6 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.e("onViewCreated", "here")
-
         webView = view?.findViewById<WebView>(R.id.screen_auth_webview)
 
         webView?.settings?.javaScriptEnabled = true
@@ -112,7 +110,6 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
         super.onHiddenChanged(hidden)
         if (!hidden) {
             if(LoginController.instance.tryToLogOut) {
-                Log.e("onHiddenChanged", "isCalled")
                 webView?.loadUrl(ConstValues.Urls.LOGOUT_URL)
             }
 

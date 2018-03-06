@@ -42,7 +42,6 @@ class WebViewAuthClient(val context: Context? = null,
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
         super.shouldOverrideUrlLoading(view, url)
         if(url == ConstValues.Urls.REDIRECT_LOGOUT_URL && LoginController.instance.tryToLogOut) {
-            Log.e("Redirected", "should be logged out")
             LoginController.instance.logOut()
             view.loadUrl(ConstValues.Urls.GET_CODE_URL + "?client_id=" + ConstValues.ParamValues.CLIENT_ID)
             Toast.makeText(context, "You have logged out successfully", Toast.LENGTH_SHORT).show()
@@ -50,7 +49,6 @@ class WebViewAuthClient(val context: Context? = null,
 
         if (url.startsWith(ConstValues.Urls.REDIRECT_URL)) {
             val urls = url.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            Log.e("WebViewAuthClient", "Call presenter")
             if (!LoginController.instance.tryToLogOut)
                 presenter?.getAccessToken(urls[1])
             return true
@@ -58,23 +56,16 @@ class WebViewAuthClient(val context: Context? = null,
         return false
     }
 
-    override fun onReceivedError(view: WebView, errorCode: Int,
-                        description: String, failingUrl: String) {
-        Log.e("onReceivedError", "here")
-
+    override fun onReceivedError(view: WebView, errorCode: Int, description: String, failingUrl: String) {
         super.onReceivedError(view, errorCode, description, failingUrl)
     }
 
     override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
-        Log.e("onPageStarted", "here")
-        Log.e("URL:    ", "is empty " + url.toString())
-
         super.onPageStarted(view, url, favicon)
         progressBar?.visibility = View.VISIBLE
     }
 
     override fun onPageFinished(view: WebView, url: String) {
-        Log.e("onPageFinished", "here")
         super.onPageFinished(view, url)
         progressBar?.visibility = View.INVISIBLE
     }

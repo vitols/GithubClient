@@ -208,15 +208,8 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         var actionBarSize = typedArray.getDimension(0, 0f)
         typedArray.recycle()
 
-        /*Log.e("MarginSwipeOffset", actionBarSize.toString())*/
-
         var newStartOffset: Int = (actionBarSize * 1.1).toInt()
         var newEndOffset: Int = (actionBarSize * 2).toInt()
-
-        /*Log.e("NewstartOffset", newStartOffset.toString())
-        Log.e("NewEndOffset", newEndOffset.toString())
-        Log.e("beforeMarginStart", swipeRefreshLayout!!.progressViewStartOffset.toString() + "!")
-        Log.e("beforeMarginEnd", swipeRefreshLayout!!.progressViewEndOffset.toString() + "!")*/
 
         swipeRefreshLayout?.setProgressViewOffset(false, newStartOffset, newEndOffset)
     }
@@ -227,8 +220,6 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
             if(LoginController.instance.user == null && LoginController.instance.tokenReceived) {
                 getProfileData()
             }
-
-
         }
     }
 
