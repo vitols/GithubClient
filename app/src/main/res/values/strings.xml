@@ -8,4 +8,5 @@
     <string name="profile_company">Company:</string>
     <string name="profile_location">Location:</string>
     <string name="profile_email">E-mail:</string>
+    <string name="toolbar_text">Github client</string>
 </resources>

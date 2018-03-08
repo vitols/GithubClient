@@ -16,7 +16,7 @@ class FragmentRepos : Fragment() {
         private val TAG = "TAG_FRAGMENT_REPOS"
 
         fun newInstance(): Fragment {
-            return FragmentUsers()
+            return FragmentRepos()
         }
     }
 

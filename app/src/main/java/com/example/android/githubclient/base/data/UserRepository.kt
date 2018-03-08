@@ -29,7 +29,7 @@ class UserRepository : UserRepositoryInterface {
     }
 
     override fun getUsers(): Observable<List<User>>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return networkDM.getUsers()
     }
 
     override fun getUserByLogin(login: String): Call<User>? {
