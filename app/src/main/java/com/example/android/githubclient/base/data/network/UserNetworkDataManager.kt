@@ -2,6 +2,7 @@ package com.example.android.githubclient.base.data.network
 
 import com.example.android.githubclient.base.api.RestApi
 import com.example.android.githubclient.base.data.network.services.UserService
+import com.example.android.githubclient.base.presentation.model.SearchModel
 import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.requests.UsersRequestInterface
 import io.reactivex.Observable
@@ -30,5 +31,9 @@ class UserNetworkDataManager : UsersRequestInterface {
         return service?.getUserByLogin(login)
     }
 
+    override fun searchUsers(q: String): Call<SearchModel>? {
+        var users = service?.searchUsers(q)
+        return users
+    }
 
 }

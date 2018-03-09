@@ -2,6 +2,7 @@ package com.example.android.githubclient.base.interactor
 
 import com.example.android.githubclient.base.data.UserRepository
 import com.example.android.githubclient.base.data.UserRepositoryInterface
+import com.example.android.githubclient.base.presentation.model.SearchModel
 import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.requests.UsersRequestInterface
 import io.reactivex.Observable
@@ -33,6 +34,10 @@ class UserInteractor: UsersRequestInterface {
 
     override fun getUserByLogin(login: String): Call<User>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun searchUsers(q: String): Call<SearchModel>? {
+        return repository?.searchUsers(q)
     }
 
 }

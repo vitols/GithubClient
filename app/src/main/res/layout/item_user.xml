@@ -5,7 +5,6 @@
     android:id="@+id/cardview_user"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:dividerHeight="2dp"
     app:contentPadding="8dp">
 
     <LinearLayout

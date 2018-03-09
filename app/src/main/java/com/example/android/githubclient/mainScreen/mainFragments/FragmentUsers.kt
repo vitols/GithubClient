@@ -8,10 +8,12 @@ import android.support.v4.widget.SwipeRefreshLayout
 import com.example.android.githubclient.R
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.*
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.android.githubclient.base.adapters.DelegationAdapter
@@ -20,7 +22,6 @@ import com.example.android.githubclient.base.presentation.presenter.UserListPres
 import com.example.android.githubclient.base.presentation.view.UserListView
 import com.example.android.githubclient.mainScreen.adapterDelegates.UserDelegate
 import com.example.android.githubclient.mainScreen.decorators.UserItemDecorator
-import kotlinx.android.synthetic.main.fragment_screen_profile.*
 import kotlinx.android.synthetic.main.fragment_screen_users.*
 
 
@@ -54,12 +55,17 @@ class FragmentUsers : Fragment(), UserListView<UserListPresenter>, SwipeRefreshL
 
 
     override fun onRefresh() {
-        Log.e("onRefresh", "was called")
         presenter?.getUsers()
 
     }
 
     override fun showUsers(users: List<User>) {
+        if(users.isEmpty()) {
+            adapter?.clearAllItems()
+            screen_users_swiperefresh.isRefreshing = false
+            Toast.makeText(context, "No users found", Toast.LENGTH_SHORT).show()
+            return
+        }
         try {
             adapter?.replaceAllItems(users as ArrayList<Any>)
             screen_users_swiperefresh.isRefreshing = false
@@ -96,15 +102,14 @@ class FragmentUsers : Fragment(), UserListView<UserListPresenter>, SwipeRefreshL
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        screen_users_toolbar.inflateMenu(R.menu.menu_users_toolbar)
-        screen_users_toolbar.menu
+        setToolbarItems()
+
         screen_users_swiperefresh.setOnRefreshListener(this)
 
         screen_users.layoutManager = LinearLayoutManager(context)
         screen_users.adapter = adapter
-        /*//var decoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
-        //decoration.setDrawable(ContextCompat.getDrawable(activity, R.drawable.item_user_decoration))*/
         screen_users.addItemDecoration(UserItemDecorator(context))
+
         adapter?.manager?.addDelegate(UserDelegate(activity, {
             YoYo.with(Techniques.ZoomIn)
                     .duration(400)
@@ -113,5 +118,41 @@ class FragmentUsers : Fragment(), UserListView<UserListPresenter>, SwipeRefreshL
 
         screen_users_swiperefresh.isRefreshing = true
         presenter?.getUsers()
+    }
+
+    fun setToolbarItems() {
+        screen_users_toolbar.inflateMenu(R.menu.menu_users_toolbar)
+
+        var item = screen_users_toolbar
+                .menu
+                .getItem(0)
+        var searchView = item.actionView as SearchView
+        searchView.maxWidth = Int.MAX_VALUE
+        searchView.setOnQueryTextListener( object: SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+
+                Log.e("searchView", "textSubmit")
+                item.collapseActionView()
+
+                if (query != null && !query.isEmpty()) {
+                    screen_users_swiperefresh.isRefreshing = true
+                    presenter?.searchUsers(query)
+
+                    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(searchView.windowToken, 0)
+
+                    return true
+                }
+                return false
+
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                Log.e("searchView", "QueryTextChange")
+                return false
+            }
+
+        })
     }
 }

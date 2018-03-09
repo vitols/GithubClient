@@ -3,6 +3,7 @@ package com.example.android.githubclient.base.data
 import com.example.android.githubclient.base.data.network.UserNetworkDataManager
 import com.example.android.githubclient.base.data.storage.UserStorageDataManager
 import com.example.android.githubclient.base.data.storage.UserStorageDataManagerInterface
+import com.example.android.githubclient.base.presentation.model.SearchModel
 import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.requests.UsersRequestInterface
 import io.reactivex.Observable
@@ -34,6 +35,10 @@ class UserRepository : UserRepositoryInterface {
 
     override fun getUserByLogin(login: String): Call<User>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun searchUsers(q: String): Call<SearchModel>? {
+        return networkDM.searchUsers(q)
     }
 
 }
