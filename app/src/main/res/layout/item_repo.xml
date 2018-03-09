@@ -4,27 +4,74 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardview_repo"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:layout_margin="8dp"
-    app:contentPadding="8dp"
-    app:cardCornerRadius="4dp"
-    app:cardBackgroundColor="@color/colorPrimaryDark">
+    android:layout_height="wrap_content"
+    app:contentPadding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:orientation="vertical">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/screen_repos_card_reponame"
-            android:textSize="16sp"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="start|top"
+            android:textSize="22sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="4dp"/>
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/screen_repos_card_datecreation"
-            android:textSize="12sp"/>
+            android:id="@+id/screen_repos_card_repo_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="start|center_vertical"
+            android:textSize="18sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginBottom="4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/screen_repos_card_language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="end">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_repo"/>
+                <TextView
+                    android:id="@+id/screen_repos_card_forked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_starred"/>
+                <TextView
+                    android:id="@+id/screen_repos_card_starred"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

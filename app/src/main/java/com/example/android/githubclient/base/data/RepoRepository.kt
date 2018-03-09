@@ -15,8 +15,8 @@ class RepoRepository : RepoRepositoryInterface {
     private val internetDM : ReposRequestInterface = RepoNetworkDataManager()
     private val storageDM : RepoStorageDataManagerInterface = RepoStorageDataManager()
 
-    override fun getRepos(): Observable<List<Repo>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getRepos(): Observable<List<Repo>>? {
+        return internetDM.getRepos()
     }
 
     override fun getReposByUser(login: String): Observable<List<Repo>> {
