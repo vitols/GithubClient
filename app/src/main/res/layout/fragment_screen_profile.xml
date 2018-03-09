@@ -39,15 +39,18 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/screen_profile_name"
                     android:layout_gravity="center"
-                    android:textSize="20sp"/>
+                    android:layout_marginTop="16dp"
+                    android:textSize="26sp"
+                    android:textColor="@android:color/black"/>
 
                 <TextView
                     android:id="@+id/screen_profile_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="4dp"
-                    android:textSize="20sp"/>
+                    android:layout_marginTop="8dp"
+                    android:textSize="24sp"
+                    android:textColor="@android:color/black"/>
 
                 <TextView
                     android:id="@+id/screen_profile_bio"
@@ -55,23 +58,25 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="4dp"
-                    android:textSize="20sp"/>
+                    android:layout_marginTop="8dp"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/black"/>
 
                 <TextView
                     android:id="@+id/screen_profile_company"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="4dp"
-                    android:textSize="20sp"/>
+                    android:layout_marginTop="8dp"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"/>
 
                 <LinearLayout
                     android:id="@+id/profile_field_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="4dp">
+                    android:layout_marginTop="8dp">
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -87,7 +92,8 @@
                         android:layout_height="match_parent"
                         android:gravity="left|center_vertical"
                         android:layout_weight="1"
-                        android:textSize="20sp"/>
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -95,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="4dp">
+                    android:layout_marginTop="8dp">
 
                     <ImageView
                         android:layout_width="match_parent"
@@ -175,6 +181,8 @@
             android:scaleType="centerCrop"
             android:id="@+id/screen_profile_avatar"
             android:src="@drawable/base_avatar"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/transparent40"
             app:avatarFinalMargin="4dp"
             app:layout_behavior=".mainScreen.behavior.AvatarBehavior"/>
 

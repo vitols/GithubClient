@@ -224,7 +224,7 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
     }
 
     fun getProfileData() {
-        swipeRefreshLayout?.post({swipeRefreshLayout?.isRefreshing = true})
+        swipeRefreshLayout?.isRefreshing = true
         presenter?.getMe()
     }
 }
