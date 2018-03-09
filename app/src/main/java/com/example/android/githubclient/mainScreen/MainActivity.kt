@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.View
 import android.view.ViewPropertyAnimator
@@ -124,6 +125,7 @@ class MainActivity : AppCompatActivity(),
         }
 
         navigator.openFirstFragment()
+
     }
 
     override fun action(screen: ScreenInterface?, data: Any?) {
@@ -152,13 +154,10 @@ class MainActivity : AppCompatActivity(),
 
     fun hideSideBar(duration: Long = 200) {
         if(!sideBarHidden) {
-            Log.e("hideSideBar", "here")
-            Log.e("sideBar.x", main_sidebar.x.toString())
             main_sidebar.animate()
                     .translationXBy(main_sidebar.width * 1f)
                     .setDuration(duration)
                     .start()
-            Log.e("sideBar.x", main_sidebar.x.toString())
             sideBarHidden = true
         }
     }

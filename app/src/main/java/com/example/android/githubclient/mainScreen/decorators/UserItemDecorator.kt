@@ -8,6 +8,9 @@ import android.support.design.R.attr.divider
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
+import com.example.android.githubclient.R
 import com.example.android.githubclient.base.presentation.model.User
 
 
@@ -21,27 +24,48 @@ class UserItemDecorator : RecyclerView.ItemDecoration {
         divider = styledAttributes.getDrawable(0);
         styledAttributes.recycle();*//*
     }*/
+    private var orientation: Int? = null
     private var divider: Drawable? = null
+    private var dividerMargin: Int = 0
 
-    constructor(context: Context, resId: Int) {
-        divider = ContextCompat.getDrawable(context, resId)
+    constructor(context: Context) {
+        divider = ContextCompat.getDrawable(context, R.drawable.item_user_decoration);
+        dividerMargin = context.resources.getDimension(R.dimen.item_user_divider_margin).toInt()
+
     }
 
-    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-        val left = parent.paddingLeft + 10
-        val right = parent.width - parent.paddingRight + 10
+    override fun onDrawOver(c: Canvas?, parent: RecyclerView?, state: RecyclerView.State?) {
+        if(c == null || parent == null)
+            return
+        //if(orientation == LinearLayoutManager.VERTICAL)
+            drawVertical(c, parent)
+    }
 
-        val childCount = parent.childCount
-        for (i in 0 until childCount) {
+    fun drawVertical(c: Canvas, parent: RecyclerView) {
+        val left = parent.paddingLeft + dividerMargin
+        val right = parent.width - parent.paddingRight - dividerMargin
+
+        for (i in 0 until parent.childCount - 1) {
             val child = parent.getChildAt(i)
-
             val params = child.layoutParams as RecyclerView.LayoutParams
-
-            val top = child.bottom + params.bottomMargin
-            val bottom = top + (divider?.intrinsicHeight ?: 0)
-
-            divider?.setBounds(left, top, right, bottom)
+            val bottom = child.bottom + params.bottomMargin;
+            val top = bottom + (divider?.getIntrinsicHeight() ?: 0);
+            divider?.setBounds(left, bottom, right, top)
             divider?.draw(c)
         }
+    }
+
+    override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
+        super.getItemOffsets(outRect, view, parent, state);
+
+        if (parent?.getChildAdapterPosition(view) == 0) {
+            return;
+        }
+        orientation = (parent?.layoutManager as LinearLayoutManager).orientation
+        /*if(orientation == LinearLayoutManager.VERTICAL) {
+            outRect?.right = divider?.intrinsicHeight
+        }
+        else
+            outRect?.left = divider?.intrinsicWidth;*/
     }
 }

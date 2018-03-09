@@ -19,8 +19,8 @@
             android:layout_height="64dp"
             android:layout_gravity="start|center_vertical"
             android:id="@+id/item_user_avatar"
-            app:civ_border_width="2dp"
-            app:civ_border_color="@color/transparent30"/>
+            app:civ_border_width="1dp"
+            app:civ_border_color="@android:color/black"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

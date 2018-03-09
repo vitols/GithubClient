@@ -40,7 +40,7 @@ abstract class BaseAdapter<ModelT, ViewHolderT : RecyclerView.ViewHolder> : Recy
 
     }
     fun replaceAllItems(items: ArrayList<ModelT>) {
-        items.clear()
+        this.items.clear()
         addAllItems(items)
     }
     fun clearItems() {

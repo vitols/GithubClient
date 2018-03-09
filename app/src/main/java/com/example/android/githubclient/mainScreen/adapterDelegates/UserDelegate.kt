@@ -5,6 +5,7 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.item_user.view.*
 /**
  * Created by admin on 08.03.2018.
  */
-class UserDelegate(val context: Activity, val callback: (User) -> Unit) :
+class UserDelegate(val context: Activity, val callback: (View) -> Unit) :
         AdapterDelegateAbstract<Any, Any, UserDelegate.ViewHolder>() {
 
     override fun isForViewType(item: Any): Boolean {
@@ -36,10 +37,18 @@ class UserDelegate(val context: Activity, val callback: (User) -> Unit) :
                 .centerCrop()
                 .into(holder.avatar)
         holder.login.text = item1.login
+        holder.item.setOnTouchListener { view, motionEvent ->
+            if(motionEvent.action == MotionEvent.ACTION_DOWN) {
+                callback(view)
+                true
+            }
+            false
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val avatar = itemView.item_user_avatar
         val login = itemView.item_user_login
+        val item = itemView
     }
 }
