@@ -23,9 +23,15 @@ object ConstValues {
         const val LOGOUT_URL = "https://github.com/logout"
     }
     object Path {
-        const val GET_TOKEN_PATH = "/login/oauth/access_token?"
-        const val GET_USER_PATH = "/user?"
+        const val GET_TOKEN = "/login/oauth/access_token?"
         const val LOGOUT = "/logout"
+
+        const val GET_USER = "/user"
+        const val GET_USERS = "/users"
+        const val SEARCH_USERS = "/search/users"
+
+        const val GET_REPOS = "/user/repos"
+
     }
     object Errors {
         const val TITLE = "Error occurred"

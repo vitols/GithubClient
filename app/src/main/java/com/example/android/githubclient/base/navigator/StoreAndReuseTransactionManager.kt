@@ -17,6 +17,7 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
     override fun showFragment(screen: ScreenInterface, data: Any?) {
         if (curScreen === screen)
             return
+        var previousScreen = curScreen
         if (tags.contains(screen)) {
             /*Log.e("showScreenAuthInTags", screen.getTag())*/
             screen.setAnimation(fragmentManager)
@@ -25,7 +26,6 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
                     .show(fragmentManager.findFragmentByTag(screen.getTag()))
                     .commit()
         } else {
-
             /*Log.e("showScreenAuthNotInTags", screen.getTag())*/
             tags.add(screen)
             screen.setAnimation(fragmentManager)

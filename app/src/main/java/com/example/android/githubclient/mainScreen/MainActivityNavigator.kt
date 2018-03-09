@@ -89,4 +89,8 @@ class MainActivityNavigator(fragmentManager: FragmentManager, containerId: Int) 
         }
     }
 
+    fun getLastShownScreen(): ScreenInterface {
+        return getCurrentScreen()!!.getLastScreen()!!
+    }
+
 }

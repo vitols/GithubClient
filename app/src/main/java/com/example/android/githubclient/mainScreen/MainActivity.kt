@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity(),
         MainActivityParent,
         FragmentAuth.onLoggedIn,
         FragmentProfile.logOutInterface,
+        FragmentProfile.openScreenInterface,
         FragmentUsers.firstFragmentCreated {
 
     var navigator: MainActivityNavigator = MainActivityNavigator(supportFragmentManager, R.id.main_activity_container)
@@ -138,12 +139,11 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun authFragmentCallback(tag: String) {
-        if (tag == MainActivityNavigator.Screens.SCREEN_PROFILE.getTag()) {
-            navigator.showScreen(MainActivityNavigator.Screens.SCREEN_PROFILE)
+        if(navigator.getCurrentScreen()?.getLastScreen() != null) {
+            Log.e("authFragmentCallback", "not null")
+            navigator.showScreen(navigator.getLastShownScreen())
         }
-        else if(tag == MainActivityNavigator.Screens.SCREEN_REPOS.getTag()) {
-            navigator.showScreen(MainActivityNavigator.Screens.SCREEN_REPOS)
-        }
+        navigator.showScreen(MainActivityNavigator.Screens.SCREEN_PROFILE)
     }
 
     override fun showAuthScreen() {
@@ -173,5 +173,9 @@ class MainActivity : AppCompatActivity(),
 
     override fun hideBarCallback() {
         hideSideBar(500)
+    }
+
+    override fun openRepos() {
+        main_sidebar_repos.performClick()
     }
 }

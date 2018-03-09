@@ -23,6 +23,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.example.android.githubclient.base.ConstValues
+import kotlinx.android.synthetic.main.fragment_screen_profile.*
 
 
 /**
@@ -44,14 +45,17 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
     var locationField: LinearLayout? = null
     var email:TextView? = null
     var emailField: LinearLayout? = null
-
     var exitButton: ImageView? = null
 
     interface logOutInterface {
         fun showAuthScreen()
     }
+    interface openScreenInterface {
+        fun openRepos()
+    }
 
     var logoutCallback: logOutInterface? = null
+    var openScreenCallback: openScreenInterface? = null
 
     override fun onRefresh() {
         presenter?.getMe()
@@ -95,6 +99,7 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
 
         try {
             logoutCallback = context as logOutInterface
+            openScreenCallback = context as openScreenInterface
         } catch (e: ClassCastException) {
             throw ClassCastException(context.toString() + " must implement Profile callback")
         }
@@ -157,6 +162,8 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
             getProfileData()
         } else
             updateUser()
+
+        profile_repos.setOnClickListener{ Log.e("repos_onClick", "fired!");openScreenCallback?.openRepos() }
     }
 
     fun updateUser() {

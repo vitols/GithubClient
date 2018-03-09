@@ -16,8 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:id="@+id/screen_profile_toolbar"
-            android:background="@color/colorPrimary">
-        </android.support.v7.widget.Toolbar>
+            android:background="@color/colorPrimary"
+            android:theme="@style/AppTheme.Toolbar"
+            app:title="@string/toolbar_profile_text"/>
 
         <android.support.v4.widget.NestedScrollView
             xmlns:android="http://schemas.android.com/apk/res/android"

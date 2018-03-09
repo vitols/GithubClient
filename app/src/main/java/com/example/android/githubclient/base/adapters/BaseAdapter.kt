@@ -40,11 +40,13 @@ abstract class BaseAdapter<ModelT, ViewHolderT : RecyclerView.ViewHolder> : Recy
 
     }
     fun replaceAllItems(items: ArrayList<ModelT>) {
-        this.items.clear()
+        clearAllItems()
         addAllItems(items)
     }
-    fun clearItems() {
-
+    fun clearAllItems() {
+        var size = items.size
+        items.clear()
+        notifyItemRangeRemoved(0, size)
 
     }
     fun removeItem(position: Int) {
