@@ -13,4 +13,6 @@ interface UsersRequestInterface {
     fun getUsers(): Observable<List<User>>?
     fun getUserByLogin(login: String): Call<User>?
     fun searchUsers(q: String): Call<SearchModel>?
+    fun getFollowersByLogin(login: String): Observable<List<User>>?
+    fun getFollowingByLogin(login: String): Observable<List<User>>?
 }

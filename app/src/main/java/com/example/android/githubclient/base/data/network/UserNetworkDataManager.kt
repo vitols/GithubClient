@@ -36,4 +36,12 @@ class UserNetworkDataManager : UsersRequestInterface {
         return users
     }
 
+    override fun getFollowersByLogin(login: String): Observable<List<User>>? {
+        return service?.getFollowersByLogin(login)
+    }
+
+    override fun getFollowingByLogin(login: String): Observable<List<User>>? {
+        return service?.getFollowingByLogin(login)
+    }
+
 }

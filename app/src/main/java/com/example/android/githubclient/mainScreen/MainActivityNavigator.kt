@@ -57,8 +57,8 @@ class MainActivityNavigator(fragmentManager: FragmentManager, containerId: Int) 
         showFragment(screen, data)
     }
 
-    override fun openFirstFragment() {
-        showFirstFragment(Screens.SCREEN_USERS, null)
+    override fun openFirstFragment(screen: ScreenInterface) {
+        showFirstFragment(screen, null)
     }
 
     override fun showScreen(screen: ScreenInterface, data: Any?) {

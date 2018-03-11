@@ -23,7 +23,11 @@ class RepoNetworkDataManager : ReposRequestInterface{
     }
 
     override fun getReposByUser(login: String): Observable<List<Repo>>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return service?.getReposByUser(login)
+    }
+
+    override fun getStarredByUser(login: String): Observable<List<Repo>>? {
+        return service?.getStarredByUser(login)
     }
 
     override fun getRepoByName(name: String): Observable<Repo>? {

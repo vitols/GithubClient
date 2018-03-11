@@ -19,12 +19,16 @@ class RepoRepository : RepoRepositoryInterface {
         return internetDM.getRepos()
     }
 
-    override fun getReposByUser(login: String): Observable<List<Repo>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getReposByUser(login: String): Observable<List<Repo>>? {
+        return internetDM.getReposByUser(login)
     }
 
     override fun getRepoByName(name: String): Observable<Repo> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getStarredByUser(login: String): Observable<List<Repo>>? {
+        return internetDM.getStarredByUser(login)
     }
 
     override fun isOnline() {

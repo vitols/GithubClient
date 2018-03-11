@@ -7,5 +7,5 @@ import com.example.android.githubclient.base.presentation.model.User
  */
 interface UserView<P> : BaseView<P>{
     fun showMe()
-    fun showUserByLogin()
+    fun showUserByLogin(user: User?)
 }

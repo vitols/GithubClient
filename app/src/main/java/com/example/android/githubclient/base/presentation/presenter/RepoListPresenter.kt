@@ -10,7 +10,7 @@ class RepoListPresenter(override var view: RepoListView<*>?) : BasePresenter<Rep
 
     val interactor = RepoInteractor()
 
-    fun getUsers() {
+    fun getRepos() {
         interactor.getRepos()
                 ?.subscribe({it -> view?.showRepos(it)},
                             {e -> view?.showError(e.localizedMessage)})

@@ -12,7 +12,7 @@ object ConstValues {
     }
     object ParamValues {
         const val CLIENT_ID = "c0a8a765ce30cfa59ae4"
-        const val CLIENT_SECRET = "1e922f1bf7930765339084628be3964ee67fc592"
+        const val CLIENT_SECRET = "2048ff053b489a5d94b273cde0679fb239467711"
     }
     object Urls {
         const val BASE_URL = "https://github.com"
@@ -36,5 +36,13 @@ object ConstValues {
     object Errors {
         const val TITLE = "Error occurred"
         const val OK = "OK"
+    }
+    object FragmentsData {
+        const val DATA = "DATA"
+        const val LOGIN_KEY = "LOGIN"
+        const val REPOS_KEY = "REPOS"
+        const val STARRED_KEY = "STARRED"
+        const val FOLLOWERS_KEY = "FOLLOWERS"
+        const val FOLLOWING_KEY = "FOLLOWING"
     }
 }

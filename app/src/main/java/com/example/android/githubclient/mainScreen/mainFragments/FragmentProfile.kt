@@ -17,11 +17,11 @@ import com.example.android.githubclient.base.presentation.view.UserView
 import de.hdodenhof.circleimageview.CircleImageView
 import android.content.DialogInterface
 import android.support.design.widget.CoordinatorLayout
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.example.android.githubclient.base.ConstValues
 import kotlinx.android.synthetic.main.fragment_screen_profile.*
 
@@ -47,15 +47,14 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
     var emailField: LinearLayout? = null
     var exitButton: ImageView? = null
 
-    interface logOutInterface {
+    interface FragmentProfileCallbackInterface {
         fun showAuthScreen()
-    }
-    interface openScreenInterface {
         fun openRepos()
+        fun openStarred()
+        fun openFollowers()
+        fun openFollowing()
     }
-
-    var logoutCallback: logOutInterface? = null
-    var openScreenCallback: openScreenInterface? = null
+    var mainActivityCallback: FragmentProfileCallbackInterface? = null
 
     override fun onRefresh() {
         presenter?.getMe()
@@ -65,6 +64,10 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         user = LoginController.instance.user
         updateUser()
         swipeRefreshLayout?.isRefreshing = false
+    }
+
+    override fun showUserByLogin(user: User?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun showError(error: String) {
@@ -82,10 +85,6 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         swipeRefreshLayout?.isRefreshing = false
     }
 
-    override fun showUserByLogin() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     companion object {
         private val TAG = "TAG_FRAGMENT_PROFILE"
 
@@ -98,18 +97,16 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         super.onAttach(context)
 
         try {
-            logoutCallback = context as logOutInterface
-            openScreenCallback = context as openScreenInterface
+            mainActivityCallback = context as FragmentProfileCallbackInterface
         } catch (e: ClassCastException) {
             throw ClassCastException(context.toString() + " must implement Profile callback")
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater!!.inflate(R.layout.fragment_screen_profile, container, false)
 
         presenter = UserPresenter(this)
-        return view
+        return inflater!!.inflate(R.layout.fragment_screen_profile, container, false)
 
     }
 
@@ -137,7 +134,7 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
             builder.setMessage("Are you sure you want to exit?")
                     .setPositiveButton("Yes",
                             DialogInterface.OnClickListener {
-                                _,_ -> logoutCallback?.showAuthScreen()
+                                _,_ -> mainActivityCallback?.showAuthScreen()
                             })
                     .setNegativeButton("No",
                             DialogInterface.OnClickListener {
@@ -163,12 +160,15 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         } else
             updateUser()
 
-        profile_repos.setOnClickListener{ Log.e("repos_onClick", "fired!");openScreenCallback?.openRepos() }
+        setOnClickListeners()
     }
 
     fun updateUser() {
 
-        Glide.with(context)
+        if(user?.avatarUrl == null)
+            screen_profile_avatar.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.base_avatar))
+        else
+            Glide.with(context)
                 .load(user?.avatarUrl)
                 .into(image)
 
@@ -233,5 +233,12 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
     fun getProfileData() {
         swipeRefreshLayout?.isRefreshing = true
         presenter?.getMe()
+    }
+
+    fun setOnClickListeners() {
+        screen_profile_repos_button.setOnClickListener{ mainActivityCallback?.openRepos() }
+        screen_profile_starred_button.setOnClickListener{ mainActivityCallback?.openStarred() }
+        screen_profile_followers_button.setOnClickListener{ mainActivityCallback?.openFollowers() }
+        screen_profile_following_button.setOnClickListener{ mainActivityCallback?.openFollowing() }
     }
 }

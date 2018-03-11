@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.item_user.view.*
 /**
  * Created by admin on 08.03.2018.
  */
-class UserDelegate(val context: Activity, val callback: (View) -> Unit) :
+class UserDelegate(val context: Activity, val callback: (View, String) -> Unit) :
         AdapterDelegateAbstract<Any, Any, UserDelegate.ViewHolder>() {
 
     override fun isForViewType(item: Any): Boolean {
@@ -37,13 +37,7 @@ class UserDelegate(val context: Activity, val callback: (View) -> Unit) :
                 .centerCrop()
                 .into(holder.avatar)
         holder.login.text = item1.login
-        holder.item.setOnTouchListener { view, motionEvent ->
-            if(motionEvent.action == MotionEvent.ACTION_DOWN) {
-                callback(view)
-                true
-            }
-            false
-        }
+        holder.item.setOnClickListener {callback(holder.item, item1.login)}
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

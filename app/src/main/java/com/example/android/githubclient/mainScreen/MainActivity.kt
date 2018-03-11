@@ -1,21 +1,13 @@
 package com.example.android.githubclient.mainScreen
 
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.content.res.ResourcesCompat
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.util.Log
-import android.view.View
-import android.view.ViewPropertyAnimator
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.view.animation.TranslateAnimation
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import com.bumptech.glide.request.animation.ViewPropertyAnimation
 import com.example.android.githubclient.base.navigator.ScreenInterface
 import com.example.android.githubclient.R
+import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.api.RestApi
 import com.example.android.githubclient.base.api.RestAuth
 import com.example.android.githubclient.base.controllers.LoginController
@@ -23,15 +15,16 @@ import com.example.android.githubclient.base.utils.Prefs
 import com.example.android.githubclient.mainScreen.mainFragments.FragmentAuth
 import com.example.android.githubclient.mainScreen.mainFragments.FragmentProfile
 import com.example.android.githubclient.mainScreen.mainFragments.FragmentUsers
+import com.example.android.githubclient.otherScreens.FragmentListAny
+import com.example.android.githubclient.otherScreens.FragmentProfileUnauthorized
 
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(),
         MainActivityParent,
         FragmentAuth.onLoggedIn,
-        FragmentProfile.logOutInterface,
-        FragmentProfile.openScreenInterface,
-        FragmentUsers.firstFragmentCreated {
+        FragmentProfile.FragmentProfileCallbackInterface,
+        FragmentUsers.FragmentListCallbackInterface {
 
     var navigator: MainActivityNavigator = MainActivityNavigator(supportFragmentManager, R.id.main_activity_container)
     var sideBarHidden = false
@@ -45,40 +38,23 @@ class MainActivity : AppCompatActivity(),
     private fun setListeners() {
         main_sidebar_me.setOnClickListener {
             if (navigator.getCurrentScreen() != MainActivityNavigator.Screens.SCREEN_PROFILE) {
-                Log.e("Main AccessToken = ", LoginController.instance.tokenReceived.toString())
+
+                if (!backStackSizeIsEmpty())
+                    clearBackStack()
                 hideSideBar()
 
-                /*main_sidebar_me.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        R.color.transparentRed, null));
-                main_sidebar_users.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        R.color.transparentBlack, null));
-                main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        R.color.transparentBlack, null));*/
-
-                if(LoginController.instance.isLoggedIn() || LoginController.instance.tokenReceived) {
-                    Log.e("OpenProfile", "LoggedIn")
+                if(LoginController.instance.isLoggedIn() || LoginController.instance.tokenReceived)
                     navigator.showScreen(MainActivityNavigator.Screens.SCREEN_PROFILE)
-                } else {
-                    Log.e("OpenProfile", "notLoggedIn")
+                else
                     navigator.showScreen(MainActivityNavigator.Screens.SCREEN_AUTH,
                             MainActivityNavigator.Screens.SCREEN_PROFILE.getTag())
-                }
             }
         }
-
         main_sidebar_users.setOnClickListener {
             if (navigator.getCurrentScreen() != MainActivityNavigator.Screens.SCREEN_USERS) {
+                if (!backStackSizeIsEmpty())
+                    clearBackStack()
                 hideSideBar()
-
-/*                main_sidebar_me.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        R.color.transparentBlack, null));
-                main_sidebar_users.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        R.color.transparentRed, null));
-                main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        R.color.transparentBlack, null));*/
-
-
-                Log.e("MainActivity", "Users Clicked")
                 navigator.showScreen(MainActivityNavigator.Screens.SCREEN_USERS)
             }
         }
@@ -86,23 +62,16 @@ class MainActivity : AppCompatActivity(),
         main_sidebar_repos.setOnClickListener {
 
             if (navigator.getCurrentScreen() != MainActivityNavigator.Screens.SCREEN_REPOS) {
+
+                if (!backStackSizeIsEmpty())
+                    clearBackStack()
                 hideSideBar()
 
-                /*main_sidebar_me.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        R.color.transparentBlack, null));
-                main_sidebar_users.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        R.color.transparentBlack, null));
-                main_sidebar_repos.setBackgroundColor(ResourcesCompat.getColor(getResources(),
-                        R.color.transparentRed, null));*/
-
-                if (LoginController.instance.isLoggedIn() || LoginController.instance.tokenReceived) {
-                    Log.e("OpenRepos", "LoggedIn")
+                if (LoginController.instance.isLoggedIn() || LoginController.instance.tokenReceived)
                     navigator.showScreen(MainActivityNavigator.Screens.SCREEN_REPOS)
-                } else {
-                    Log.e("OpenRepos", "notLoggedIn")
+                else
                     navigator.showScreen(MainActivityNavigator.Screens.SCREEN_AUTH,
                             MainActivityNavigator.Screens.SCREEN_REPOS.getTag())
-                }
 
             }
         }
@@ -124,8 +93,10 @@ class MainActivity : AppCompatActivity(),
             else
                 hideSideBar()
         }
-
-        navigator.openFirstFragment()
+        if(LoginController.instance.isLoggedIn())
+            navigator.openFirstFragment(MainActivityNavigator.Screens.SCREEN_PROFILE)
+        else
+            navigator.openFirstFragment(MainActivityNavigator.Screens.SCREEN_USERS)
 
     }
 
@@ -134,10 +105,10 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onBackPressed() {
-        if(!navigator.backNavigation())
-            super.onBackPressed()
+        super.onBackPressed()
     }
 
+    //!!!!!!!!!!
     override fun authFragmentCallback(tag: String) {
         if(navigator.getCurrentScreen()?.getLastScreen() != null) {
             Log.e("authFragmentCallback", "not null")
@@ -178,4 +149,69 @@ class MainActivity : AppCompatActivity(),
     override fun openRepos() {
         main_sidebar_repos.performClick()
     }
+
+    override fun openScreenMe() {
+        main_sidebar_me.performClick()
+    }
+
+    private fun backStackSizeIsEmpty(): Boolean{
+        return supportFragmentManager.backStackEntryCount == 0
+    }
+
+    private fun clearBackStack() {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        supportFragmentManager.executePendingTransactions()
+
+    }
+
+    override fun openProfileScreenByLogin(login: String) {
+        supportFragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .add(R.id.main_activity_container, FragmentProfileUnauthorized.newInstance(login))
+                .addToBackStack(login)
+                .hide(navigator.getCurrentFragment())
+                .commit()
+    }
+
+    override fun openStarred() {
+        supportFragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .add(R.id.main_activity_container,
+                        FragmentListAny.newInstance(
+                                ConstValues.FragmentsData.STARRED_KEY,
+                                LoginController.instance.user!!.login)
+                )
+                .addToBackStack(null)
+                .hide(navigator.getCurrentFragment())
+                .commit()
+    }
+
+    override fun openFollowers() {
+        supportFragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .add(R.id.main_activity_container,
+                        FragmentListAny.newInstance(
+                                ConstValues.FragmentsData.FOLLOWERS_KEY,
+                                LoginController.instance.user!!.login)
+                )
+                .addToBackStack(null)
+                .hide(navigator.getCurrentFragment())
+                .commit()
+    }
+
+    override fun openFollowing() {
+        supportFragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .add(R.id.main_activity_container,
+                        FragmentListAny.newInstance(
+                                ConstValues.FragmentsData.FOLLOWING_KEY,
+                                LoginController.instance.user!!.login)
+                )
+                .addToBackStack(null)
+                .hide(navigator.getCurrentFragment())
+                .commit()
+    }
+
+
+
 }

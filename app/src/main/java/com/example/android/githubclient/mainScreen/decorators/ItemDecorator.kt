@@ -17,7 +17,7 @@ import com.example.android.githubclient.base.presentation.model.User
 /**
  * Created by admin on 08.03.2018.
  */
-class UserItemDecorator : RecyclerView.ItemDecoration {
+class ItemDecorator : RecyclerView.ItemDecoration {
 
     /*constructor(context: Context) {
         *//*val styledAttributes = context.obtainStyledAttributes(ATTRS);

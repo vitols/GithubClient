@@ -20,16 +20,23 @@ class RepoInteractor : ReposRequestInterface {
     override fun getRepos(): Observable<List<Repo>>? {
         return repository.getRepos()
                 ?.subscribeOn(Schedulers.io())
-                ?.filter { it -> it != null && !it.isEmpty() }
                 ?.observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun getReposByUser(login: String): Observable<List<Repo>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getReposByUser(login: String): Observable<List<Repo>>? {
+        return repository.getReposByUser(login)
+                ?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun getRepoByName(name: String): Observable<Repo> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getStarredByUser(login: String): Observable<List<Repo>>? {
+        return repository.getStarredByUser(login)
+                ?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
     }
 
 }

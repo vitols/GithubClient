@@ -28,16 +28,27 @@ class UserInteractor: UsersRequestInterface {
     override fun getUsers(): Observable<List<User>>? {
         return repository?.getUsers()
                 ?.subscribeOn(Schedulers.io())
-                ?.filter { it != null && it.isNotEmpty() }
                 ?.observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun getUserByLogin(login: String): Call<User>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return repository?.getUserByLogin(login)
     }
 
     override fun searchUsers(q: String): Call<SearchModel>? {
         return repository?.searchUsers(q)
+    }
+
+    override fun getFollowersByLogin(login: String): Observable<List<User>>? {
+        return repository?.getFollowersByLogin(login)
+                ?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun getFollowingByLogin(login: String): Observable<List<User>>? {
+        return repository?.getFollowingByLogin(login)
+                ?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
     }
 
 }

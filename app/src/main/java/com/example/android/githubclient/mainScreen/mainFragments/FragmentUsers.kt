@@ -17,11 +17,12 @@ import android.widget.Toast
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.android.githubclient.base.adapters.DelegationAdapter
+import com.example.android.githubclient.base.controllers.LoginController
 import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.presentation.presenter.UserListPresenter
 import com.example.android.githubclient.base.presentation.view.UserListView
 import com.example.android.githubclient.mainScreen.adapterDelegates.UserDelegate
-import com.example.android.githubclient.mainScreen.decorators.UserItemDecorator
+import com.example.android.githubclient.mainScreen.decorators.ItemDecorator
 import kotlinx.android.synthetic.main.fragment_screen_users.*
 
 
@@ -33,10 +34,12 @@ class FragmentUsers : Fragment(), UserListView<UserListPresenter>, SwipeRefreshL
     override var presenter: UserListPresenter? = null
     private var adapter: DelegationAdapter<Any>? = null
 
-    interface firstFragmentCreated{
+    interface FragmentListCallbackInterface {
         fun hideBarCallback()
+        fun openScreenMe()
+        fun openProfileScreenByLogin(login: String)
     }
-    var hideSideBarCallback: firstFragmentCreated? = null
+    var mainActivityCallback: FragmentListCallbackInterface? = null
 
     override fun showError(error: String) {
         screen_users_swiperefresh.isRefreshing = false
@@ -69,7 +72,7 @@ class FragmentUsers : Fragment(), UserListView<UserListPresenter>, SwipeRefreshL
         try {
             adapter?.replaceAllItems(users as ArrayList<Any>)
             screen_users_swiperefresh.isRefreshing = false
-            hideSideBarCallback?.hideBarCallback()
+            mainActivityCallback?.hideBarCallback()
         } catch (e: ClassCastException) {
             e.printStackTrace()
         }
@@ -86,7 +89,7 @@ class FragmentUsers : Fragment(), UserListView<UserListPresenter>, SwipeRefreshL
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         try {
-            hideSideBarCallback = context as firstFragmentCreated
+            mainActivityCallback = context as FragmentListCallbackInterface
         } catch (e: ClassCastException) {
             e.printStackTrace()
         }
@@ -108,12 +111,19 @@ class FragmentUsers : Fragment(), UserListView<UserListPresenter>, SwipeRefreshL
 
         screen_users.layoutManager = LinearLayoutManager(context)
         screen_users.adapter = adapter
-        screen_users.addItemDecoration(UserItemDecorator(context))
+        screen_users.addItemDecoration(ItemDecorator(context))
 
-        adapter?.manager?.addDelegate(UserDelegate(activity, {
-            YoYo.with(Techniques.ZoomIn)
-                    .duration(400)
-                    .playOn(it)
+        adapter?.manager?.addDelegate(
+                UserDelegate(activity, {
+                    itemView, login ->
+                    YoYo.with(Techniques.ZoomIn)
+                            .duration(50)
+                            .playOn(itemView);
+                        if (login == LoginController.instance.user?.login && LoginController.instance.isLoggedIn())
+                            mainActivityCallback?.openScreenMe()
+                        else
+                            mainActivityCallback?.openProfileScreenByLogin(login)
+
         }))
 
         screen_users_swiperefresh.isRefreshing = true
@@ -154,5 +164,10 @@ class FragmentUsers : Fragment(), UserListView<UserListPresenter>, SwipeRefreshL
             }
 
         })
+    }
+
+    fun navigateToFragment(fragment: Fragment, login: String) {
+
+
     }
 }

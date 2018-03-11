@@ -10,5 +10,5 @@ interface ReposRequestInterface {
     fun getRepos(): Observable<List<Repo>>?
     fun getReposByUser(login: String): Observable<List<Repo>>?
     fun getRepoByName(name: String): Observable<Repo>?
-
+    fun getStarredByUser(login: String): Observable<List<Repo>>?
 }

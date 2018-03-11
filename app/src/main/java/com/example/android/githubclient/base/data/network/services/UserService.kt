@@ -21,7 +21,13 @@ interface UserService {
     fun getUsers(): Observable<List<User>>
 
     @GET("/users/{user}")
-    fun getUserByLogin(@Path("user") loign: String): Call<User>
+    fun getUserByLogin(@Path("user") login: String): Call<User>
+
+    @GET("/users/{user}/followers")
+    fun getFollowersByLogin(@Path("user") login: String): Observable<List<User>>
+
+    @GET("/users/{user}/following")
+    fun getFollowingByLogin(@Path("user") login: String): Observable<List<User>>
 
     @GET(ConstValues.Path.SEARCH_USERS)
     fun searchUsers(@Query("q") q: String): Call<SearchModel>

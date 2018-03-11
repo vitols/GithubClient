@@ -6,6 +6,6 @@ package com.example.android.githubclient.base.navigator
 interface BaseNavigator {
     fun pushFragment(screen: ScreenInterface, data: Any? = null)
     fun pushFragmentWithoutUpdate(screen: ScreenInterface, data: Any? = null)
-    fun openFirstFragment()
+    fun openFirstFragment(screen: ScreenInterface)
     fun showScreen(screen: ScreenInterface, data: Any? = null)
 }

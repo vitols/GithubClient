@@ -18,8 +18,7 @@ import com.example.android.githubclient.base.presentation.model.Repo
 import com.example.android.githubclient.base.presentation.presenter.RepoListPresenter
 import com.example.android.githubclient.base.presentation.view.RepoListView
 import com.example.android.githubclient.mainScreen.adapterDelegates.RepoDelegate
-import com.example.android.githubclient.mainScreen.adapterDelegates.UserDelegate
-import com.example.android.githubclient.mainScreen.decorators.UserItemDecorator
+import com.example.android.githubclient.mainScreen.decorators.ItemDecorator
 import kotlinx.android.synthetic.main.fragment_screen_repos.*
 
 /**
@@ -81,17 +80,17 @@ class FragmentRepos : Fragment(), RepoListView<RepoListPresenter> {
 
         screen_repos.layoutManager = LinearLayoutManager(context)
         screen_repos.adapter = adapter
-        screen_repos.addItemDecoration(UserItemDecorator(activity))
+        screen_repos.addItemDecoration(ItemDecorator(activity))
 
         adapter?.manager?.addDelegate(RepoDelegate(activity, {
             YoYo.with(Techniques.BounceIn)
-                    .duration(400)
+                    .duration(200)
                     .playOn(it)
         }))
 
         screen_repos.visibility = View.GONE
         screen_repos_progress_bar.visibility = View.VISIBLE
-        presenter?.getUsers()
+        presenter?.getRepos()
     }
 
 }

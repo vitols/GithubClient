@@ -4,7 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:id="@+id/profile_swiperefresh_layout">
+    android:id="@+id/profile_swiperefresh_layout"
+    android:background="@android:color/white">
 
     <android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -74,51 +75,49 @@
 
                 <LinearLayout
                     android:id="@+id/profile_field_location"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_gravity="center"
                     android:layout_marginTop="8dp">
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        android:gravity="right|center_vertical"
-                        android:scaleType="fitEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="clip_vertical"
                         android:src="@drawable/ic_location"/>
 
                     <TextView
                         android:id="@+id/screen_profile_location"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="left|center_vertical"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text ="aaa"
                         android:textSize="18sp"
                         android:textColor="@android:color/black"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/profile_field_email"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_gravity="center"
                     android:layout_marginTop="8dp">
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        android:gravity="right|center_vertical"
-                        android:scaleType="fitEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
                         android:src="@drawable/ic_email"/>
 
                     <TextView
                         android:id="@+id/screen_profile_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:autoLink="email"
-                        android:gravity="left|center_vertical"
+                        android:text="aaa"
+                        android:layout_gravity="center_vertical|top"
                         android:textSize="20sp"/>
                 </LinearLayout>
 
@@ -138,7 +137,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_repo"
-                        android:id="@+id/profile_repos"
+                        android:id="@+id/screen_profile_repos_button"
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"/>
@@ -146,7 +145,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_starred"
-                        android:id="@+id/profile_starred"
+                        android:id="@+id/screen_profile_starred_button"
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"/>
@@ -154,7 +153,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_followers"
-                        android:id="@+id/profile_followers"
+                        android:id="@+id/screen_profile_followers_button"
                         android:layout_weight="1"
                         android:clickable="true"
                         android:focusable="true"/>
@@ -163,7 +162,7 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_following"
                         android:layout_weight="1"
-                        android:id="@+id/profile_following"
+                        android:id="@+id/screen_profile_following_button"
                         android:clickable="true"
                         android:focusable="true"/>
                 </LinearLayout>
@@ -198,6 +197,13 @@
             android:focusable="true"
             android:src="@drawable/ic_exit"
             app:layout_behavior=".mainScreen.behavior.ExitButtonBehavior"/>
+
+        <ProgressBar
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:id="@+id/fragment_screen_profile_progressbar"
+            android:visibility="gone"/>
 
     </android.support.design.widget.CoordinatorLayout>
 

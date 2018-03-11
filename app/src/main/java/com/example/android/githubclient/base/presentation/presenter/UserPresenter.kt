@@ -31,8 +31,21 @@ class UserPresenter(override var view: UserView<*>?) : BasePresenter<UserView<*>
         })
     }
 
-    fun getUserByLogin(login: String): Call<User>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun getUserByLogin(login: String) {
+        interactor.getUserByLogin(login)?.enqueue(object : Callback<User> {
+            override fun onFailure(call: Call<User>?, t: Throwable?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onResponse(call: Call<User>?, response: Response<User>?) {
+                try {
+                    view?.showUserByLogin(response?.body() as User)
+                } catch (e: ClassCastException) {
+                    e.printStackTrace()
+                }
+            }
+
+        })
     }
 
     override fun onStop() {
