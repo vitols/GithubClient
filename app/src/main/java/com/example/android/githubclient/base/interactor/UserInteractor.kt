@@ -35,7 +35,7 @@ class UserInteractor: UsersRequestInterface {
         return repository?.getUserByLogin(login)
     }
 
-    override fun searchUsers(q: String): Call<SearchModel>? {
+    override fun searchUsers(q: String): Call<SearchModel<User>>? {
         return repository?.searchUsers(q)
     }
 

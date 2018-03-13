@@ -23,15 +23,12 @@ class ExitButtonBehavior(var context: Context, var attrs: AttributeSet) :
 
     init {
         if(attrs != null) {
-            val attr = context.obtainStyledAttributes(attrs, R.styleable.AvatarBehavior)
-            avatarFinalMargin = attr.getDimension(R.styleable.AvatarBehavior_avatarFinalMargin, 0f)
-            attr.recycle()
-
             val appBarAttr = context.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
             appBarHeight = appBarAttr.getDimension(0,0f)
             appBarAttr.recycle()
         }
         avatarStartMarginTop = context.resources.getDimension(R.dimen.avatar_margin_top)
+        avatarFinalMargin = context.resources.getDimension(R.dimen.avatar_final_top_margin)
         avatarStartY = avatarStartMarginTop + appBarHeight
 
     }
@@ -51,15 +48,12 @@ class ExitButtonBehavior(var context: Context, var attrs: AttributeSet) :
             return true
         }
         else {
-            /*Log.e("Y", dependency.y.toString())
-            Log.e("startY", avatarStartY.toString())
-            Log.e("ratio", (dependency.y / avatarStartY).toString())*/
 
             if(child.visibility == View.GONE)
                 child.visibility = View.VISIBLE
             child.alpha = 1.0f * dependency.y / avatarStartY
 
-            if(dependency.y  <= avatarStartY / 2) {
+            if(dependency.y  == avatarFinalMargin ) {
                 child.visibility = View.GONE
             }
             return true

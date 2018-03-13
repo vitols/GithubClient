@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import com.example.android.githubclient.base.presentation.view.RepoListView
 import com.example.android.githubclient.mainScreen.adapterDelegates.RepoDelegate
 import com.example.android.githubclient.mainScreen.decorators.ItemDecorator
 import kotlinx.android.synthetic.main.fragment_screen_repos.*
+import kotlinx.android.synthetic.main.fragment_screen_users.*
 
 /**
  * Created by admin on 21.02.2018.
@@ -77,7 +79,7 @@ class FragmentRepos : Fragment(), RepoListView<RepoListPresenter> {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setToolbarItems()
         screen_repos.layoutManager = LinearLayoutManager(context)
         screen_repos.adapter = adapter
         screen_repos.addItemDecoration(ItemDecorator(activity))
@@ -91,6 +93,53 @@ class FragmentRepos : Fragment(), RepoListView<RepoListPresenter> {
         screen_repos.visibility = View.GONE
         screen_repos_progress_bar.visibility = View.VISIBLE
         presenter?.getRepos()
+    }
+
+    fun setToolbarItems() {
+        screen_repos_toolbar.inflateMenu(R.menu.menu_toolbar)
+
+        var item = screen_repos_toolbar
+                .menu
+                .getItem(0)
+        var searchView = item.actionView as SearchView
+        searchView.maxWidth = Int.MAX_VALUE
+
+        val insetLeft = screen_repos_toolbar.contentInsetLeft
+        val insetRight = screen_repos_toolbar.contentInsetRight
+
+        searchView.setOnSearchClickListener { screen_repos_toolbar.setContentInsetsAbsolute(0, 0)}
+        searchView.setOnCloseListener(object: SearchView.OnCloseListener {
+            override fun onClose(): Boolean {
+                screen_repos_toolbar.setContentInsetsAbsolute(insetLeft, insetRight)
+                searchView.setQuery("", false)
+                searchView.onActionViewCollapsed()
+                return true
+            }
+
+        })
+
+        searchView.setOnQueryTextListener( object: SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    if(newText.isEmpty()) {
+                        screen_repos_progress_bar.visibility = View.VISIBLE
+                        presenter?.getRepos()
+                        return true
+                    }
+
+                    screen_repos_progress_bar.visibility = View.VISIBLE
+                    presenter?.searchRepos(newText)
+                    return true
+                }
+                return false
+            }
+
+        })
     }
 
 }

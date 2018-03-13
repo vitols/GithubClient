@@ -16,6 +16,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginRight="72dp"
         android:clickable="true"
+        android:focusable="true"
         app:backgroundTint="@color/colorPrimary"
         android:src="@drawable/ic_fab_menu"
         app:layout_behavior=".mainScreen.behavior.FabBehavior"/>

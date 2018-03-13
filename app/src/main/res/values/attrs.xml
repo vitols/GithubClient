@@ -5,4 +5,5 @@
         <attr name="nestedScrollStartMarginTop" format="dimension"/>
         <attr name="avatarStartY" format="dimension"/>
     </declare-styleable>
+    <declare-styleable name="ExitButtonBehavior"/>
 </resources>

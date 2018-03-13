@@ -37,7 +37,7 @@ class UserRepository : UserRepositoryInterface {
         return networkDM.getUserByLogin(login)
     }
 
-    override fun searchUsers(q: String): Call<SearchModel>? {
+    override fun searchUsers(q: String): Call<SearchModel<User>>? {
         return networkDM.searchUsers(q)
     }
 

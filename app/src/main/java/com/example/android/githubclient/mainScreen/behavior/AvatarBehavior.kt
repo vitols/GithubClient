@@ -38,16 +38,13 @@ class AvatarBehavior(var context: Context, var attrs: AttributeSet) :
     init {
 
         if(attrs != null) {
-            val attr = context.obtainStyledAttributes(attrs, R.styleable.AvatarBehavior)
-            avatarFinalMargin = attr.getDimension(R.styleable.AvatarBehavior_avatarFinalMargin, 0f)
-            attr.recycle()
-
             val appBarAttr = context.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
             appBarHeight = appBarAttr.getDimension(0,0f)
             appBarAttr.recycle()
         }
 
         avatarStartSize = context.resources.getDimension(R.dimen.max_avatar_size)
+        avatarFinalMargin = context.resources.getDimension(R.dimen.avatar_final_top_margin)
         avatarStartMarginTop = context.resources.getDimension(R.dimen.avatar_margin_top)
         avatarStartY = appBarHeight + avatarStartMarginTop
         avatarFinalSize = appBarHeight - 2 * avatarFinalMargin
@@ -59,9 +56,6 @@ class AvatarBehavior(var context: Context, var attrs: AttributeSet) :
         var windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         avatarFinalX = windowManager.defaultDisplay.width - avatarFinalSize - avatarFinalMargin
         avatarStartX = windowManager.defaultDisplay.width / 2 - avatarStartSize / 2
-
-        /*Log.e("startSize", avatarStartSize.toString())
-        Log.e("finalSize", avatarFinalSize.toString())*/
 
     }
 

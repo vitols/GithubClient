@@ -4,8 +4,10 @@ import com.example.android.githubclient.base.data.network.RepoNetworkDataManager
 import com.example.android.githubclient.base.data.storage.RepoStorageDataManager
 import com.example.android.githubclient.base.data.storage.RepoStorageDataManagerInterface
 import com.example.android.githubclient.base.presentation.model.Repo
+import com.example.android.githubclient.base.presentation.model.SearchModel
 import com.example.android.githubclient.base.requests.ReposRequestInterface
 import io.reactivex.Observable
+import retrofit2.Call
 
 /**
  * Created by admin on 23.02.2018.
@@ -31,6 +33,10 @@ class RepoRepository : RepoRepositoryInterface {
         return internetDM.getStarredByUser(login)
     }
 
+    override fun searchRepos(q: String): Call<SearchModel<Repo>>? {
+        return internetDM.searchRepos(q)
+    }
+
     override fun isOnline() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -38,5 +44,6 @@ class RepoRepository : RepoRepositoryInterface {
     override fun isInStorage() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
 
 }

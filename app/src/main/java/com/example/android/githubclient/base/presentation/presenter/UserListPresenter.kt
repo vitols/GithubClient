@@ -23,18 +23,18 @@ class UserListPresenter(override var view: UserListView<*>?) : BasePresenter<Use
                 { e -> view?.showError(e.message ?: "Unknown error in UserListPresenter fun getUsers()") })
     }
     fun searchUsers(q: String) {
-        interactor.searchUsers(q)?.enqueue(object: Callback<SearchModel> {
-            override fun onResponse(call: Call<SearchModel>?, response: Response<SearchModel>?) {
+        interactor.searchUsers(q)?.enqueue(object: Callback<SearchModel<User>> {
+            override fun onResponse(call: Call<SearchModel<User>>?, response: Response<SearchModel<User>>?) {
                 try {
-                    var responseModel = response?.body() as SearchModel
-                    view?.showUsers(responseModel.users!!)
+                    var responseModel = response?.body() as SearchModel<User>
+                    view?.showUsers(responseModel.data!!)
                 } catch (e: ClassCastException) {
                     e.printStackTrace()
                 }
 
             }
 
-            override fun onFailure(call: Call<SearchModel>?, t: Throwable?) {
+            override fun onFailure(call: Call<SearchModel<User>>?, t: Throwable?) {
                 view?.showError(t?.localizedMessage.toString())
             }
 

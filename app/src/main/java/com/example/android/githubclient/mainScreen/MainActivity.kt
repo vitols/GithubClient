@@ -9,6 +9,7 @@ import com.example.android.githubclient.base.navigator.ScreenInterface
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.api.RestApi
+import com.example.android.githubclient.base.api.RestApiNonAuthorized
 import com.example.android.githubclient.base.api.RestAuth
 import com.example.android.githubclient.base.controllers.LoginController
 import com.example.android.githubclient.base.utils.Prefs
@@ -84,6 +85,7 @@ class MainActivity : AppCompatActivity(),
         Prefs.Companion.init(this)
         RestApi.init(LoginController.instance.authenticator)
         RestAuth.init()
+        RestApiNonAuthorized.init()
 
         setListeners()
 
@@ -151,6 +153,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun openScreenMe() {
+        if(!backStackSizeIsEmpty())
+            clearBackStack()
         main_sidebar_me.performClick()
     }
 

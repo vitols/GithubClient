@@ -1,18 +1,21 @@
 package com.example.android.githubclient.mainScreen.mainFragments
 
+import android.animation.LayoutTransition
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import com.example.android.githubclient.R
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
-import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import android.widget.Toast
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -24,12 +27,18 @@ import com.example.android.githubclient.base.presentation.view.UserListView
 import com.example.android.githubclient.mainScreen.adapterDelegates.UserDelegate
 import com.example.android.githubclient.mainScreen.decorators.ItemDecorator
 import kotlinx.android.synthetic.main.fragment_screen_users.*
+import android.view.MenuInflater
+import android.widget.EditText
+import kotlinx.android.synthetic.main.fragment_screen_profile.*
+import kotlinx.android.synthetic.main.fragment_screen_repos.*
 
 
 /**
  * Created by admin on 20.02.2018.
  */
-class FragmentUsers : Fragment(), UserListView<UserListPresenter>, SwipeRefreshLayout.OnRefreshListener {
+class FragmentUsers : Fragment(),
+        UserListView<UserListPresenter>,
+        SwipeRefreshLayout.OnRefreshListener {
 
     override var presenter: UserListPresenter? = null
     private var adapter: DelegationAdapter<Any>? = null
@@ -98,7 +107,6 @@ class FragmentUsers : Fragment(), UserListView<UserListPresenter>, SwipeRefreshL
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         presenter = UserListPresenter(this)
         adapter = DelegationAdapter()
-        (activity as AppCompatActivity).setSupportActionBar(screen_users_toolbar)
         return inflater!!.inflate(R.layout.fragment_screen_users, container, false)
     }
 
@@ -130,40 +138,52 @@ class FragmentUsers : Fragment(), UserListView<UserListPresenter>, SwipeRefreshL
         presenter?.getUsers()
     }
 
-    fun setToolbarItems() {
-        screen_users_toolbar.inflateMenu(R.menu.menu_users_toolbar)
 
+    fun setToolbarItems() {
+        screen_users_toolbar.inflateMenu(R.menu.menu_toolbar)
         var item = screen_users_toolbar
                 .menu
                 .getItem(0)
+
         var searchView = item.actionView as SearchView
         searchView.maxWidth = Int.MAX_VALUE
+
+        val insetLeft = screen_users_toolbar.contentInsetLeft
+        val insetRight = screen_users_toolbar.contentInsetRight
+
+        searchView.setOnSearchClickListener { screen_users_toolbar.setContentInsetsAbsolute(0, 0)}
+        searchView.setOnCloseListener(object: SearchView.OnCloseListener {
+            override fun onClose(): Boolean {
+                screen_users_toolbar.setContentInsetsAbsolute(insetLeft, insetRight)
+                searchView.setQuery("", false)
+                searchView.onActionViewCollapsed()
+                return true
+            }
+
+        })
+
         searchView.setOnQueryTextListener( object: SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
-
-                Log.e("searchView", "textSubmit")
-                item.collapseActionView()
-
-                if (query != null && !query.isEmpty()) {
-                    screen_users_swiperefresh.isRefreshing = true
-                    presenter?.searchUsers(query)
-
-                    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(searchView.windowToken, 0)
-
-                    return true
-                }
-                return false
-
+                return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                Log.e("searchView", "QueryTextChange")
+                if (newText != null) {
+                    if(newText.isEmpty()) {
+                        screen_users_swiperefresh.isRefreshing = true
+                        presenter?.getUsers()
+                        return true
+                    }
+                    screen_users_swiperefresh.isRefreshing = true
+                    presenter?.searchUsers(newText)
+                    return true
+                }
                 return false
             }
 
         })
+
     }
 
     fun navigateToFragment(fragment: Fragment, login: String) {

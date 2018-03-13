@@ -31,6 +31,7 @@ object ConstValues {
         const val SEARCH_USERS = "/search/users"
 
         const val GET_REPOS = "/user/repos"
+        const val SEARCH_REPOS = "/search/repositories"
 
     }
     object Errors {

@@ -17,7 +17,7 @@ class UserStorageDataManager : UserStorageDataManagerInterface {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun searchUsers(q: String): Call<SearchModel>? {
+    override fun searchUsers(q: String): Call<SearchModel<User>>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

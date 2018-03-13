@@ -62,10 +62,11 @@ class FragmentProfileUnauthorized : Fragment(), UserView<UserPresenter> {
             throw NullPointerException("Login is empty")
 
         screen_profile_toolbar.title = login + "'s profile"
-        profile_swiperefresh_layout.isEnabled = false
+        screen_profile_swiperefresh_layout.isEnabled = false
 
         var avatarParams = screen_profile_avatar.layoutParams as CoordinatorLayout.LayoutParams
         avatarParams.topMargin += resources.getDimension(R.dimen.avatar_margin_top).toInt()
+        screen_profile_avatar.layoutParams = avatarParams
         var exitButtonParams = screen_profile_exit.layoutParams as CoordinatorLayout.LayoutParams
         exitButtonParams.behavior = null
         screen_profile_exit.layoutParams = exitButtonParams
@@ -79,12 +80,11 @@ class FragmentProfileUnauthorized : Fragment(), UserView<UserPresenter> {
 
     fun fillProfile(user: User?) {
 
-        if(user != null)
-            Glide.with(context)
-                .load(user.avatarUrl)
+        Glide.with(context)
+                .load(user?.avatarUrl)
+                .placeholder(R.drawable.base_avatar)
+                .dontAnimate()
                 .into(screen_profile_avatar)
-        else
-            screen_profile_avatar.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.base_avatar))
 
         if(user?.name == null)
             screen_profile_name.visibility = View.GONE

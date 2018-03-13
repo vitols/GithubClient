@@ -3,8 +3,7 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -27,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         android:id="@+id/screen_repos"
-        android:background="@android:color/white">
+        android:background="@color/colorGreyLight">
     </android.support.v7.widget.RecyclerView>
 
     <ProgressBar

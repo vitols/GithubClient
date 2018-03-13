@@ -30,6 +30,6 @@ interface UserService {
     fun getFollowingByLogin(@Path("user") login: String): Observable<List<User>>
 
     @GET(ConstValues.Path.SEARCH_USERS)
-    fun searchUsers(@Query("q") q: String): Call<SearchModel>
+    fun searchUsers(@Query("q") q: String): Call<SearchModel<User>>
 
 }

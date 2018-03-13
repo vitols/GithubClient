@@ -8,7 +8,7 @@
     <string name="profile_company">Company:</string>
     <string name="profile_location">Location:</string>
     <string name="profile_email">E-mail:</string>
-    <string name="toolbar_users_text">Top users</string>
+    <string name="toolbar_users_text">Users</string>
     <string name="toolbar_profile_text">My profile</string>
     <string name="toolbar_repos_text">My repositories</string>
 </resources>

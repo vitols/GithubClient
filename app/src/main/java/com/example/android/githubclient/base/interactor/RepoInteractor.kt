@@ -1,14 +1,14 @@
 package com.example.android.githubclient.base.interactor
 
-import android.support.annotation.MainThread
 import com.example.android.githubclient.base.data.RepoRepository
 import com.example.android.githubclient.base.data.RepoRepositoryInterface
 import com.example.android.githubclient.base.presentation.model.Repo
+import com.example.android.githubclient.base.presentation.model.SearchModel
 import com.example.android.githubclient.base.requests.ReposRequestInterface
 import io.reactivex.Observable
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import retrofit2.Call
 
 /**
  * Created by admin on 23.02.2018.
@@ -37,6 +37,10 @@ class RepoInteractor : ReposRequestInterface {
         return repository.getStarredByUser(login)
                 ?.subscribeOn(Schedulers.io())
                 ?.observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun searchRepos(q: String): Call<SearchModel<Repo>>? {
+        return repository.searchRepos(q)
     }
 
 }

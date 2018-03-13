@@ -32,20 +32,7 @@ import kotlinx.android.synthetic.main.fragment_screen_profile.*
 class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.OnRefreshListener {
 
     override var presenter: UserPresenter? = UserPresenter(this)
-
-    var swipeRefreshLayout: SwipeRefreshLayout? = null
     var user: User? = null
-
-    var image: CircleImageView? = null
-    var name: TextView? = null
-    var login: TextView? = null
-    var bio: TextView? = null
-    var company: TextView? = null
-    var location: TextView? = null
-    var locationField: LinearLayout? = null
-    var email:TextView? = null
-    var emailField: LinearLayout? = null
-    var exitButton: ImageView? = null
 
     interface FragmentProfileCallbackInterface {
         fun showAuthScreen()
@@ -63,7 +50,7 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
     override fun showMe() {
         user = LoginController.instance.user
         updateUser()
-        swipeRefreshLayout?.isRefreshing = false
+        screen_profile_swiperefresh_layout?.isRefreshing = false
     }
 
     override fun showUserByLogin(user: User?) {
@@ -82,7 +69,7 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
 
         val dialog = builder.create()
         dialog.show()
-        swipeRefreshLayout?.isRefreshing = false
+        screen_profile_swiperefresh_layout?.isRefreshing = false
     }
 
     companion object {
@@ -112,47 +99,16 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        screen_profile_swiperefresh_layout.setOnRefreshListener(this);
+        setSwiperefreshOffset()
 
-        Log.e("FragmentProfile", "ViewCreated")
-
-        swipeRefreshLayout = view?.findViewById(R.id.profile_swiperefresh_layout)
-        setProgressViewOffset()
-        swipeRefreshLayout?.setOnRefreshListener(this);
-
-        image = view?.findViewById(R.id.screen_profile_avatar)
-        var params = image?.layoutParams as CoordinatorLayout.LayoutParams
-        params.topMargin += resources.getDimension(R.dimen.avatar_margin_top).toInt()
-        image?.layoutParams = params
-
-        exitButton = view?.findViewById(R.id.screen_profile_exit)
-        params = exitButton?.layoutParams as CoordinatorLayout.LayoutParams
-        params.topMargin += resources.getDimension(R.dimen.exit_button_margin_top).toInt()
-        exitButton?.layoutParams = params
-        exitButton?.setOnClickListener {
-            val builder = AlertDialog.Builder(activity)
-
-            builder.setMessage("Are you sure you want to exit?")
-                    .setPositiveButton("Yes",
-                            DialogInterface.OnClickListener {
-                                _,_ -> mainActivityCallback?.showAuthScreen()
-                            })
-                    .setNegativeButton("No",
-                            DialogInterface.OnClickListener {
-                                    dialog, _ -> dialog.cancel()
-                    })
-
-            val dialog = builder.create()
-            dialog.show()
-        }
-
-        name = view?.findViewById(R.id.screen_profile_name)
-        login = view?.findViewById(R.id.screen_profile_login)
-        bio = view?.findViewById(R.id.screen_profile_bio)
-        company = view?.findViewById(R.id.screen_profile_company)
-        location = view?.findViewById(R.id.screen_profile_location)
-        locationField = view?.findViewById(R.id.profile_field_location)
-        email = view?.findViewById(R.id.screen_profile_email)
-        emailField = view?.findViewById(R.id.profile_field_email)
+        val topMargin = resources.getDimension(R.dimen.avatar_margin_top).toInt()
+        val avatarParams = screen_profile_avatar.layoutParams as CoordinatorLayout.LayoutParams
+        avatarParams.topMargin += topMargin
+        screen_profile_avatar.layoutParams = avatarParams
+        var exitButtonParams = screen_profile_exit.layoutParams as CoordinatorLayout.LayoutParams
+        exitButtonParams.topMargin += topMargin
+        screen_profile_exit.layoutParams = exitButtonParams
 
         user = LoginController.instance.user
         if(user == null) {
@@ -164,61 +120,59 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
     }
 
     fun updateUser() {
-
-        if(user?.avatarUrl == null)
-            screen_profile_avatar.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.base_avatar))
-        else
-            Glide.with(context)
+        Glide.with(context)
                 .load(user?.avatarUrl)
-                .into(image)
+                .placeholder(R.drawable.base_avatar)
+                .dontAnimate()
+                .into(screen_profile_avatar)
 
         if(user?.name == null)
-            name?.visibility = View.GONE
+            screen_profile_name.visibility = View.GONE
         else {
-            name?.visibility = View.VISIBLE
-            name?.text = user?.name
+            screen_profile_name.visibility = View.VISIBLE
+            screen_profile_name.text = user?.name
         }
 
-        login?.setText(user?.login)
+        screen_profile_login.setText(user?.login)
 
         if(user?.bio == null)
-            bio?.visibility = View.GONE
+            screen_profile_bio.visibility = View.GONE
         else {
-            bio?.visibility = View.VISIBLE
-            bio?.text = user?.bio
+            screen_profile_bio.visibility = View.VISIBLE
+            screen_profile_bio.text = user?.bio
         }
 
         if(user?.company == null)
-            company?.visibility = View.GONE
+            screen_profile_company.visibility = View.GONE
         else {
-            company?.visibility = View.VISIBLE
-            company?.text = user?.company.toString()
+            screen_profile_company.visibility = View.VISIBLE
+            screen_profile_company.text = user?.company.toString()
         }
 
         if(user?.location == null)
-            locationField?.visibility = View.GONE
+            profile_field_email.visibility = View.GONE
         else {
-            locationField?.visibility = View.VISIBLE
-            location?.text = user?.location
+            profile_field_email.visibility = View.VISIBLE
+            screen_profile_location.text = user?.location
         }
 
         if(user?.email == null)
-            emailField?.visibility = View.GONE
+            profile_field_email.visibility = View.GONE
         else {
-            emailField?.visibility = View.VISIBLE
-            email?.text = user?.email.toString()
+            profile_field_email.visibility = View.VISIBLE
+            screen_profile_email.text = user?.email.toString()
         }
     }
-    fun setProgressViewOffset() {
+    fun setSwiperefreshOffset() {
 
         var typedArray = context.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
         var actionBarSize = typedArray.getDimension(0, 0f)
         typedArray.recycle()
 
-        var newStartOffset: Int = (actionBarSize * 1.1).toInt()
+        var newStartOffset: Int = actionBarSize.toInt()
         var newEndOffset: Int = (actionBarSize * 2).toInt()
 
-        swipeRefreshLayout?.setProgressViewOffset(false, newStartOffset, newEndOffset)
+        screen_profile_swiperefresh_layout.setProgressViewOffset(false, newStartOffset, newEndOffset)
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -231,7 +185,7 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
     }
 
     fun getProfileData() {
-        swipeRefreshLayout?.isRefreshing = true
+        screen_profile_swiperefresh_layout.isRefreshing = true
         presenter?.getMe()
     }
 
@@ -240,5 +194,22 @@ class FragmentProfile : Fragment(), UserView<UserPresenter>, SwipeRefreshLayout.
         screen_profile_starred_button.setOnClickListener{ mainActivityCallback?.openStarred() }
         screen_profile_followers_button.setOnClickListener{ mainActivityCallback?.openFollowers() }
         screen_profile_following_button.setOnClickListener{ mainActivityCallback?.openFollowing() }
+        screen_profile_exit.setOnClickListener {
+            Log.e("button ", "was clicked")
+            val builder = AlertDialog.Builder(activity)
+
+            builder.setMessage("Are you sure you want to exit?")
+                    .setPositiveButton("Yes",
+                            DialogInterface.OnClickListener {
+                                _,_ -> mainActivityCallback?.showAuthScreen()
+                            })
+                    .setNegativeButton("No",
+                            DialogInterface.OnClickListener {
+                                dialog, _ -> dialog.cancel()
+                            })
+
+            val dialog = builder.create()
+            dialog.show()
+        }
     }
 }
