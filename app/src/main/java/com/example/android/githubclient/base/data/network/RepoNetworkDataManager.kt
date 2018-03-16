@@ -50,4 +50,19 @@ class RepoNetworkDataManager : ReposRequestInterface{
             return serviceNonAuthorized?.searchRepos(q)
     }
 
+    override fun getReposSortedBy(sort: String): Observable<List<Repo>>? {
+        if(LoginController.instance.isLoggedIn())
+            return serviceAuthorized?.getReposSorted(sort)
+        else
+            return serviceNonAuthorized?.getReposSorted(sort)
+    }
+
+    override fun getUserReposSorted(login: String, sortParameter: String): Observable<List<Repo>>? {
+        if(LoginController.instance.isLoggedIn())
+            return serviceAuthorized?.getUserReposSorted(login, sortParameter)
+        else
+            return serviceNonAuthorized?.getUserReposSorted(login, sortParameter)
+    }
+
+
 }

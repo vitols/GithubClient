@@ -18,7 +18,6 @@ class SwipeRefreshLayoutCustom(context: Context, attributes: AttributeSet) :
         SwipeRefreshLayout(context, attributes) {
 
     override fun canChildScrollUp(): Boolean {
-        /*Log.e("childScrollUp", screen_profile_nestedscroll.scrollY.toString())*/
         return screen_profile_nestedscroll.scrollY != 0
     }
 }

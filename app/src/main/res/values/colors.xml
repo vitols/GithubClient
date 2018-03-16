@@ -3,8 +3,12 @@
     <color name="colorPrimary">#b2dfdb</color>
     <color name="colorPrimaryDark">#82ada9</color>
     <color name="colorLight">#e5ffff</color>
+    <color name="colorText">@android:color/black</color>
     <color name="colorGrey">#202020</color>
-    <color name="colorGreyLight">#eeeeff</color>
+    <color name="colorGreyLight">#b7b7b7</color>
+    <color name="colorGreyLightC">#c6c6c6</color>
+    <color name="colorGreyLightE">#e8e8e8</color>
+    <color name="colorGreyLightA">#aaaaaa</color>
     <color name="colorAccent">#b2dfdb</color>
     <color name="transparent10">#1AFFFFFF</color>
     <color name="transparent20">#33FFFFFF</color>

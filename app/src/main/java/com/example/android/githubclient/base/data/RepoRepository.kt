@@ -44,6 +44,13 @@ class RepoRepository : RepoRepositoryInterface {
     override fun isInStorage() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+    override fun getReposSortedBy(sort: String): Observable<List<Repo>>? {
+        return internetDM.getReposSortedBy(sort)
+    }
+
+    override fun getUserReposSorted(login: String, sortParameter: String): Observable<List<Repo>>? {
+        return internetDM.getUserReposSorted(login, sortParameter)
+    }
 
 
 }

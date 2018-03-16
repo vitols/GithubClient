@@ -25,4 +25,10 @@ interface RepoService {
 
     @GET(ConstValues.Path.SEARCH_REPOS)
     fun searchRepos(@Query("q") q: String) : Call<SearchModel<Repo>>
+
+    @GET(ConstValues.Path.GET_REPOS)
+    fun getReposSorted(@Query("sort") sortParameter: String) : Observable<List<Repo>>
+
+    @GET("users/{user}/repos")
+    fun getUserReposSorted(@Path("user") login: String, @Query("sort") sortParameter: String) : Observable<List<Repo>>
 }

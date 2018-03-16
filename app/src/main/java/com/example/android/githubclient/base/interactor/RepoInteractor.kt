@@ -43,4 +43,16 @@ class RepoInteractor : ReposRequestInterface {
         return repository.searchRepos(q)
     }
 
+    override fun getReposSortedBy(sort: String): Observable<List<Repo>>? {
+        return repository.getReposSortedBy(sort)
+                ?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+    }
+
+    override fun getUserReposSorted(login: String, sortParameter: String): Observable<List<Repo>>? {
+        return repository.getUserReposSorted(login, sortParameter)
+                ?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+    }
+
 }

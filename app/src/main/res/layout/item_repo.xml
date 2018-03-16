@@ -51,7 +51,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_repo"/>
+                    android:src="@drawable/ic_fork"/>
                 <TextView
                     android:id="@+id/screen_repos_card_forked"
                     android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_starred"/>
+                    android:src="@drawable/ic_star"/>
                 <TextView
                     android:id="@+id/screen_repos_card_starred"
                     android:layout_width="wrap_content"

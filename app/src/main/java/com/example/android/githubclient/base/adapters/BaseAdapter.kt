@@ -21,7 +21,9 @@ abstract class BaseAdapter<ModelT, ViewHolderT : RecyclerView.ViewHolder> : Recy
     }
 
     fun addItem(item: ModelT) {
+        val position = items.size
         items.add(item)
+        notifyItemInserted(position)
     }
 
     fun addItem(item: ModelT, position: Int) {

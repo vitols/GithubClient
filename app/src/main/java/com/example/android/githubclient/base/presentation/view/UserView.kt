@@ -1,5 +1,6 @@
 package com.example.android.githubclient.base.presentation.view
 
+import com.example.android.githubclient.base.presentation.model.Repo
 import com.example.android.githubclient.base.presentation.model.User
 
 /**
@@ -8,4 +9,5 @@ import com.example.android.githubclient.base.presentation.model.User
 interface UserView<P> : BaseView<P>{
     fun showMe()
     fun showUserByLogin(user: User?)
+    fun showRepos(listOfRepos: List<Repo>)
 }

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview_repo_profile"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:contentPaddingTop="4dp"
+    app:contentPaddingLeft="16dp"
+    app:contentPaddingRight="16dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/screen_profile_card_reponame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/infoText"
+            android:gravity="left"
+            android:layout_marginBottom="4dp"/>
+
+        <TextView
+            android:id="@+id/screen_profile_card_repo_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/itemText"
+            android:layout_marginBottom="4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/screen_profile_card_language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/repo_bottom_bar_text"
+                android:layout_gravity="start|center_vertical"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/screen_profile_card_forked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:layout_marginRight="16dp"
+                style="@style/repo_bottom_bar_text"
+                android:drawableLeft="@drawable/ic_fork"/>
+
+            <TextView
+                android:id="@+id/screen_profile_card_starred"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                style="@style/repo_bottom_bar_text"
+                android:drawableLeft="@drawable/ic_star"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

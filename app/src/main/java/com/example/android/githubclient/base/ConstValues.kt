@@ -46,4 +46,10 @@ object ConstValues {
         const val FOLLOWERS_KEY = "FOLLOWERS"
         const val FOLLOWING_KEY = "FOLLOWING"
     }
+    object SortValues {
+        const val BY_CREATION = "created"
+        const val BY_UPDATE = "updated"
+        const val BY_PUSH = "pushed"
+        const val BY_NAME = "full_name"
+    }
 }

@@ -2,7 +2,10 @@ package com.example.android.githubclient.base.presentation.presenter
 
 import android.util.Log
 import com.example.android.githubclient.base.controllers.LoginController
+import com.example.android.githubclient.base.interactor.RepoInteractor
 import com.example.android.githubclient.base.interactor.UserInteractor
+import com.example.android.githubclient.base.presentation.model.Repo
+import com.example.android.githubclient.base.presentation.model.SearchModel
 import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.requests.UsersRequestInterface
 import com.example.android.githubclient.base.presentation.view.UserView
@@ -17,6 +20,7 @@ import retrofit2.Response
 class UserPresenter(override var view: UserView<*>?) : BasePresenter<UserView<*>> {
 
     val interactor: UsersRequestInterface = UserInteractor()
+    val interactorRepo = RepoInteractor()
 
     fun getMe() {
         interactor.getMe()?.enqueue(object: Callback<User> {
@@ -52,8 +56,18 @@ class UserPresenter(override var view: UserView<*>?) : BasePresenter<UserView<*>
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    fun getUsers(): Observable<List<User>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun getMyRepos(sorted: String){
+        interactorRepo.getReposSortedBy(sorted)?.subscribe(
+                {it->view?.showRepos(it)},
+                {e->view?.showError(e.message ?: "")}
+        )
+    }
+
+    fun getReposByLogin(login: String, sorted: String){
+        interactorRepo.getUserReposSorted(login, sorted)?.subscribe(
+                {it->view?.showRepos(it)},
+                {e->view?.showError(e.message ?: "")}
+        )
     }
 
 
