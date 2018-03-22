@@ -16,7 +16,9 @@
             android:id="@+id/screen_repos_toolbar"
             android:background="@color/colorPrimary"
             android:theme="@style/AppTheme.Toolbar"
-            app:title="@string/toolbar_repos_text"/>
+            app:title="@string/toolbar_repos_title"
+            style="@style/toolbarText"
+            app:navigationIcon="?attr/homeAsUpIndicator"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -25,9 +27,18 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        android:id="@+id/screen_repos"
+        android:id="@+id/screen_repos_container"
+        android:layout_gravity="center"
         android:background="@color/colorGreyLight">
     </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/screen_repos_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        style="@style/infoText"
+        android:visibility="gone"/>
 
     <ProgressBar
         android:layout_width="30dp"

@@ -12,7 +12,7 @@ object ConstValues {
     }
     object ParamValues {
         const val CLIENT_ID = "c0a8a765ce30cfa59ae4"
-        const val CLIENT_SECRET = "2048ff053b489a5d94b273cde0679fb239467711"
+        const val CLIENT_SECRET = "142a79b90109b68cecb1962809bfbb16164997a2"
     }
     object Urls {
         const val BASE_URL = "https://github.com"
@@ -45,6 +45,9 @@ object ConstValues {
         const val STARRED_KEY = "STARRED"
         const val FOLLOWERS_KEY = "FOLLOWERS"
         const val FOLLOWING_KEY = "FOLLOWING"
+        const val REDIRECTED_SCREEN = "REDIRECTED_SCREEN"
+        const val ADD_BACK_NAVIGATION_KEY = "BACK_NAVIGATION"
+        const val REPO_NAME_KEY = "REPO_NAME"
     }
     object SortValues {
         const val BY_CREATION = "created"
@@ -52,4 +55,38 @@ object ConstValues {
         const val BY_PUSH = "pushed"
         const val BY_NAME = "full_name"
     }
+    object UserData {
+        const val NAME = "name"
+        const val BIO = "bio"
+        const val COMPANY = "company"
+        const val LOCATION = "location"
+        const val EMAIL = "email"
+        const val BLOG = "blog"
+        const val HIREABLE = "hireable"
+    }
+    object ResponseCode {
+        const val UNPROCESSABLE_ENTITY = 422
+        const val OK = 200
+        const val NOT_FOUND = 404
+    }
+    object Scope {
+        const val SCOPE_USER = "user"
+        const val SCOPE_REPO = "repo"
+    }
+    object ErrorDialog {
+        const val OK = "OK"
+        const val TITLE = "ERROR OCCURED"
+    }
+    object EmptyList {
+        const val NO_REPOS_ME = "You don't have any repositories yet."
+        const val NO_REPOS_ANOTHER = " doesn't have any repositories yet."
+        const val NO_STARRED_ME = "You don't have any starred repositories yet."
+        const val NO_STARRED_ANOTHER = " doesn't have any starred repositories yet."
+        const val NO_FOLLOWERS_ME = "You are not being followed by anybody."
+        const val NO_FOLLOWERS_ANOTHER = " is not being followed by anybody."
+        const val NO_FOLLOWING_ME = "You are not following anybody."
+        const val NO_FOLLOWING_ANOTHER = " is not following anybody."
+        const val NO_USERS = "We couldn’t find any users."
+    }
+
 }

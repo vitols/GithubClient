@@ -1,5 +1,6 @@
 package com.example.android.githubclient.base.data
 
+import android.util.Log
 import com.example.android.githubclient.base.data.network.RepoNetworkDataManager
 import com.example.android.githubclient.base.data.storage.RepoStorageDataManager
 import com.example.android.githubclient.base.data.storage.RepoStorageDataManagerInterface
@@ -25,8 +26,8 @@ class RepoRepository : RepoRepositoryInterface {
         return internetDM.getReposByUser(login)
     }
 
-    override fun getRepoByName(name: String): Observable<Repo> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getRepo(login: String, name: String): Call<Repo>? {
+        return internetDM.getRepo(login, name)
     }
 
     override fun getStarredByUser(login: String): Observable<List<Repo>>? {

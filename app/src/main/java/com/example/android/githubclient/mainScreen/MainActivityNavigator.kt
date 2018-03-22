@@ -1,13 +1,11 @@
 package com.example.android.githubclient.mainScreen
 
 import android.support.v4.app.FragmentManager
-import android.util.Log
 import com.example.android.githubclient.base.navigator.*
-import com.example.android.githubclient.mainScreen.mainFragments.FragmentAuth
-import com.example.android.githubclient.mainScreen.mainFragments.FragmentProfile
-import com.example.android.githubclient.mainScreen.mainFragments.FragmentRepos
-import com.example.android.githubclient.mainScreen.mainFragments.FragmentUsers
-import java.io.Serializable
+import com.example.android.githubclient.mainScreen.fragments.FragmentAuth
+import com.example.android.githubclient.mainScreen.fragments.FragmentProfileAuthorized
+import com.example.android.githubclient.mainScreen.fragments.FragmentRepos
+import com.example.android.githubclient.mainScreen.fragments.FragmentUsers
 
 /**
  * Created by admin on 20.02.2018.
@@ -20,7 +18,7 @@ class MainActivityNavigator(fragmentManager: FragmentManager, containerId: Int) 
             override var data: Any? = null
             override fun getTag() = "SCREEN_PROFILE"
             override fun getLastScreen() = null
-            override fun createFragment(data: Any?) = FragmentProfile.newInstance()
+            override fun createFragment(data: Any?) = FragmentProfileAuthorized.newInstance(data)
             override fun setAnimation(fragmentManager: FragmentManager) = fragmentManager.beginTransaction()
         },
         SCREEN_USERS {
@@ -34,7 +32,7 @@ class MainActivityNavigator(fragmentManager: FragmentManager, containerId: Int) 
             override var data: Any? = null
             override fun getTag() = "SCREEN_REPOS"
             override fun getLastScreen() = null
-            override fun createFragment(data: Any?) = FragmentRepos.newInstance()
+            override fun createFragment(data: Any?) = FragmentRepos.newInstance(data)
             override fun setAnimation(fragmentManager: FragmentManager) = fragmentManager.beginTransaction()
         },
         SCREEN_AUTH {
@@ -58,7 +56,7 @@ class MainActivityNavigator(fragmentManager: FragmentManager, containerId: Int) 
     }
 
     override fun openFirstFragment(screen: ScreenInterface) {
-        showFirstFragment(screen, null)
+        showFirstFragment(screen, false)
     }
 
     override fun showScreen(screen: ScreenInterface, data: Any?) {

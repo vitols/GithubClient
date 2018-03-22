@@ -6,6 +6,7 @@ import com.example.android.githubclient.base.controllers.LoginController
 import com.example.android.githubclient.base.data.network.services.UserService
 import com.example.android.githubclient.base.presentation.model.SearchModel
 import com.example.android.githubclient.base.presentation.model.User
+import com.example.android.githubclient.base.presentation.model.UserUpdate
 import com.example.android.githubclient.base.requests.UsersRequestInterface
 import io.reactivex.Observable
 import retrofit2.Call
@@ -60,6 +61,10 @@ class UserNetworkDataManager : UsersRequestInterface {
             return serviceAuthoried?.getFollowingByLogin(login)
         else
             return serviceNonAuthorized?.getFollowingByLogin(login)
+    }
+
+    override fun updateUser(name: String, bio: String, company: String, location: String, email: String, blog: String, hireable: Boolean): Call<User>? {
+        return serviceAuthoried?.updateUser(UserUpdate(name, bio, company, location, email, blog, hireable))
     }
 
 }

@@ -3,11 +3,10 @@ package com.example.android.githubclient.base.data.network.services
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.presentation.model.SearchModel
 import com.example.android.githubclient.base.presentation.model.User
+import com.example.android.githubclient.base.presentation.model.UserUpdate
 import io.reactivex.Observable
 import retrofit2.Call
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * Created by admin on 26.02.2018.
@@ -31,5 +30,8 @@ interface UserService {
 
     @GET(ConstValues.Path.SEARCH_USERS)
     fun searchUsers(@Query("q") q: String): Call<SearchModel<User>>
+
+    @PATCH("/user")
+    fun updateUser(@Body userUpdate: UserUpdate): Call<User>?
 
 }

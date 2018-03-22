@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/main_sidebar_me"
+          android:title="Profile"
+          android:icon="@drawable/ic_person"
+          app:showAsAction="ifRoom"/>
+    <item android:id="@+id/main_sidebar_repos"
+          android:title="Repositories"
+          android:icon="@drawable/ic_book"
+          app:showAsAction="ifRoom"/>
+    <item android:id="@+id/main_sidebar_users"
+          android:title="Users"
+          android:icon="@drawable/ic_users"
+          app:showAsAction="ifRoom"/>
+</menu>

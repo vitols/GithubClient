@@ -4,12 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.android.githubclient.R
@@ -20,22 +19,25 @@ import com.example.android.githubclient.base.presentation.model.Repo
 import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.presentation.presenter.AnyListPresenter
 import com.example.android.githubclient.base.presentation.view.AnyListView
-import com.example.android.githubclient.mainScreen.adapterDelegates.RepoDelegate
-import com.example.android.githubclient.mainScreen.adapterDelegates.UserDelegate
+import com.example.android.githubclient.mainScreen.adapters.RepoDelegate
+import com.example.android.githubclient.mainScreen.adapters.UserDelegate
 import com.example.android.githubclient.mainScreen.decorators.ItemDecorator
-import com.example.android.githubclient.mainScreen.mainFragments.FragmentUsers
+import com.example.android.githubclient.mainScreen.fragments.FragmentProfileAuthorized
+import com.example.android.githubclient.mainScreen.fragments.FragmentRepository
+import com.example.android.githubclient.mainScreen.fragments.FragmentUsers
 import kotlinx.android.synthetic.main.fragment_screen_repos.*
 
 /**
  * Created by admin on 10.03.2018.
  */
 class FragmentListAny : Fragment(), AnyListView<AnyListPresenter> {
+
     override var presenter: AnyListPresenter? = null
     var adapter: DelegationAdapter<Any>? = null
 
     var data: String = ""
     var login: String = ""
-    var mainActivityCallback: FragmentUsers.FragmentListCallbackInterface? = null
+    var mainActivityCallback: FragmentUsers.FragmentListListener? = null
 
     companion object {
         private val TAG = "FRAGMENT_LIST_ANY"
@@ -51,11 +53,10 @@ class FragmentListAny : Fragment(), AnyListView<AnyListPresenter> {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-
         try {
-            mainActivityCallback = context as FragmentUsers.FragmentListCallbackInterface
+            mainActivityCallback = context as FragmentUsers.FragmentListListener
         } catch (e: ClassCastException) {
-            throw ClassCastException(context.toString() + " must implement Profile callback")
+            throw ClassCastException(context.toString() + " must implement FragmentUsers.FragmentListListener")
         }
     }
 
@@ -71,11 +72,15 @@ class FragmentListAny : Fragment(), AnyListView<AnyListPresenter> {
         data = arguments.get(ConstValues.FragmentsData.DATA).toString()
         login = arguments.get(ConstValues.FragmentsData.LOGIN_KEY).toString()
 
-        screen_repos_toolbar.title = login + "'s " + data.toLowerCase()
+        if(login == LoginController.instance.user?.login && LoginController.instance.isLoggedIn())
+            screen_repos_toolbar.title = "My " + data.toLowerCase()
+        else
+            screen_repos_toolbar.title = login + "'s " + data.toLowerCase()
+        screen_repos_toolbar.setNavigationOnClickListener { activity.onBackPressed() }
 
-        screen_repos.layoutManager = LinearLayoutManager(context)
-        screen_repos.adapter = adapter
-        screen_repos.addItemDecoration(ItemDecorator(activity))
+        screen_repos_container.layoutManager = LinearLayoutManager(context)
+        screen_repos_container.adapter = adapter
+        screen_repos_container.addItemDecoration(ItemDecorator(activity, LinearLayoutManager.VERTICAL))
 
         adapter?.manager?.addDelegate(UserDelegate(activity,  {
             itemView: View, login: String ->
@@ -83,36 +88,80 @@ class FragmentListAny : Fragment(), AnyListView<AnyListPresenter> {
                     .duration(100)
                     .playOn(itemView);
                 if (login == LoginController.instance.user?.login && LoginController.instance.isLoggedIn())
-                    mainActivityCallback?.openScreenMe()
+                    openScreenProfile(FragmentProfileAuthorized.newInstance())
                 else
-                    openScreenProfileAnother(login)
+                    openScreenProfile(FragmentProfileNotAuthorized.newInstance(login))
         }
         ))
 
-        adapter?.manager?.addDelegate(RepoDelegate(activity, {}))
-
         screen_repos_progress_bar.visibility = View.VISIBLE
-
-        Log.e("data is ", data + "!")
-
         when(data) {
-            ConstValues.FragmentsData.REPOS_KEY -> presenter?.getListRepos(login)
-            ConstValues.FragmentsData.STARRED_KEY -> presenter?.getListStarred(login)
+            ConstValues.FragmentsData.REPOS_KEY -> {
+                adapter?.manager?.addDelegate(RepoDelegate(activity, {_, _, name ->
+                    activity.supportFragmentManager
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .add(R.id.main_activity_container, FragmentRepository.newInstance(login, name))
+                            .addToBackStack(FragmentRepository.TAG)
+                            .commit()
+                }))
+                presenter?.getListRepos(login)
+            }
+            ConstValues.FragmentsData.STARRED_KEY -> {
+                adapter?.manager?.addDelegate(RepoDelegate(activity, {_, owner, name ->
+                    activity.supportFragmentManager
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .add(R.id.main_activity_container, FragmentRepository.newInstance(owner, name))
+                            .addToBackStack(FragmentRepository.TAG)
+                            .commit()
+                }))
+                presenter?.getListStarred(login)
+            }
             ConstValues.FragmentsData.FOLLOWERS_KEY -> presenter?.getListFollowers(login)
             ConstValues.FragmentsData.FOLLOWING_KEY -> presenter?.getListFollowing(login)
         }
     }
 
     override fun showListRepos(repos: List<Repo>) {
+        showRepos(repos, ConstValues.EmptyList.NO_REPOS_ME, ConstValues.EmptyList.NO_REPOS_ANOTHER)
+    }
+    override fun showListStarred(repos: List<Repo>) {
+        showRepos(repos, ConstValues.EmptyList.NO_STARRED_ME, ConstValues.EmptyList.NO_STARRED_ANOTHER)
+    }
+    override fun showListFollowers(users: List<User>) {
+        showUsers(users, ConstValues.EmptyList.NO_FOLLOWERS_ME, ConstValues.EmptyList.NO_FOLLOWERS_ANOTHER)
+    }
+    override fun showListFollowing(users: List<User>) {
+        showUsers(users, ConstValues.EmptyList.NO_FOLLOWING_ME, ConstValues.EmptyList.NO_FOLLOWING_ANOTHER)
+    }
+
+    override fun showError(error: String) {
+        AlertDialog.Builder(context)
+                .setMessage(error)
+                .setTitle(ConstValues.ErrorDialog.TITLE)
+                .setPositiveButton(ConstValues.ErrorDialog.OK, { dialog, _ -> dialog.cancel() })
+                .create()
+                .show()
+    }
+
+    private fun showRepos(repos: List<Repo>, emptyViewTextForMe: String, emptyViewTextForAnother: String) {
+        if(screen_repos_progress_bar == null)
+            return
         screen_repos_progress_bar.visibility = View.GONE
         if(repos.isEmpty())
         {
-            Log.e("showListRepos", "isEmpty")
-            Toast.makeText(context, "No repos found", Toast.LENGTH_SHORT).show()
+            if(login == LoginController.instance.user?.login && LoginController.instance.isLoggedIn())
+                screen_repos_empty_view.text = emptyViewTextForMe
+            else
+                screen_repos_empty_view.text = login + emptyViewTextForAnother
+
+            screen_repos_empty_view.visibility = View.VISIBLE
             adapter?.clearAllItems()
             return
         }
-        Log.e("showListRepos", "notIsEmpty")
+
+        screen_repos_container.visibility = View.VISIBLE
         try {
             adapter?.replaceAllItems(repos as ArrayList<Any>)
         } catch (e: ClassCastException) {
@@ -120,60 +169,33 @@ class FragmentListAny : Fragment(), AnyListView<AnyListPresenter> {
         }
     }
 
-    override fun showListStarred(starred: List<Repo>) {
+    private fun showUsers(users: List<User>, emptyViewTextForMe: String, emptyViewTextForAnother: String) {
+        if(screen_repos_progress_bar == null)
+            return
         screen_repos_progress_bar.visibility = View.GONE
-        if(starred.isEmpty())
+        if(users.isEmpty())
         {
-            Toast.makeText(context, "No users found", Toast.LENGTH_SHORT).show()
+            if(login == LoginController.instance.user?.login && LoginController.instance.isLoggedIn())
+                screen_repos_empty_view.text = emptyViewTextForMe
+            else
+                screen_repos_empty_view.text = login + emptyViewTextForAnother
+            screen_repos_empty_view.visibility = View.VISIBLE
             adapter?.clearAllItems()
             return
         }
+        screen_repos_empty_view.visibility = View.GONE
         try {
-            adapter?.replaceAllItems(starred as ArrayList<Any>)
+            adapter?.replaceAllItems(users as ArrayList<Any>)
         } catch (e: ClassCastException) {
             e.printStackTrace()
         }
     }
 
-    override fun showListFollowers(followers: List<User>) {
-        screen_repos_progress_bar.visibility = View.GONE
-        if(followers.isEmpty())
-        {
-            Toast.makeText(context, "No users found", Toast.LENGTH_SHORT).show()
-            adapter?.clearAllItems()
-            return
-        }
-        try {
-            adapter?.replaceAllItems(followers as ArrayList<Any>)
-        } catch (e: ClassCastException) {
-            e.printStackTrace()
-        }
-    }
-
-    override fun showListFollowing(following: List<User>) {
-        screen_repos_progress_bar.visibility = View.GONE
-        if(following.isEmpty())
-        {
-            Toast.makeText(context, "No users found", Toast.LENGTH_SHORT).show()
-            adapter?.clearAllItems()
-            return
-        }
-        try {
-            adapter?.replaceAllItems(following as ArrayList<Any>)
-        } catch (e: ClassCastException) {
-            e.printStackTrace()
-        }
-    }
-
-    override fun showError(error: String) {
-
-    }
-
-    private fun openScreenProfileAnother(login: String) {
+    private fun openScreenProfile(fragment: Fragment) {
         activity.supportFragmentManager
                 .beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .add(R.id.main_activity_container, FragmentProfileUnauthorized.newInstance(login))
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .add(R.id.main_activity_container, fragment)
                 .addToBackStack(null)
                 .commit()
     }

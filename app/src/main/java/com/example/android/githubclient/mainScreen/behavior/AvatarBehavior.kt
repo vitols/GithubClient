@@ -9,12 +9,14 @@ import android.util.Log
 import android.view.View
 import de.hdodenhof.circleimageview.CircleImageView
 import android.opengl.ETC1.getHeight
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.RecyclerView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import com.example.android.githubclient.R
 import android.util.DisplayMetrics
 import android.view.WindowManager
+import com.example.android.githubclient.mainScreen.SwipeRefreshLayoutCustom
 
 
 /**
@@ -55,7 +57,7 @@ class AvatarBehavior(var context: Context, attrs: AttributeSet) :
         nestedScrollStartY = nestedScrollStartMarginTop + appBarHeight
 
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        avatarFinalX = windowManager.defaultDisplay.width - avatarFinalSize - avatarFinalMargin
+        avatarFinalX = windowManager.defaultDisplay.width - avatarFinalSize*2 - avatarFinalMargin
         avatarStartX = windowManager.defaultDisplay.width / 2 - avatarStartSize / 2
 
     }
@@ -63,15 +65,13 @@ class AvatarBehavior(var context: Context, attrs: AttributeSet) :
 
 
     override fun onStartNestedScroll(coordinatorLayout: CoordinatorLayout, child: CircleImageView, directTargetChild: View, target: View, axes: Int, type: Int): Boolean {
-        return axes == ViewCompat.SCROLL_AXIS_VERTICAL
+        return axes == ViewCompat.SCROLL_AXIS_VERTICAL && target !is SwipeRefreshLayout
     }
 
     override fun onNestedScroll(coordinatorLayout: CoordinatorLayout, child: CircleImageView, target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, type: Int) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type)
 
         val nestedScroll = target as NestedScrollView
-        /*Log.e("scrollY", nestedScroll.scrollY.toString())
-        Log.e("Y", nestedScroll.y.toString())*/
         val params = child.layoutParams as CoordinatorLayout.LayoutParams
 
         if (nestedScroll.scrollY <= 0) {
@@ -91,22 +91,9 @@ class AvatarBehavior(var context: Context, attrs: AttributeSet) :
                 child.x = avatarFinalX
 
             } else {
-
-                val minMaxRatioPercent = avatarFinalSize / avatarStartSize * 100
-                var percentageOfDistance: Float
-                var newSize: Int
-
-                percentageOfDistance = minMaxRatioPercent + (1 - nestedScroll.scrollY / nestedScrollStartMarginTop) * (100 - minMaxRatioPercent)
-                newSize = (percentageOfDistance * avatarStartSize / 100).toInt()
-
-                /*Log.e("newSize", newSize.toString())
-                Log.e("maxSize", avatarStartSize.toString())
-                Log.e("distance", (nestedScrollStartMarginTop - nestedScroll.scrollY).toString())*/
-
-                params.height = newSize
-                params.width = newSize
-                child.layoutParams = params
-
+                /*val minMaxRatioPercent = avatarFinalSize / avatarStartSize * 100
+                val percentageOfDistance = minMaxRatioPercent + (1 - nestedScroll.scrollY / nestedScrollStartMarginTop) * (100 - minMaxRatioPercent)
+                val newSize = (percentageOfDistance * avatarStartSize / 100).toInt()
 
                 val minMaxXRatio = avatarFinalX / avatarStartX * 100
                 val percentageOfX = minMaxXRatio + (1 - nestedScroll.scrollY / nestedScrollStartMarginTop) * (100 - minMaxXRatio)
@@ -114,12 +101,46 @@ class AvatarBehavior(var context: Context, attrs: AttributeSet) :
 
                 val minMaxYRatio = avatarFinalY / avatarStartY * 100
                 val percentageOfY = minMaxYRatio + (1 - nestedScroll.scrollY / nestedScrollStartMarginTop) * (100 - minMaxYRatio)
+                val newY = percentageOfY * avatarStartY / 100*/
+
+                val ratio = (1 - nestedScroll.scrollY / nestedScrollStartMarginTop)
+
+                /*val minMaxRatioPercent = avatarFinalSize / avatarStartSize
+                val percentageOfDistance = minMaxRatioPercent + ratio * (1 - minMaxRatioPercent)
+                val newSize = (percentageOfDistance * avatarStartSize).toInt()
+
+                val minMaxXRatio = avatarFinalX / avatarStartX
+                val percentageOfX = minMaxXRatio + ratio * (1 - minMaxXRatio)
+                val newX = percentageOfX * avatarStartX
+
+                val minMaxYRatio = avatarFinalY / avatarStartY
+                val percentageOfY = minMaxYRatio + ratio * (1 - minMaxYRatio)
+                val newY = percentageOfY * avatarStartY*/
+
+                val minMaxRatioPercent = avatarFinalSize / avatarStartSize * 100
+                val percentageOfDistance = minMaxRatioPercent + ratio * (100 - minMaxRatioPercent)
+                val newSize = (percentageOfDistance * avatarStartSize / 100).toInt()
+
+                params.height = newSize
+                params.width = newSize
+                child.layoutParams = params
+
+                val minMaxXRatio = avatarFinalX / avatarStartX * 100
+                val percentageOfX = minMaxXRatio + ratio * (100 - minMaxXRatio)
+                val newX = percentageOfX * avatarStartX / 100
+
+                val minMaxYRatio = avatarFinalY / avatarStartY * 100
+                val percentageOfY = minMaxYRatio + ratio * (100 - minMaxYRatio)
                 val newY = percentageOfY * avatarStartY / 100
 
-                child.y = newY
-                child.x = newX
+                if(newY <= avatarStartY)
+                    child.y = newY
+                if(newX >= avatarStartX)
+                    child.x = newX
+
             }
         }
+
 
     }
 

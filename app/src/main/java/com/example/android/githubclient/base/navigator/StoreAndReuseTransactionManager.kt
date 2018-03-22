@@ -21,15 +21,16 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
         if (tags.contains(screen)) {
             /*Log.e("showScreenAuthInTags", screen.getTag())*/
             screen.setAnimation(fragmentManager)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
                     .hide(fragmentManager.findFragmentByTag(curScreen?.getTag()))
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .show(fragmentManager.findFragmentByTag(screen.getTag()))
                     .commit()
         } else {
             /*Log.e("showScreenAuthNotInTags", screen.getTag())*/
             tags.add(screen)
             screen.setAnimation(fragmentManager)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .add(containerId, screen.createFragment(data), screen.getTag())
                     .hide(fragmentManager.findFragmentByTag(curScreen?.getTag()))
                     .commit()
@@ -43,7 +44,8 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
         tags.add(screen)
 
         screen.setAnimation(fragmentManager)
-                .add(containerId, screen.createFragment(), screen.getTag())
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .add(containerId, screen.createFragment(data), screen.getTag())
                 .commit()
     }
 

@@ -27,19 +27,19 @@ class AnyListPresenter(override var view: AnyListView<*>?) : BasePresenter<AnyLi
     fun getListStarred(login: String) {
         interactorRepo.getStarredByUser(login)?.subscribe(
                 {it -> view?.showListStarred(it)},
-                { e -> view?.showError(e.localizedMessage)}
+                { e -> view?.showError(e.message.toString())}
         )
     }
     fun getListFollowers(login: String) {
         interactorUser.getFollowersByLogin(login)?.subscribe(
                 {it -> view?.showListFollowers(it)},
-                { e -> view?.showError(e.localizedMessage)}
+                { e -> view?.showError(e.message.toString())}
         )
     }
     fun getListFollowing(login: String) {
         interactorUser.getFollowingByLogin(login)?.subscribe(
                 {it -> view?.showListFollowing(it)},
-                { e -> view?.showError(e.localizedMessage)}
+                { e -> view?.showError(e.message.toString())}
         )
     }
 

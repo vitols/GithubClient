@@ -8,32 +8,32 @@
     tools:context=".mainScreen.MainActivity"
     android:id="@+id/main_coordinator">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="72dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:backgroundTint="@color/colorPrimary"
-        android:src="@drawable/ic_fab_menu"
-        app:layout_behavior=".mainScreen.behavior.FabBehavior"/>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/main_activity_container"/>
+        android:id="@+id/main_activity_container"
+        android:layout_marginBottom="56dp"/>
 
-    <LinearLayout
-        android:layout_width="66dp"
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/main_bottombar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        app:itemIconTint="@color/bottom_item_style"
+        app:itemTextColor="@color/bottom_item_style"
+        app:menu="@menu/menu_bottom_navigation"
+        app:layout_behavior=".mainScreen.behavior.BottomBarBehavior"/>
+
+    <!--<LinearLayout
+        android:layout_width="64dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="end|bottom"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginRight="12dp"
         android:background="@android:color/transparent"
-        android:id="@+id/main_sidebar">
+        android:id="@+id/main_bottombar">
 
         <Button
             android:layout_width="58dp"
@@ -57,7 +57,7 @@
             android:layout_margin="4dp"
             android:text="USERS"/>
     </LinearLayout>
-
+-->
     <!--<android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

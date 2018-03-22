@@ -16,11 +16,10 @@
             android:layout_height="?attr/actionBarSize"
             android:id="@+id/screen_users_toolbar"
             android:theme="@style/AppTheme.Toolbar"
-            app:title="@string/toolbar_users_text"/>
+            app:title="@string/toolbar_users_title"
+            style="@style/toolbarText"/>
 
     </android.support.design.widget.AppBarLayout>
-
-
 
     <android:android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
@@ -32,10 +31,18 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:id="@+id/screen_users"
+            android:id="@+id/screen_users_container"
             android:background="@color/colorGreyLight">
         </android.support.v7.widget.RecyclerView>
 
     </android:android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/screen_users_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        style="@style/infoText"
+        android:visibility="gone"/>
 
 </android.support.design.widget.CoordinatorLayout>

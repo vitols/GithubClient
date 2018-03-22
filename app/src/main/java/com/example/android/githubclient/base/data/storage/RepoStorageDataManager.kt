@@ -9,6 +9,10 @@ import retrofit2.Call
  * Created by admin on 23.02.2018.
  */
 class RepoStorageDataManager : RepoStorageDataManagerInterface {
+    override fun getRepo(login: String, name: String): Call<Repo>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getUserReposSorted(login: String, sortParameter: String): Observable<List<Repo>>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -30,10 +34,6 @@ class RepoStorageDataManager : RepoStorageDataManagerInterface {
     }
 
     override fun getReposByUser(login: String): Observable<List<Repo>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getRepoByName(name: String): Observable<Repo> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

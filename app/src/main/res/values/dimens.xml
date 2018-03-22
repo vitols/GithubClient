@@ -4,7 +4,8 @@
     <dimen name="avatar_margin_top">48dp</dimen>
     <dimen name="exit_button_margin_top">16dp</dimen>
     <dimen name="nested_scroll_margin_top">146dp</dimen>
-    <dimen name="item_user_divider_margin">8dp</dimen>
-    <dimen name="avatar_final_top_margin">4dp</dimen>
+    <dimen name="item_user_divider_left_margin">72dp</dimen>
+    <dimen name="item_repo_divider_left_margin">16dp</dimen>
+    <dimen name="avatar_final_top_margin">8dp</dimen>
     <dimen name="popular_repos_container_height">316dp</dimen>
 </resources>

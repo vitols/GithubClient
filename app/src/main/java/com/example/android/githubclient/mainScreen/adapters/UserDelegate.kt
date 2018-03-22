@@ -1,19 +1,14 @@
-package com.example.android.githubclient.mainScreen.adapterDelegates
+package com.example.android.githubclient.mainScreen.adapters
 
 import android.app.Activity
-import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.adapters.AdapterDelegateAbstract
 import com.example.android.githubclient.base.presentation.model.User
-import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.fragment_screen_profile.view.*
 import kotlinx.android.synthetic.main.item_user.view.*
 
 /**
@@ -31,13 +26,13 @@ class UserDelegate(val context: Activity, val callback: (View, String) -> Unit) 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, item: Any) {
-        var item1 = item as User
+        val userItem = item as User
         Glide.with(context)
-                .load(item1.avatarUrl)
+                .load(userItem.avatarUrl)
                 .centerCrop()
                 .into(holder.avatar)
-        holder.login.text = item1.login
-        holder.item.setOnClickListener {callback(holder.item, item1.login)}
+        holder.login.text = userItem.login
+        holder.item.setOnClickListener {callback(holder.item, userItem.login)}
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

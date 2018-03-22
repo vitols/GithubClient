@@ -8,7 +8,7 @@ import com.example.android.githubclient.base.presentation.model.User
  */
 interface AnyListView<P> : BaseView<P> {
     fun showListRepos(repos: List<Repo>)
-    fun showListStarred(starred: List<Repo>)
-    fun showListFollowers(followers: List<User>)
-    fun showListFollowing(following: List<User>)
+    fun showListStarred(repos: List<Repo>)
+    fun showListFollowers(users: List<User>)
+    fun showListFollowing(users: List<User>)
 }

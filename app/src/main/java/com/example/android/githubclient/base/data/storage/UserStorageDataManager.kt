@@ -9,6 +9,10 @@ import retrofit2.Call
  * Created by admin on 22.02.2018.
  */
 class UserStorageDataManager : UserStorageDataManagerInterface {
+    override fun updateUser(name: String, bio: String, company: String, location: String, email: String, blog: String, hireable: Boolean): Call<User>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getFollowersByLogin(login: String): Observable<List<User>>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

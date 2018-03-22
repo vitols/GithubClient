@@ -4,14 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.support.design.R.attr.divider
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import com.example.android.githubclient.R
-import com.example.android.githubclient.base.presentation.model.User
 
 
 /**
@@ -19,33 +16,28 @@ import com.example.android.githubclient.base.presentation.model.User
  */
 class ItemDecorator : RecyclerView.ItemDecoration {
 
-    /*constructor(context: Context) {
-        *//*val styledAttributes = context.obtainStyledAttributes(ATTRS);
-        divider = styledAttributes.getDrawable(0);
-        styledAttributes.recycle();*//*
-    }*/
     private var orientation: Int? = null
     private var divider: Drawable? = null
-    private var dividerMargin: Int = 0
-    private var applyMargin: Boolean = true
+    private var dividerMarginLeft: Int = 0
+    private var dividerMarginRight: Int = 0
 
-    constructor(context: Context, applyMargin: Boolean = true) {
-        divider = ContextCompat.getDrawable(context, R.drawable.item_user_decoration)
-        this.applyMargin = applyMargin
-        dividerMargin = if(applyMargin) context.resources.getDimension(R.dimen.item_user_divider_margin).toInt() else 0
-
+    constructor(context: Context, orientation: Int, idLeftMargin: Int = 0, idRightMargin: Int = 0) {
+        this.orientation = orientation
+        divider = ContextCompat.getDrawable(context, R.drawable.item_decoration)
+        dividerMarginLeft = if (idLeftMargin != 0) context.resources.getDimension(idLeftMargin).toInt() else 0
+        dividerMarginRight = if (idRightMargin != 0) context.resources.getDimension(idRightMargin).toInt() else 0
     }
 
     override fun onDrawOver(c: Canvas?, parent: RecyclerView?, state: RecyclerView.State?) {
         if(c == null || parent == null)
             return
-        //if(orientation == LinearLayoutManager.VERTICAL)
+        if(orientation == LinearLayoutManager.VERTICAL)
             drawVertical(c, parent)
     }
 
     fun drawVertical(c: Canvas, parent: RecyclerView) {
-        val left = parent.paddingLeft + dividerMargin
-        val right = parent.width - parent.paddingRight - dividerMargin
+        val left = dividerMarginLeft
+        val right = parent.width - dividerMarginRight
 
         for (i in 0 until parent.childCount - 1) {
             val child = parent.getChildAt(i)
@@ -64,10 +56,10 @@ class ItemDecorator : RecyclerView.ItemDecoration {
             return
         }
         orientation = (parent?.layoutManager as LinearLayoutManager).orientation
-        /*if(orientation == LinearLayoutManager.VERTICAL) {
+        if(orientation == LinearLayoutManager.VERTICAL) {
             outRect?.right = divider?.intrinsicHeight
         }
         else
-            outRect?.left = divider?.intrinsicWidth;*/
+            outRect?.left = divider?.intrinsicWidth;
     }
 }

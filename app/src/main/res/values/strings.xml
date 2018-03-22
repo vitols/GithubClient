@@ -1,22 +1,49 @@
 <resources>
     <string name="app_name">Github Client</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Edit profile</string>
 
     <string name="profile_info">Info</string>
     <string name="profile_info_more">More info</string>
     <string name="profile_repos">Last created repositories</string>
+
     <string name="profile_name">name</string>
     <string name="profile_login">login</string>
     <string name="profile_bio">bio</string>
     <string name="profile_company">company</string>
     <string name="profile_location">location</string>
     <string name="profile_email">e-mail</string>
-    <string name="toolbar_users_text">Users</string>
-    <string name="toolbar_profile_text">My profile</string>
-    <string name="toolbar_repos_text">My repositories</string>
+    <string name="profile_blog">blog</string>
+    <string name="profile_hireable">hireable</string>
+
+    <string name="toolbar_users_title">Users</string>
+    <string name="toolbar_profile_title">My profile</string>
+    <string name="toolbar_repos_title">My repositories</string>
+    <string name="toolbar_edit_text_title">Edit profile</string>
+    <string name="toolbar_item_apply">Apply changes</string>
+
     <string name="profile_starred_text">Starred</string>
     <string name="profile_followers_text">Followers</string>
     <string name="profile_following_text">Following</string>
     <string name="profile_repos_text">Repositories</string>
-    <string name="empty_text">None</string>
+
+    <string name="repo_link">url</string>
+    <string name="repo_lang">language</string>
+    <string name="repo_description">description</string>
+    <string name="repo_created">created</string>
+    <string name="repo_updated">updated</string>
+    <string name="repo_watchers">Watchers</string>
+    <string name="repo_stargazers">Stargazers</string>
+    <string name="repo_contributors">contributors</string>
+    <string name="repo_forks">Forks</string>
+    <string name="repo_pulls">Pulls</string>
+    <string name="repo_issues">Issues</string>
+    <string name="repo_readme">Readme</string>
+    <string name="repo_readme_empty">Readme file has not been created for this repository yet.</string>
+
+    <string name="zero">0</string>
+
+    <string-array name="spinner_hireable">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.android.githubclient.base.interactor
 
+import android.util.Log
 import com.example.android.githubclient.base.data.RepoRepository
 import com.example.android.githubclient.base.data.RepoRepositoryInterface
 import com.example.android.githubclient.base.presentation.model.Repo
@@ -29,8 +30,8 @@ class RepoInteractor : ReposRequestInterface {
                 ?.observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun getRepoByName(name: String): Observable<Repo> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getRepo(login: String, name: String): Call<Repo>? {
+        return repository.getRepo(login, name)
     }
 
     override fun getStarredByUser(login: String): Observable<List<Repo>>? {

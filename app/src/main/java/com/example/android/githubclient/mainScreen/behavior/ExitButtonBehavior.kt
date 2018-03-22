@@ -16,17 +16,15 @@ class ExitButtonBehavior(var context: Context, var attrs: AttributeSet) :
         CoordinatorLayout.Behavior<ImageView>(context, attrs) {
 
     private var appBarHeight = 0.0f
-
     private var avatarStartMarginTop = 0.0f
     private var avatarFinalMargin = 0.0f
     private var avatarStartY = 0.0f
 
     init {
-        if(attrs != null) {
-            val appBarAttr = context.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
-            appBarHeight = appBarAttr.getDimension(0,0f)
-            appBarAttr.recycle()
-        }
+        val appBarAttr = context.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
+        appBarHeight = appBarAttr.getDimension(0,0f)
+        appBarAttr.recycle()
+
         avatarStartMarginTop = context.resources.getDimension(R.dimen.avatar_margin_top)
         avatarFinalMargin = context.resources.getDimension(R.dimen.avatar_final_top_margin)
         avatarStartY = avatarStartMarginTop + appBarHeight

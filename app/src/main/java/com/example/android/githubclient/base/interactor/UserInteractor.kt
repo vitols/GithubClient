@@ -51,4 +51,8 @@ class UserInteractor: UsersRequestInterface {
                 ?.observeOn(AndroidSchedulers.mainThread())
     }
 
+    override fun updateUser(name: String, bio: String, company: String, location: String, email: String, blog: String, hireable: Boolean): Call<User>? {
+        return repository?.updateUser(name, bio, company, location, email, blog, hireable)
+    }
+
 }

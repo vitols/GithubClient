@@ -31,4 +31,7 @@ interface RepoService {
 
     @GET("users/{user}/repos")
     fun getUserReposSorted(@Path("user") login: String, @Query("sort") sortParameter: String) : Observable<List<Repo>>
+
+    @GET("repos/{user}/{repo_name}")
+    fun getRepo(@Path("user") login: String, @Path("repo_name") repoName: String): Call<Repo>
 }

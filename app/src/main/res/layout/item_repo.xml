@@ -2,10 +2,15 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardview_repo"
+    android:id="@+id/cardview_repo_profile"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:contentPadding="8dp">
+    app:contentPaddingTop="4dp"
+    app:contentPaddingLeft="16dp"
+    app:contentPaddingRight="16dp"
+    app:cardCornerRadius="0dp"
+    app:cardBackgroundColor="@android:color/white"
+    android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,64 +18,53 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/screen_repos_card_reponame"
+            android:id="@+id/screen_profile_card_reponame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="start|top"
-            android:textSize="20sp"
-            android:textColor="@android:color/black"
+            android:layout_height="wrap_content"
+            style="@style/infoText"
+            android:gravity="left"
             android:layout_marginBottom="4dp"/>
 
         <TextView
-            android:id="@+id/screen_repos_card_repo_description"
+            android:id="@+id/screen_profile_card_repo_description"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="start|center_vertical"
-            android:textSize="18sp"
-            android:textColor="@android:color/darker_gray"
+            android:layout_height="wrap_content"
+            style="@style/hintText"
             android:layout_marginBottom="4dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="bottom"
             android:orientation="horizontal">
-
             <TextView
-                android:id="@+id/screen_repos_card_language"
+                android:id="@+id/screen_profile_card_language"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"/>
+                style="@style/repo_bottom_bar_text"
+                android:layout_gravity="start|center_vertical"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:gravity="end">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_fork"/>
-                <TextView
-                    android:id="@+id/screen_repos_card_forked"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star"/>
-                <TextView
-                    android:id="@+id/screen_repos_card_starred"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp"/>
-            </LinearLayout>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
+            <TextView
+                android:id="@+id/screen_profile_card_forked"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                android:layout_marginRight="16dp"
+                style="@style/repo_bottom_bar_text"
+                android:drawableLeft="@drawable/ic_fork"/>
+
+            <TextView
+                android:id="@+id/screen_profile_card_starred"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|end"
+                style="@style/repo_bottom_bar_text"
+                android:drawableLeft="@drawable/ic_star"/>
         </LinearLayout>
 
     </LinearLayout>

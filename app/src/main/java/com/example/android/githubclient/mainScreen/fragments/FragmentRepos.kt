@@ -1,8 +1,8 @@
-package com.example.android.githubclient.mainScreen.mainFragments
+package com.example.android.githubclient.mainScreen.fragments
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
@@ -18,10 +18,9 @@ import com.example.android.githubclient.base.adapters.DelegationAdapter
 import com.example.android.githubclient.base.presentation.model.Repo
 import com.example.android.githubclient.base.presentation.presenter.RepoListPresenter
 import com.example.android.githubclient.base.presentation.view.RepoListView
-import com.example.android.githubclient.mainScreen.adapterDelegates.RepoDelegate
+import com.example.android.githubclient.mainScreen.adapters.RepoDelegate
 import com.example.android.githubclient.mainScreen.decorators.ItemDecorator
 import kotlinx.android.synthetic.main.fragment_screen_repos.*
-import kotlinx.android.synthetic.main.fragment_screen_users.*
 
 /**
  * Created by admin on 21.02.2018.
@@ -34,40 +33,13 @@ class FragmentRepos : Fragment(), RepoListView<RepoListPresenter> {
     companion object {
         private val TAG = "TAG_FRAGMENT_REPOS"
 
-        fun newInstance(): Fragment {
-            return FragmentRepos()
-        }
-    }
-
-
-    override fun showError(error: String) {
-        screen_repos_progress_bar.visibility = View.GONE
-        val builder = AlertDialog.Builder(activity)
-
-        builder.setMessage(error)
-                .setTitle(ConstValues.Errors.TITLE)
-                .setPositiveButton(ConstValues.Errors.OK,
-                        DialogInterface.OnClickListener {
-                            dialog, _ -> dialog.cancel()
-                        })
-
-        val dialog = builder.create()
-        dialog.show()
-    }
-
-    override fun showRepos(repos: List<Repo>) {
-        screen_repos_progress_bar.visibility = View.GONE
-        if(repos.isEmpty())
-        {
-            Toast.makeText(context, "No users found", Toast.LENGTH_SHORT).show()
-            adapter?.clearAllItems()
-            return
-        }
-        try {
-            screen_repos.visibility = View.VISIBLE
-            adapter?.replaceAllItems(repos as ArrayList<Any>)
-        } catch (e: ClassCastException) {
-            e.printStackTrace()
+        fun newInstance(addNavigationButton: Any?): Fragment {
+            return FragmentRepos().apply {
+                arguments = Bundle().apply {
+                    putBoolean(ConstValues.FragmentsData.ADD_BACK_NAVIGATION_KEY,
+                            if(addNavigationButton != null) addNavigationButton as Boolean else true)
+                }
+            }
         }
     }
 
@@ -80,50 +52,76 @@ class FragmentRepos : Fragment(), RepoListView<RepoListPresenter> {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setToolbarItems()
-        screen_repos.layoutManager = LinearLayoutManager(context)
-        screen_repos.adapter = adapter
-        screen_repos.addItemDecoration(ItemDecorator(activity))
+        screen_repos_container.layoutManager = LinearLayoutManager(context)
+        screen_repos_container.adapter = adapter
+        screen_repos_container.addItemDecoration(ItemDecorator(activity, R.dimen.item_repo_divider_left_margin, R.dimen.item_repo_divider_left_margin))
 
         adapter?.manager?.addDelegate(RepoDelegate(activity, {
-            YoYo.with(Techniques.BounceIn)
+            v,owner,name -> YoYo.with(Techniques.BounceIn)
                     .duration(200)
-                    .playOn(it)
+                    .playOn(v)
+
+                    activity.supportFragmentManager
+                            .beginTransaction()
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .add(R.id.main_activity_container, FragmentRepository.newInstance(owner, name))
+                            .addToBackStack(FragmentRepository.TAG)
+                            .commit()
         }))
 
-        screen_repos.visibility = View.GONE
+        screen_repos_container.visibility = View.GONE
         screen_repos_progress_bar.visibility = View.VISIBLE
         presenter?.getRepos()
     }
 
-    fun setToolbarItems() {
-        screen_repos_toolbar.inflateMenu(R.menu.menu_toolbar)
+    override fun showError(error: String) {
+        AlertDialog.Builder(context)
+                .setMessage(error)
+                .setTitle(ConstValues.ErrorDialog.TITLE)
+                .setPositiveButton(ConstValues.ErrorDialog.OK, { dialog, _ -> dialog.cancel() })
+                .create()
+                .show()
+        screen_repos_progress_bar.visibility = View.GONE
+    }
 
-        var item = screen_repos_toolbar
+    override fun showRepos(repos: List<Repo>) {
+        screen_repos_progress_bar.visibility = View.GONE
+        if (repos.isEmpty()) {
+            Toast.makeText(context, "No users found", Toast.LENGTH_SHORT).show()
+            adapter?.clearAllItems()
+            return
+        } else {
+            try {
+                screen_repos_container.visibility = View.VISIBLE
+                adapter?.replaceAllItems(repos as ArrayList<Any>)
+            } catch (e: ClassCastException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun setToolbarItems() {
+        screen_repos_toolbar.inflateMenu(R.menu.menu_toolbar)
+        val searchView = screen_repos_toolbar
                 .menu
                 .getItem(0)
-        var searchView = item.actionView as SearchView
+                .actionView as SearchView
         searchView.maxWidth = Int.MAX_VALUE
 
         val insetLeft = screen_repos_toolbar.contentInsetLeft
         val insetRight = screen_repos_toolbar.contentInsetRight
 
         searchView.setOnSearchClickListener { screen_repos_toolbar.setContentInsetsAbsolute(0, 0)}
-        searchView.setOnCloseListener(object: SearchView.OnCloseListener {
-            override fun onClose(): Boolean {
-                screen_repos_toolbar.setContentInsetsAbsolute(insetLeft, insetRight)
-                searchView.setQuery("", false)
-                searchView.onActionViewCollapsed()
-                return true
-            }
-
-        })
-
+        searchView.setOnCloseListener {
+            screen_repos_toolbar.setContentInsetsAbsolute(insetLeft, insetRight)
+            searchView.setQuery("", false)
+            searchView.onActionViewCollapsed()
+            true
+        }
         searchView.setOnQueryTextListener( object: SearchView.OnQueryTextListener {
-
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null) {
                     if(newText.isEmpty()) {
@@ -140,6 +138,11 @@ class FragmentRepos : Fragment(), RepoListView<RepoListPresenter> {
             }
 
         })
+
+        if(!arguments.getBoolean(ConstValues.FragmentsData.ADD_BACK_NAVIGATION_KEY))
+            screen_repos_toolbar.navigationIcon = null
+        else
+            screen_repos_toolbar.setNavigationOnClickListener { activity.onBackPressed() }
     }
 
 }

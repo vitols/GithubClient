@@ -15,7 +15,7 @@ import retrofit2.Call
 class RepoNetworkDataManager : ReposRequestInterface{
 
     private var serviceAuthorized: RepoService? = null
-    private var serviceNonAuthorized: RepoService? = null
+    private var serviceNotAuthorized: RepoService? = null
 
     constructor() {
         serviceAuthorized = RestApi.createService(RepoService::class.java)
@@ -29,39 +29,42 @@ class RepoNetworkDataManager : ReposRequestInterface{
         if(LoginController.instance.isLoggedIn())
             return serviceAuthorized?.getReposByUser(login)
         else
-            return serviceNonAuthorized?.getReposByUser(login)
+            return serviceNotAuthorized?.getReposByUser(login)
     }
 
     override fun getStarredByUser(login: String): Observable<List<Repo>>? {
         if(LoginController.instance.isLoggedIn())
             return serviceAuthorized?.getStarredByUser(login)
         else
-            return serviceNonAuthorized?.getStarredByUser(login)
+            return serviceNotAuthorized?.getStarredByUser(login)
     }
 
-    override fun getRepoByName(name: String): Observable<Repo>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getRepo(login: String, name: String): Call<Repo>? {
+        if(LoginController.instance.isLoggedIn())
+            return serviceAuthorized?.getRepo(login, name)
+        else
+            return serviceNotAuthorized?.getRepo(login, name)
     }
 
     override fun searchRepos(q: String): Call<SearchModel<Repo>>? {
         if(LoginController.instance.isLoggedIn())
             return serviceAuthorized?.searchRepos(q)
         else
-            return serviceNonAuthorized?.searchRepos(q)
+            return serviceNotAuthorized?.searchRepos(q)
     }
 
     override fun getReposSortedBy(sort: String): Observable<List<Repo>>? {
         if(LoginController.instance.isLoggedIn())
             return serviceAuthorized?.getReposSorted(sort)
         else
-            return serviceNonAuthorized?.getReposSorted(sort)
+            return serviceNotAuthorized?.getReposSorted(sort)
     }
 
     override fun getUserReposSorted(login: String, sortParameter: String): Observable<List<Repo>>? {
         if(LoginController.instance.isLoggedIn())
             return serviceAuthorized?.getUserReposSorted(login, sortParameter)
         else
-            return serviceNonAuthorized?.getUserReposSorted(login, sortParameter)
+            return serviceNotAuthorized?.getUserReposSorted(login, sortParameter)
     }
 
 

@@ -13,15 +13,15 @@
         android:layout_width="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
         <android.support.v7.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:id="@+id/screen_profile_toolbar"
             android:background="@color/colorPrimary"
             android:theme="@style/AppTheme.Toolbar"
-            app:title="@string/toolbar_profile_text"
-            style="@style/toolbarText"/>
+            app:title="@string/toolbar_profile_title"
+            style="@style/toolbarText"
+            app:navigationIcon="?attr/homeAsUpIndicator"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -75,14 +75,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:orientation="vertical"
                     android:id="@+id/screen_profile_field_name"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="4dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="@drawable/linear_layout_item">
+                    android:layout_marginBottom="4dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -93,21 +90,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/profile_name"
-                        style="@style/itemText"/>
+                        style="@style/hintText"/>
                 </LinearLayout>
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
                     android:orientation="vertical"
                     android:id="@+id/screen_profile_field_login"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="@drawable/linear_layout_item">
+                    android:layout_marginBottom="8dp">
                     <TextView
                         android:id="@+id/screen_profile_login"
                         android:layout_width="match_parent"
@@ -117,20 +110,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/profile_login"
-                        style="@style/itemText"/>
+                        style="@style/hintText"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:orientation="vertical"
                     android:id="@+id/screen_profile_field_bio"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="@drawable/linear_layout_item">
+                    android:layout_marginBottom="8dp">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -143,7 +133,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/profile_bio"
-                        style="@style/itemText"/>
+                        style="@style/hintText"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -151,12 +141,9 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/screen_profile_field_company"
                     android:orientation="vertical"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="@drawable/linear_layout_item">
+                    android:layout_marginBottom="8dp">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -168,20 +155,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/profile_company"
-                        style="@style/itemText"/>
+                        style="@style/hintText"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:id="@+id/screen_profile_field_location"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="@drawable/linear_layout_item">
+                    android:id="@+id/screen_profile_field_location">
                     <TextView
                         android:id="@+id/screen_profile_location"
                         android:layout_width="wrap_content"
@@ -194,26 +178,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/profile_location"
-                        style="@style/itemText"/>
+                        style="@style/hintText"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
-                    android:id="@+id/screen_profile_field_email"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="@drawable/linear_layout_item">
+                    android:id="@+id/screen_profile_field_email">
                     <TextView
                         android:id="@+id/screen_profile_email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:autoLink="email"
-                        android:textColorLink="@android:color/holo_green_light"
+                        android:textColorLink="@color/colorPrimaryDark"
                         android:drawableLeft="@drawable/ic_email"
                         android:layout_gravity="center_horizontal"
                         android:gravity="center_vertical"
@@ -223,7 +204,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/profile_email"
-                        style="@style/itemText"/>
+                        style="@style/hintText"/>
                 </LinearLayout>
 
 
@@ -231,8 +212,8 @@
 
                 <View
                     android:background="@drawable/linear_layout_divider"
-                      android:layout_width = "match_parent"
-                      android:layout_height="16dp"/>
+                    android:layout_width = "match_parent"
+                    android:layout_height="12dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -260,9 +241,13 @@
 
                     <TextView
                         android:id="@+id/screen_profile_empty_repos"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="48dp"
-                        android:text="User has not created any repositories yet"
+                        android:gravity="start|center_vertical"
+                        android:layout_marginLeft="16dp"
+                        android:text=" doesn’t have any public repositories yet."
+                        style="@style/hintText"
+                        android:layout_gravity="start"
                         android:visibility="gone"/>
 
                     <android.support.v7.widget.RecyclerView
@@ -278,7 +263,7 @@
                 <View
                     android:background="@drawable/linear_layout_divider"
                     android:layout_width = "match_parent"
-                    android:layout_height="16dp"/>
+                    android:layout_height="12dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -306,7 +291,8 @@
                     android:drawableLeft="@drawable/ic_book"
                     android:drawableRight="@drawable/ic_arrow"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"/>
+                    android:layout_marginRight="8dp"
+                    android:background="?attr/selectableItemBackground"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -317,7 +303,8 @@
                     android:drawableLeft="@drawable/ic_star"
                     android:drawableRight="@drawable/ic_arrow"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"/>
+                    android:layout_marginRight="8dp"
+                    android:background="?attr/selectableItemBackground"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -328,7 +315,8 @@
                     android:drawableLeft="@drawable/ic_person"
                     android:drawableRight="@drawable/ic_arrow"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"/>
+                    android:layout_marginRight="8dp"
+                    android:background="?attr/selectableItemBackground"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -339,7 +327,8 @@
                     android:drawableLeft="@drawable/ic_person"
                     android:drawableRight="@drawable/ic_arrow"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"/>
+                    android:layout_marginRight="8dp"
+                    android:background="?attr/selectableItemBackground"/>
 
             </LinearLayout>
 

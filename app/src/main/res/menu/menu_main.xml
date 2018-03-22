@@ -3,8 +3,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".mainScreen.MainActivity">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:id="@+id/edit_profile"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
 </menu>

@@ -47,7 +47,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
-    <style name="itemText" parent="@android:style/TextAppearance.Small">
+    <style name="hintText" parent="@android:style/TextAppearance.Small">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_horizontal</item>
@@ -77,6 +77,7 @@
         <item name="android:textColor">@color/colorText</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
+
     <style name="toolbarText" parent="@android:style/TextAppearance.Medium">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -84,6 +85,14 @@
         <item name="android:textColor">@android:color/black</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="user_item_text" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>

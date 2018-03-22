@@ -49,4 +49,8 @@ class UserRepository : UserRepositoryInterface {
         return networkDM.getFollowingByLogin(login)
     }
 
+    override fun updateUser(name: String, bio: String, company: String, location: String, email: String, blog: String, hireable: Boolean): Call<User>? {
+        return networkDM.updateUser(name, bio, company, location, email, blog, hireable)
+    }
+
 }
