@@ -2,20 +2,20 @@
 
 The repo contains a client application for GitHub written in Kotlin for Android devices.
 
-This application is a continuation of the previosly written app in Java ([check out GithubUsers repository] (https://github.com/vitols/GithubUsers)).
+This application is a continuation of the first version written in Java (check out [GithubUsers repository](https://github.com/vitols/GithubUsers)).
 
 The app has two operating modes - anonymous and authorized.
-With the anonymous access it is allowed to explore user profiles.
-When authorized, one could access their profile, view private repos and edit personal info.
+With the anonymous access it is allowed to explore user profiles, repos, etc.
+When authorized, one could access their profile and private repositories, edit personal info.
 
 ## Getting Started
 
 To be able to use authorization, it is required to register the app on Github.
-The issued CLIENT_ID and CLIENT_SECRET should be added to com.example.android.githubclient.base.ConstValues.kt file in order to enable authorized requests.
+The issued `CLIENT_ID` and `CLIENT_SECRET` should be added to `com.example.android.githubclient.base.ConstValues.kt` file in order to enable authorized requests.
 
 #### Built With
 
-* [GitHub's OAuth] (https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps)
+* [GitHub's OAuth](https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps)
 * [Java 8](https://java.com/en/download/)
 * [RxJava](https://github.com/ReactiveX/RxJava) - A library for composing asynchronous and event-based programs
 * [Glide](https://github.com/bumptech/glide) - Image loading framework
