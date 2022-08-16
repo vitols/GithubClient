@@ -11,8 +11,9 @@ object ConstValues {
         const val CODE = "code"
     }
     object ParamValues {
-        const val CLIENT_ID = "c0a8a765ce30cfa59ae4"
-        const val CLIENT_SECRET = "142a79b90109b68cecb1962809bfbb16164997a2"
+        //add your credentials here
+        const val CLIENT_ID = ""
+        const val CLIENT_SECRET = ""
     }
     object Urls {
         const val BASE_URL = "https://github.com"
