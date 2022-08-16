@@ -13,6 +13,10 @@ While when authorized, one could access their profile and private repositories, 
 To be able to use authorization, it is required to register the app on Github.
 The issued `CLIENT_ID` and `CLIENT_SECRET` should be added to `com.example.android.githubclient.base.ConstValues.kt` file in order to enable authorized requests.
 
+### Screenshots
+
+<img src="profile_screen.gif" width="300"/>   <img src="repo_screen.gif" width="300"/>   <img src="users_screen.gif" width="300"/>
+
 #### Built With
 
 * [GitHub's OAuth](https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps) 
