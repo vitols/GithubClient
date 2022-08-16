@@ -2,22 +2,18 @@ package com.example.android.githubclient.mainScreen.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
 import android.view.View
+import androidx.appcompat.app.AlertDialog
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.FragmentTransaction
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.controllers.LoginController
 import com.example.android.githubclient.base.presentation.model.User
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.app.FragmentTransaction
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.CardView
-import android.util.Log
-import android.widget.TextView
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.fragments.FragmentProfileAbstract
 import com.example.android.githubclient.mainScreen.adapters.RepoDelegate
 import com.example.android.githubclient.otherScreens.FragmentEditProfile
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_screen_profile.*
 
 
@@ -46,7 +42,7 @@ class FragmentProfileAuthorized : FragmentProfileAbstract(),
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
             onLoggedOutCallback = context as onLogOutListenter
@@ -55,7 +51,7 @@ class FragmentProfileAuthorized : FragmentProfileAbstract(),
         }
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         screen_profile_swiperefresh_layout.setOnRefreshListener(this)
         setSwiperefreshOffset()
@@ -65,14 +61,15 @@ class FragmentProfileAuthorized : FragmentProfileAbstract(),
         exitButtonParams.topMargin += resources.getDimension(R.dimen.exit_button_margin_top).toInt()
         screen_profile_exit.layoutParams = exitButtonParams
 
-        adapter?.manager?.addDelegate(RepoDelegate(activity,
-                {_, _, name ->
-                    activity.supportFragmentManager
-                        .beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .add(R.id.main_activity_container, FragmentRepository.newInstance(user!!.login, name))
-                        .addToBackStack(FragmentRepository.TAG)
-                        .commit()}))
+        adapter?.manager?.addDelegate(RepoDelegate(requireActivity()
+        ) { _, _, name ->
+            requireActivity().supportFragmentManager
+                    .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .add(R.id.main_activity_container, FragmentRepository.newInstance(user!!.login, name))
+                    .addToBackStack(FragmentRepository.TAG)
+                    .commit()
+        })
 
         user = LoginController.instance.user
         if(user != null) {
@@ -123,10 +120,10 @@ class FragmentProfileAuthorized : FragmentProfileAbstract(),
     override fun onApplyChanges(name: String, bio: String, company: String, location: String,
                                 email: String, blog: String, hireable: Boolean) {
 
-        activity.supportFragmentManager
+        requireActivity().supportFragmentManager
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                .remove(activity.supportFragmentManager.findFragmentByTag(FragmentEditProfile.TAG))
+                .remove(activity?.supportFragmentManager?.findFragmentByTag(FragmentEditProfile.TAG)!!)
                 .commit()
         presenter?.updateUser(name, bio, company, location, email, blog, hireable)
 
@@ -135,7 +132,7 @@ class FragmentProfileAuthorized : FragmentProfileAbstract(),
     override fun setOnClickListeners(login: String) {
         super.setOnClickListeners(login)
         screen_profile_exit.setOnClickListener {
-            AlertDialog.Builder(activity)
+            AlertDialog.Builder(requireActivity())
                     .setMessage("Are you sure you want to exit?")
                     .setPositiveButton("Yes", {_,_ -> onLoggedOutCallback?.callbackOnLoggedOut() })
                     .setNegativeButton("No",{ dialog, _ -> dialog.cancel() })
@@ -145,7 +142,7 @@ class FragmentProfileAuthorized : FragmentProfileAbstract(),
     }
 
     private fun setSwiperefreshOffset() {
-        val typedArray = context.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
+        val typedArray = requireContext().obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
         val actionBarSize = typedArray.getDimension(0, 0f)
         typedArray.recycle()
 
@@ -169,7 +166,7 @@ class FragmentProfileAuthorized : FragmentProfileAbstract(),
                 .menu
                 .getItem(0)
         item.setOnMenuItemClickListener {
-            activity.supportFragmentManager
+            requireActivity().supportFragmentManager
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .add(R.id.main_activity_container, FragmentEditProfile.newInstance(

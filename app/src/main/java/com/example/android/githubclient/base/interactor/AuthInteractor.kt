@@ -1,7 +1,6 @@
 package com.example.android.githubclient.base.interactor
 
 import com.example.android.githubclient.base.data.AuthRepository
-import com.example.android.githubclient.base.presentation.model.User
 import retrofit2.Call
 
 /**

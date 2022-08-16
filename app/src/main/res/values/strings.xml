@@ -18,8 +18,11 @@
     <string name="toolbar_users_title">Users</string>
     <string name="toolbar_profile_title">My profile</string>
     <string name="toolbar_repos_title">My repositories</string>
+    <string name="toolbar_graph_title">Stargazers</string>
     <string name="toolbar_edit_text_title">Edit profile</string>
+
     <string name="toolbar_item_apply">Apply changes</string>
+    <string name="toolbar_show_graph">Build graph of stargazers</string>
 
     <string name="profile_starred_text">Starred</string>
     <string name="profile_followers_text">Followers</string>

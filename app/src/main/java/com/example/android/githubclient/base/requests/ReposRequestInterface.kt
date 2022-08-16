@@ -4,8 +4,6 @@ import com.example.android.githubclient.base.presentation.model.Repo
 import com.example.android.githubclient.base.presentation.model.SearchModel
 import io.reactivex.Observable
 import retrofit2.Call
-import retrofit2.http.Path
-import retrofit2.http.Query
 
 /**
  * Created by admin on 22.02.2018.

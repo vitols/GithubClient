@@ -4,7 +4,6 @@ import android.util.Log
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.controllers.LoginController
 import com.example.android.githubclient.base.interactor.AuthInteractor
-import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.presentation.view.AuthView
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,7 +23,7 @@ class AuthPresenter(override var view: AuthView<*>?) : BasePresenter<AuthView<*>
             }
 
             override fun onResponse(call: Call<String>?, response: Response<String>?) {
-                Log.e("onResponseLogOut", response?.body())
+                Log.e("onResponseLogOut", response?.body().toString())
             }
 
         })

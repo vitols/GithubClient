@@ -3,7 +3,6 @@ package com.example.android.githubclient.base.presentation.presenter
 import com.example.android.githubclient.base.interactor.RepoInteractor
 import com.example.android.githubclient.base.presentation.model.Repo
 import com.example.android.githubclient.base.presentation.model.SearchModel
-import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.presentation.view.RepoListView
 import retrofit2.Call
 import retrofit2.Callback

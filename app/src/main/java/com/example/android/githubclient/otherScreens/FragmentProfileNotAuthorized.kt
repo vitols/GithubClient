@@ -1,10 +1,10 @@
 package com.example.android.githubclient.otherScreens
 
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.presentation.model.User
@@ -33,10 +33,10 @@ class FragmentProfileNotAuthorized : FragmentProfileAbstract() {
         }
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         fragment_screen_profile_progressbar.visibility = View.VISIBLE
         super.onViewCreated(view, savedInstanceState)
-        login = arguments.get(ConstValues.FragmentsData.LOGIN_KEY).toString()
+        login = arguments?.get(ConstValues.FragmentsData.LOGIN_KEY).toString()
         if(login.isEmpty())
             throw NullPointerException("Login is empty in " + TAG)
 
@@ -48,14 +48,15 @@ class FragmentProfileNotAuthorized : FragmentProfileAbstract() {
         exitButtonParams.behavior = null
         screen_profile_exit.layoutParams = exitButtonParams
         screen_profile_exit.visibility = View.GONE
-        adapter?.manager?.addDelegate(RepoDelegate(activity,
-                {_, _, name ->
-                    activity.supportFragmentManager
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .add(R.id.main_activity_container, FragmentRepository.newInstance(login, name))
-                            .addToBackStack(FragmentRepository.TAG)
-                            .commit()}))
+        adapter?.manager?.addDelegate(RepoDelegate(activity
+        ) { _, _, name ->
+            requireActivity().supportFragmentManager
+                    .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .add(R.id.main_activity_container, FragmentRepository.newInstance(login, name))
+                    .addToBackStack(FragmentRepository.TAG)
+                    .commit()
+        })
 
         screen_profile_progress_bar.visibility = View.VISIBLE
         presenter?.getUserByLogin(login)

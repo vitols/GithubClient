@@ -2,13 +2,13 @@ package com.example.android.githubclient.otherScreens
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.android.githubclient.R
@@ -51,7 +51,7 @@ class FragmentListAny : Fragment(), AnyListView<AnyListPresenter> {
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
             mainActivityCallback = context as FragmentUsers.FragmentListListener
@@ -60,62 +60,61 @@ class FragmentListAny : Fragment(), AnyListView<AnyListPresenter> {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         adapter = DelegationAdapter()
         presenter = AnyListPresenter(this)
         return inflater?.inflate(R.layout.fragment_screen_repos, container,false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        data = arguments.get(ConstValues.FragmentsData.DATA).toString()
-        login = arguments.get(ConstValues.FragmentsData.LOGIN_KEY).toString()
+        data = arguments?.get(ConstValues.FragmentsData.DATA).toString()
+        login = arguments?.get(ConstValues.FragmentsData.LOGIN_KEY).toString()
 
         if(login == LoginController.instance.user?.login && LoginController.instance.isLoggedIn())
             screen_repos_toolbar.title = "My " + data.toLowerCase()
         else
             screen_repos_toolbar.title = login + "'s " + data.toLowerCase()
-        screen_repos_toolbar.setNavigationOnClickListener { activity.onBackPressed() }
+        screen_repos_toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
 
         screen_repos_container.layoutManager = LinearLayoutManager(context)
         screen_repos_container.adapter = adapter
-        screen_repos_container.addItemDecoration(ItemDecorator(activity, LinearLayoutManager.VERTICAL))
+        screen_repos_container.addItemDecoration(ItemDecorator(requireActivity(), LinearLayoutManager.VERTICAL))
 
-        adapter?.manager?.addDelegate(UserDelegate(activity,  {
-            itemView: View, login: String ->
+        adapter?.manager?.addDelegate(UserDelegate(activity
+        ) { itemView: View, login: String ->
             YoYo.with(Techniques.ZoomIn)
                     .duration(100)
                     .playOn(itemView);
-                if (login == LoginController.instance.user?.login && LoginController.instance.isLoggedIn())
-                    openScreenProfile(FragmentProfileAuthorized.newInstance())
-                else
-                    openScreenProfile(FragmentProfileNotAuthorized.newInstance(login))
-        }
-        ))
+            if (login == LoginController.instance.user?.login && LoginController.instance.isLoggedIn())
+                openScreenProfile(FragmentProfileAuthorized.newInstance())
+            else
+                openScreenProfile(FragmentProfileNotAuthorized.newInstance(login))
+        })
 
         screen_repos_progress_bar.visibility = View.VISIBLE
         when(data) {
             ConstValues.FragmentsData.REPOS_KEY -> {
-                adapter?.manager?.addDelegate(RepoDelegate(activity, {_, _, name ->
-                    activity.supportFragmentManager
+                adapter?.manager?.addDelegate(RepoDelegate(activity) { _, _, name ->
+                    requireActivity().supportFragmentManager
                             .beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .add(R.id.main_activity_container, FragmentRepository.newInstance(login, name))
                             .addToBackStack(FragmentRepository.TAG)
                             .commit()
-                }))
+                })
                 presenter?.getListRepos(login)
             }
             ConstValues.FragmentsData.STARRED_KEY -> {
-                adapter?.manager?.addDelegate(RepoDelegate(activity, {_, owner, name ->
-                    activity.supportFragmentManager
+                adapter?.manager?.addDelegate(RepoDelegate(activity) { _, owner, name ->
+                    requireActivity().supportFragmentManager
                             .beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .add(R.id.main_activity_container, FragmentRepository.newInstance(owner, name))
                             .addToBackStack(FragmentRepository.TAG)
                             .commit()
-                }))
+                })
                 presenter?.getListStarred(login)
             }
             ConstValues.FragmentsData.FOLLOWERS_KEY -> presenter?.getListFollowers(login)
@@ -137,7 +136,7 @@ class FragmentListAny : Fragment(), AnyListView<AnyListPresenter> {
     }
 
     override fun showError(error: String) {
-        AlertDialog.Builder(context)
+        AlertDialog.Builder(requireContext())
                 .setMessage(error)
                 .setTitle(ConstValues.ErrorDialog.TITLE)
                 .setPositiveButton(ConstValues.ErrorDialog.OK, { dialog, _ -> dialog.cancel() })
@@ -192,7 +191,7 @@ class FragmentListAny : Fragment(), AnyListView<AnyListPresenter> {
     }
 
     private fun openScreenProfile(fragment: Fragment) {
-        activity.supportFragmentManager
+        requireActivity().supportFragmentManager
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .add(R.id.main_activity_container, fragment)

@@ -1,22 +1,15 @@
 package com.example.android.githubclient.mainScreen.behavior
 
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.view.ViewCompat
-import android.support.v4.widget.NestedScrollView
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import de.hdodenhof.circleimageview.CircleImageView
-import android.opengl.ETC1.getHeight
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.RecyclerView
-import android.widget.LinearLayout
-import android.widget.ScrollView
 import com.example.android.githubclient.R
-import android.util.DisplayMetrics
 import android.view.WindowManager
-import com.example.android.githubclient.mainScreen.SwipeRefreshLayoutCustom
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.ViewCompat
+import androidx.core.widget.NestedScrollView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 
 /**
@@ -133,15 +126,11 @@ class AvatarBehavior(var context: Context, attrs: AttributeSet) :
                 val percentageOfY = minMaxYRatio + ratio * (100 - minMaxYRatio)
                 val newY = percentageOfY * avatarStartY / 100
 
-                if(newY <= avatarStartY)
+                if (newY <= avatarStartY)
                     child.y = newY
-                if(newX >= avatarStartX)
+                if (newX >= avatarStartX)
                     child.x = newX
-
             }
         }
-
-
     }
-
 }

@@ -1,13 +1,12 @@
 package com.example.android.githubclient.mainScreen
 
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.example.android.githubclient.base.navigator.ScreenInterface
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.api.RestApi
@@ -18,6 +17,7 @@ import com.example.android.githubclient.base.utils.Prefs
 import com.example.android.githubclient.mainScreen.fragments.FragmentAuth
 import com.example.android.githubclient.mainScreen.fragments.FragmentProfileAuthorized
 import com.example.android.githubclient.mainScreen.fragments.FragmentUsers
+import com.google.android.material.navigation.NavigationBarView
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_screen_repos.*
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(),
         FragmentAuth.onLogInListener,
         FragmentProfileAuthorized.onLogOutListenter,
         FragmentUsers.FragmentListListener,
-        BottomNavigationView.OnNavigationItemSelectedListener {
+        NavigationBarView.OnItemSelectedListener {
 
     var navigator: MainActivityNavigator = MainActivityNavigator(supportFragmentManager, R.id.main_activity_container)
     var sideBarHidden = false
@@ -42,11 +42,11 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.show()
-        Prefs.Companion.init(this)
+        Prefs.init(this)
         RestApi.init(LoginController.instance.authenticator)
         RestAuth.init()
         RestApiNonAuthorized.init()
-        main_bottombar.setOnNavigationItemSelectedListener(this)
+        main_bottombar.setOnItemSelectedListener(this)
 
         if(LoginController.instance.isLoggedIn()) {
             navigator.openFirstFragment(MainActivityNavigator.Screens.SCREEN_PROFILE)
@@ -172,7 +172,7 @@ class MainActivity : AppCompatActivity(),
 
     private fun clearBackStack() {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        //supportFragmentManager.executePendingTransactions()
+        supportFragmentManager.executePendingTransactions()
     }
     private fun isTopFragment(tag: String): Boolean {
         val lastInd = supportFragmentManager.backStackEntryCount - 1

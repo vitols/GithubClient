@@ -1,13 +1,13 @@
 package com.example.android.githubclient.mainScreen.decorators
 
-import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android.githubclient.R
 
 
@@ -21,14 +21,14 @@ class ItemDecorator : RecyclerView.ItemDecoration {
     private var dividerMarginLeft: Int = 0
     private var dividerMarginRight: Int = 0
 
-    constructor(context: Context, orientation: Int, idLeftMargin: Int = 0, idRightMargin: Int = 0) {
+    constructor(context: FragmentActivity, orientation: Int, idLeftMargin: Int = 0, idRightMargin: Int = 0) {
         this.orientation = orientation
         divider = ContextCompat.getDrawable(context, R.drawable.item_decoration)
         dividerMarginLeft = if (idLeftMargin != 0) context.resources.getDimension(idLeftMargin).toInt() else 0
         dividerMarginRight = if (idRightMargin != 0) context.resources.getDimension(idRightMargin).toInt() else 0
     }
 
-    override fun onDrawOver(c: Canvas?, parent: RecyclerView?, state: RecyclerView.State?) {
+    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         if(c == null || parent == null)
             return
         if(orientation == LinearLayoutManager.VERTICAL)
@@ -49,7 +49,7 @@ class ItemDecorator : RecyclerView.ItemDecoration {
         }
     }
 
-    override fun getItemOffsets(outRect: Rect?, view: View?, parent: RecyclerView?, state: RecyclerView.State?) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
 
         if (parent?.getChildAdapterPosition(view) == 0) {

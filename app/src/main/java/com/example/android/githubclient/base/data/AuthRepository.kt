@@ -2,7 +2,6 @@ package com.example.android.githubclient.base.data
 
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.data.network.AuthNetworkDataManager
-import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.requests.AuthRequestInterface
 import retrofit2.Call
 

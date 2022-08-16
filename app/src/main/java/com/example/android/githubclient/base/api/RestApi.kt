@@ -3,13 +3,11 @@ package com.example.android.githubclient.base.api
 import android.util.Log
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.controllers.LoginController
-import com.google.gson.Gson
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 
 /**
  * Created by admin on 22.02.2018.
@@ -38,7 +36,7 @@ object RestApi {
                 try {
                     return chain!!.proceed(requestBuilder);
                 } catch (e: Exception) {
-                    Log.e("RestApi", e.message)
+                    Log.e("RestApi", e.message!!)
                     return chain!!.proceed(requestBuilder)
                 }
             }

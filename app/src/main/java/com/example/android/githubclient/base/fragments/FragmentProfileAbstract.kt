@@ -1,15 +1,15 @@
 package com.example.android.githubclient.base.fragments
 
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
-import android.support.v4.view.ViewCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.ViewCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -31,13 +31,13 @@ abstract class FragmentProfileAbstract : Fragment(), UserView<UserPresenter> {
     override var presenter: UserPresenter? = null
     var adapter: DelegationAdapter<Any>? = null
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         presenter = UserPresenter(this)
         adapter = DelegationAdapter<Any>()
-        return inflater!!.inflate(R.layout.fragment_screen_profile, container, false)
+        return inflater.inflate(R.layout.fragment_screen_profile, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val avatarParams = screen_profile_avatar.layoutParams as CoordinatorLayout.LayoutParams
         avatarParams.topMargin += resources.getDimension(R.dimen.avatar_margin_top).toInt()
@@ -47,12 +47,12 @@ abstract class FragmentProfileAbstract : Fragment(), UserView<UserPresenter> {
 
         screen_profile_repos_container.adapter = adapter
         screen_profile_repos_container.layoutManager = LinearLayoutManager(context)
-        screen_profile_repos_container.addItemDecoration(ItemDecorator(context, LinearLayoutManager.VERTICAL))
+        screen_profile_repos_container.addItemDecoration(ItemDecorator(requireActivity(), LinearLayoutManager.VERTICAL))
 
     }
 
     override fun showError(error: String) {
-        AlertDialog.Builder(context)
+        AlertDialog.Builder(requireContext())
                 .setMessage(error)
                 .setTitle(ConstValues.ErrorDialog.TITLE)
                 .setPositiveButton(ConstValues.ErrorDialog.OK, { dialog, _ -> dialog.cancel() })
@@ -137,10 +137,10 @@ abstract class FragmentProfileAbstract : Fragment(), UserView<UserPresenter> {
     }
 
     open fun setToolbarItems() {
-        if(!arguments.getBoolean(ConstValues.FragmentsData.ADD_BACK_NAVIGATION_KEY))
+        if(arguments?.getBoolean(ConstValues.FragmentsData.ADD_BACK_NAVIGATION_KEY) == false)
             screen_profile_toolbar.navigationIcon = null
         else
-            screen_profile_toolbar.setNavigationOnClickListener { activity.onBackPressed() }
+            screen_profile_toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
     }
 
     open fun setOnClickListeners(login: String) {
@@ -171,7 +171,7 @@ abstract class FragmentProfileAbstract : Fragment(), UserView<UserPresenter> {
 
     }
     private fun makeTransaction(flag: String, login: String) {
-        activity.supportFragmentManager
+        requireActivity().supportFragmentManager
                 .beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .add(R.id.main_activity_container, FragmentListAny.newInstance(flag, login))

@@ -1,13 +1,8 @@
 package com.example.android.githubclient.mainScreen
 
 import android.content.Context
-import android.support.v4.widget.SwipeRefreshLayout
 import android.util.AttributeSet
-import android.support.v4.view.ViewCompat.canScrollVertically
-import android.support.v4.widget.NestedScrollView
-import android.util.Log
-import android.view.View
-import com.example.android.githubclient.R
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.fragment_screen_profile.view.*
 
 

@@ -1,24 +1,15 @@
 package com.example.android.githubclient
 
-import android.support.multidex.MultiDexApplication
-import com.example.android.githubclient.base.api.RestApi
-import com.example.android.githubclient.base.controllers.LoginController
-import com.example.android.githubclient.base.utils.Prefs
+import android.app.Application
 
 
 /**
  * Created by admin on 26.02.2018.
  */
-class MainApp : MultiDexApplication()
+class MainApp : Application()
 {
 
     companion object {
         lateinit var instance: MainApp
-    }
-
-    override fun onCreate(){
-        super.onCreate()
-
-
     }
 }

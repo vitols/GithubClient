@@ -2,11 +2,11 @@ package com.example.android.githubclient.otherScreens
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.mainScreen.fragments.FragmentProfileAuthorized
@@ -44,22 +44,22 @@ class FragmentEditProfile : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
              applyChangesLisener = activity
-                     .supportFragmentManager
-                     .findFragmentByTag("SCREEN_PROFILE") as EditProfileApplyChangesListener
+                     ?.supportFragmentManager
+                     ?.findFragmentByTag("SCREEN_PROFILE") as EditProfileApplyChangesListener
         } catch (e: ClassCastException) {
             throw ClassCastException(FragmentProfileAuthorized.TAG + " must implement EditProfileApplyChangesListener callback")
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_screen_edit_profile, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setToolbarItems()
         setData()
     }
@@ -85,17 +85,17 @@ class FragmentEditProfile : Fragment() {
             false
         }
         screen_edit_profile_toolbar.setNavigationOnClickListener {
-            activity.onBackPressed()
+            activity?.onBackPressed()
         }
     }
 
     fun setData() {
-        var name = arguments.getString(ConstValues.UserData.NAME)
-        var bio = arguments.getString(ConstValues.UserData.BIO)
-        var company = arguments.getString(ConstValues.UserData.COMPANY)
-        var location = arguments.getString(ConstValues.UserData.LOCATION)
-        var email = arguments.getString(ConstValues.UserData.EMAIL)
-        var blog = arguments.getString(ConstValues.UserData.BLOG)
+        var name = arguments?.getString(ConstValues.UserData.NAME)
+        var bio = arguments?.getString(ConstValues.UserData.BIO)
+        var company = arguments?.getString(ConstValues.UserData.COMPANY)
+        var location = arguments?.getString(ConstValues.UserData.LOCATION)
+        var email = arguments?.getString(ConstValues.UserData.EMAIL)
+        var blog = arguments?.getString(ConstValues.UserData.BLOG)
 
         screen_edit_profile_name.setText(name, TextView.BufferType.EDITABLE)
         screen_edit_profile_bio.setText(bio, TextView.BufferType.EDITABLE)

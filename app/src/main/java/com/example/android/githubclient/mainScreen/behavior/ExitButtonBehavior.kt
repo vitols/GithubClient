@@ -1,11 +1,10 @@
 package com.example.android.githubclient.mainScreen.behavior
 
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.example.android.githubclient.R
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -31,11 +30,11 @@ class ExitButtonBehavior(var context: Context, var attrs: AttributeSet) :
 
     }
 
-    override fun layoutDependsOn(parent: CoordinatorLayout?, child: ImageView?, dependency: View?): Boolean {
+    override fun layoutDependsOn(parent: CoordinatorLayout, child: ImageView, dependency: View): Boolean {
         return dependency is CircleImageView
     }
 
-    override fun onDependentViewChanged(parent: CoordinatorLayout?, child: ImageView?, dependency: View?): Boolean {
+    override fun onDependentViewChanged(parent: CoordinatorLayout, child: ImageView, dependency: View): Boolean {
         if(dependency == null || child == null)
             return false
 

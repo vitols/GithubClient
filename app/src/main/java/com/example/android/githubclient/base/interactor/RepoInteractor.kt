@@ -1,6 +1,5 @@
 package com.example.android.githubclient.base.interactor
 
-import android.util.Log
 import com.example.android.githubclient.base.data.RepoRepository
 import com.example.android.githubclient.base.data.RepoRepositoryInterface
 import com.example.android.githubclient.base.presentation.model.Repo

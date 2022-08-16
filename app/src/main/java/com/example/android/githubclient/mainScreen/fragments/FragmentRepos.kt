@@ -1,17 +1,15 @@
 package com.example.android.githubclient.mainScreen.fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.daimajia.androidanimations.library.Techniques
-import com.daimajia.androidanimations.library.YoYo
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.adapters.DelegationAdapter
@@ -43,31 +41,29 @@ class FragmentRepos : Fragment(), RepoListView<RepoListPresenter> {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         presenter = RepoListPresenter(this)
         adapter = DelegationAdapter()
-        return inflater!!.inflate(R.layout.fragment_screen_repos, container, false)
+        return inflater.inflate(R.layout.fragment_screen_repos, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setToolbarItems()
         screen_repos_container.layoutManager = LinearLayoutManager(context)
         screen_repos_container.adapter = adapter
-        screen_repos_container.addItemDecoration(ItemDecorator(activity, R.dimen.item_repo_divider_left_margin, R.dimen.item_repo_divider_left_margin))
+        screen_repos_container.addItemDecoration(ItemDecorator(requireActivity(), R.dimen.item_repo_divider_left_margin, R.dimen.item_repo_divider_left_margin))
 
-        adapter?.manager?.addDelegate(RepoDelegate(activity, {
-            v,owner,name -> YoYo.with(Techniques.BounceIn)
-                    .duration(200)
-                    .playOn(v)
-
-                    activity.supportFragmentManager
-                            .beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .add(R.id.main_activity_container, FragmentRepository.newInstance(owner, name))
-                            .addToBackStack(FragmentRepository.TAG)
-                            .commit()
-        }))
+        adapter?.manager?.addDelegate(RepoDelegate(activity) { v, owner, name ->
+            /*YoYo.with(Techniques.BounceIn)
+                    .playOn(v)*/
+            requireActivity().supportFragmentManager
+                    .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .add(R.id.main_activity_container, FragmentRepository.newInstance(owner, name))
+                    .addToBackStack(FragmentRepository.TAG)
+                    .commit()
+        })
 
         screen_repos_container.visibility = View.GONE
         screen_repos_progress_bar.visibility = View.VISIBLE
@@ -75,7 +71,7 @@ class FragmentRepos : Fragment(), RepoListView<RepoListPresenter> {
     }
 
     override fun showError(error: String) {
-        AlertDialog.Builder(context)
+        AlertDialog.Builder(requireContext())
                 .setMessage(error)
                 .setTitle(ConstValues.ErrorDialog.TITLE)
                 .setPositiveButton(ConstValues.ErrorDialog.OK, { dialog, _ -> dialog.cancel() })
@@ -139,10 +135,10 @@ class FragmentRepos : Fragment(), RepoListView<RepoListPresenter> {
 
         })
 
-        if(!arguments.getBoolean(ConstValues.FragmentsData.ADD_BACK_NAVIGATION_KEY))
+        if(arguments?.getBoolean(ConstValues.FragmentsData.ADD_BACK_NAVIGATION_KEY) == false)
             screen_repos_toolbar.navigationIcon = null
         else
-            screen_repos_toolbar.setNavigationOnClickListener { activity.onBackPressed() }
+            screen_repos_toolbar.setNavigationOnClickListener { requireActivity().onBackPressed() }
     }
 
 }

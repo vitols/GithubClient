@@ -1,9 +1,8 @@
 package com.example.android.githubclient.base.adapters
 
-import android.support.v4.util.SparseArrayCompat
-import android.support.v7.widget.RecyclerView
-import android.util.SparseArray
 import android.view.ViewGroup
+import androidx.collection.SparseArrayCompat
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by admin on 08.03.2018.
@@ -14,6 +13,7 @@ class AdapterManager<T> {
     fun addDelegate(delegate: AdapterDelegate<T>): AdapterManager<T>{
         return addDelegate(delegates.size(), delegate)
     }
+
     fun addDelegate(viewType: Int, delegate: AdapterDelegate<T>): AdapterManager<T>{
         return addDelegate(viewType, delegate, false)
     }
@@ -24,7 +24,7 @@ class AdapterManager<T> {
         return this
     }
 
-    fun removeDelegate(viewType: Int ) {
+    fun removeDelegate(viewType: Int) {
         delegates.remove(viewType)
     }
     fun removeDelegate(delegate: AdapterDelegate<T>) {

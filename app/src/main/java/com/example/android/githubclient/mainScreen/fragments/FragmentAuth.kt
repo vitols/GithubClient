@@ -2,12 +2,12 @@ package com.example.android.githubclient.mainScreen.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.presentation.presenter.AuthPresenter
 import com.example.android.githubclient.base.presentation.view.AuthView
-import android.support.v7.app.AlertDialog
 import android.view.*
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.controllers.LoginController
 import com.example.android.githubclient.mainScreen.WebViewAuthClient
@@ -37,7 +37,7 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
             onLoggedInCallback = context as onLogInListener
@@ -46,12 +46,12 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         presenter = AuthPresenter(this)
-        return inflater!!.inflate(R.layout.fragment_screen_auth, container, false)
+        return inflater.inflate(R.layout.fragment_screen_auth, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         screen_auth_webview.settings?.javaScriptEnabled = true
         screen_auth_webview.webViewClient = WebViewAuthClient(context, presenter, screen_auth_progress_bar)
 
@@ -81,7 +81,7 @@ class FragmentAuth : Fragment(), AuthView<AuthPresenter> {
     }
 
     override fun showError(error: String) {
-        AlertDialog.Builder(context)
+        AlertDialog.Builder(requireContext())
                 .setMessage(error)
                 .setTitle(ConstValues.ErrorDialog.TITLE)
                 .setPositiveButton(ConstValues.ErrorDialog.OK, { dialog, _ -> dialog.cancel() })

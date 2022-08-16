@@ -1,6 +1,6 @@
 package com.example.android.githubclient.mainScreen
 
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.FragmentManager
 import com.example.android.githubclient.base.navigator.*
 import com.example.android.githubclient.mainScreen.fragments.FragmentAuth
 import com.example.android.githubclient.mainScreen.fragments.FragmentProfileAuthorized

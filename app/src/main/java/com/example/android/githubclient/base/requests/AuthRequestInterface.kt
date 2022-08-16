@@ -1,6 +1,5 @@
 package com.example.android.githubclient.base.requests
 
-import com.example.android.githubclient.base.presentation.model.User
 import retrofit2.Call
 
 /**

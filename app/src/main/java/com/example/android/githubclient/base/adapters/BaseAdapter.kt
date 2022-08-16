@@ -1,8 +1,8 @@
 package com.example.android.githubclient.base.adapters
 
-import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import java.util.*
 
 /**
  * Created by admin on 26.02.2018.
@@ -30,7 +30,6 @@ abstract class BaseAdapter<ModelT, ViewHolderT : RecyclerView.ViewHolder> : Recy
         items.add(position, item)
     }
     fun addAllItems(items: ArrayList<ModelT>) {
-        Log.e("BaseAdapter", "addAllItems")
         val startPosition = this.items.size
         this.items.addAll(startPosition, items);
         if(startPosition == 0)

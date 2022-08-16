@@ -12,7 +12,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import android.util.Base64
 import com.example.android.githubclient.base.ConstValues
-import java.nio.charset.Charset
 
 /**
  * Created by admin on 22.03.2018.

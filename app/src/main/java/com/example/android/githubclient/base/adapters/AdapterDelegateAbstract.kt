@@ -1,8 +1,7 @@
 package com.example.android.githubclient.base.adapters
 
-import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import android.widget.Adapter
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by admin on 08.03.2018.

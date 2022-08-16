@@ -1,15 +1,13 @@
 package com.example.android.githubclient.otherScreens
 
-import android.opengl.Visibility
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AlertDialog
 import android.text.Html
 import android.text.method.LinkMovementMethod
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.presentation.model.Repo
@@ -38,16 +36,16 @@ class FragmentRepositoryInfo : Fragment(), RepoView<RepoPresenter> {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         presenter = RepoPresenter(this)
         return inflater!!.inflate(R.layout.fragment_repository_info, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         screen_repository_info_progress_bar.visibility = View.VISIBLE
         screen_repository_info_markdown_progress_bar.visibility = View.VISIBLE
-        login = arguments.getString(ConstValues.FragmentsData.LOGIN_KEY)
-        repoName = arguments.getString(ConstValues.FragmentsData.REPO_NAME_KEY)
+        login = arguments?.getString(ConstValues.FragmentsData.LOGIN_KEY).toString()
+        repoName = arguments?.getString(ConstValues.FragmentsData.REPO_NAME_KEY).toString()
         presenter?.getRepo(login, repoName)
         presenter?.getFileContent(login, repoName)
     }
@@ -64,7 +62,7 @@ class FragmentRepositoryInfo : Fragment(), RepoView<RepoPresenter> {
             return
         screen_repository_info_markdown_progress_bar.visibility = View.GONE
         if(readme != null) {
-            screen_repository_info_markdown.loadMarkdown(readme)
+            //screen_repository_info_markdown.loadMarkdown(readme)
         }
         else {
             screen_repository_info_readme_placeholder.visibility = View.VISIBLE
@@ -73,7 +71,7 @@ class FragmentRepositoryInfo : Fragment(), RepoView<RepoPresenter> {
     }
 
     override fun showError(error: String) {
-        AlertDialog.Builder(context)
+        AlertDialog.Builder(requireContext())
                 .setMessage(error)
                 .setTitle(ConstValues.ErrorDialog.TITLE)
                 .setPositiveButton(ConstValues.ErrorDialog.OK, { dialog, _ -> dialog.cancel() })

@@ -1,9 +1,10 @@
 package com.example.android.githubclient.base.navigator
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
-import android.util.Log
+import android.annotation.SuppressLint
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+
 
 /**
  * Created by admin on 20.02.2018.
@@ -14,6 +15,7 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
     private val tags: HashSet<ScreenInterface?> = HashSet()
     private var curScreen: ScreenInterface? = null
 
+    @SuppressLint("WrongConstant")
     override fun showFragment(screen: ScreenInterface, data: Any?) {
         if (curScreen === screen)
             return
@@ -22,9 +24,9 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
             /*Log.e("showScreenAuthInTags", screen.getTag())*/
             screen.setAnimation(fragmentManager)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                    .hide(fragmentManager.findFragmentByTag(curScreen?.getTag()))
+                    .hide(fragmentManager.findFragmentByTag(curScreen?.getTag())!!)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .show(fragmentManager.findFragmentByTag(screen.getTag()))
+                    .show(fragmentManager.findFragmentByTag(screen.getTag())!!)
                     .commit()
         } else {
             /*Log.e("showScreenAuthNotInTags", screen.getTag())*/
@@ -32,7 +34,7 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
             screen.setAnimation(fragmentManager)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .add(containerId, screen.createFragment(data), screen.getTag())
-                    .hide(fragmentManager.findFragmentByTag(curScreen?.getTag()))
+                    .hide(fragmentManager.findFragmentByTag(curScreen?.getTag())!!)
                     .commit()
         }
         curScreen = screen
@@ -58,7 +60,7 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
     }
 
     override fun getCurrentFragment(): Fragment {
-        return fragmentManager.findFragmentByTag(getCurrentScreen()?.getTag())
+        return fragmentManager.findFragmentByTag(getCurrentScreen()?.getTag())!!
     }
 
     override fun clear() {
@@ -82,7 +84,7 @@ abstract class StoreAndReuseTransactionManager(fragmentManager : FragmentManager
 
                 curScreen!!.setAnimation(fragmentManager)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .show(fragmentManager.findFragmentByTag(curScreen?.getTag()))
+                        .show(fragmentManager.findFragmentByTag(curScreen?.getTag())!!)
                         .commit()
 
                 true

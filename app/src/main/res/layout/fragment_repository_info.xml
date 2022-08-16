@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:isScrollContainer="false"
@@ -229,14 +229,13 @@
             android:layout_marginBottom="16dp"
             style="@style/SectionText"
             android:text="@string/repo_readme"/>
-
-        <us.feras.mdv.MarkdownView
+        <!--<us.feras.mdv.MarkdownView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:id="@+id/screen_repository_info_markdown"
-            android:background="@android:color/white"/>
+            android:background="@android:color/white"/>-->
 
         <ProgressBar
             android:id="@+id/screen_repository_info_markdown_progress_bar"
@@ -263,4 +262,4 @@
             android:layout_height="12dp"/>
 
     </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

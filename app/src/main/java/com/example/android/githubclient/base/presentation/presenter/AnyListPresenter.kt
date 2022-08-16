@@ -2,10 +2,7 @@ package com.example.android.githubclient.base.presentation.presenter
 
 import com.example.android.githubclient.base.interactor.RepoInteractor
 import com.example.android.githubclient.base.interactor.UserInteractor
-import com.example.android.githubclient.base.presentation.model.Repo
-import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.presentation.view.AnyListView
-import com.example.android.githubclient.base.presentation.view.BaseView
 
 /**
  * Created by admin on 10.03.2018.

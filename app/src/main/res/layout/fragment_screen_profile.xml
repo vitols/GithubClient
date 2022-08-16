@@ -7,13 +7,13 @@
     android:id="@+id/screen_profile_swiperefresh_layout"
     android:background="@android:color/white">
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:id="@+id/screen_profile_toolbar"
@@ -37,7 +37,7 @@
             app:avatarFinalMargin="8dp"
             app:layout_behavior=".mainScreen.behavior.AvatarBehavior"/>
 
-        <android.support.v4.widget.NestedScrollView
+        <androidx.core.widget.NestedScrollView
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
@@ -250,14 +250,14 @@
                         android:layout_gravity="start"
                         android:visibility="gone"/>
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/screen_profile_repos_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:background="@drawable/container_border"
                         android:visibility="gone">
-                    </android.support.v7.widget.RecyclerView>
+                    </androidx.recyclerview.widget.RecyclerView>
                 </LinearLayout>
 
                 <View
@@ -334,7 +334,7 @@
 
             </LinearLayout>
 
-        </android.support.v4.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
 
         <ImageView
             android:layout_width="32dp"
@@ -355,7 +355,7 @@
             android:id="@+id/fragment_screen_profile_progressbar"
             android:visibility="gone"/>
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </com.example.android.githubclient.mainScreen.SwipeRefreshLayoutCustom>
 

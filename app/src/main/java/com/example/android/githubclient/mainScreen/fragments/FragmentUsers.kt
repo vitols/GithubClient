@@ -2,13 +2,13 @@ package com.example.android.githubclient.mainScreen.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
 import com.example.android.githubclient.R
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
 import android.view.*
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.example.android.githubclient.base.adapters.DelegationAdapter
@@ -47,7 +47,7 @@ class FragmentUsers : Fragment(),
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
             mainActivityCallback = context as FragmentListListener
@@ -56,13 +56,13 @@ class FragmentUsers : Fragment(),
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         presenter = UserListPresenter(this)
         adapter = DelegationAdapter()
         return inflater!!.inflate(R.layout.fragment_screen_users, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setToolbarItems()
@@ -71,27 +71,26 @@ class FragmentUsers : Fragment(),
 
         screen_users_container.layoutManager = LinearLayoutManager(context)
         screen_users_container.adapter = adapter
-        screen_users_container.addItemDecoration(ItemDecorator(context, LinearLayoutManager.VERTICAL, R.dimen.item_user_divider_left_margin))
+        screen_users_container.addItemDecoration(ItemDecorator(requireActivity(), LinearLayoutManager.VERTICAL, R.dimen.item_user_divider_left_margin))
 
         adapter?.manager?.addDelegate(
-                UserDelegate(activity, {
-                    itemView, login ->
+                UserDelegate(activity) { itemView, login ->
                     YoYo.with(Techniques.BounceIn)
                             .duration(10)
                             .playOn(itemView);
-                        if (login == LoginController.instance.user?.login && LoginController.instance.isLoggedIn())
-                            mainActivityCallback?.openProfileScreenByLogin(FragmentProfileAuthorized.newInstance())
-                        else
-                            mainActivityCallback?.openProfileScreenByLogin(FragmentProfileNotAuthorized.newInstance(login))
+                    if (login == LoginController.instance.user?.login && LoginController.instance.isLoggedIn())
+                        mainActivityCallback?.openProfileScreenByLogin(FragmentProfileAuthorized.newInstance())
+                    else
+                        mainActivityCallback?.openProfileScreenByLogin(FragmentProfileNotAuthorized.newInstance(login))
 
-        }))
+                })
 
         screen_users_swiperefresh.isRefreshing = true
         presenter?.getUsers()
     }
 
     override fun showError(error: String) {
-        AlertDialog.Builder(context)
+        AlertDialog.Builder(requireContext())
                 .setMessage(error)
                 .setTitle(ConstValues.ErrorDialog.TITLE)
                 .setPositiveButton(ConstValues.ErrorDialog.OK, { dialog, _ -> dialog.cancel() })
@@ -147,7 +146,7 @@ class FragmentUsers : Fragment(),
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
-            override fun onQueryTextChange(newText: String?): Boolean {
+            override fun onQueryTextChange(newText: String): Boolean {
                 if (newText != null) {
                     if(newText.isEmpty()) {
                         screen_users_swiperefresh.isRefreshing = true

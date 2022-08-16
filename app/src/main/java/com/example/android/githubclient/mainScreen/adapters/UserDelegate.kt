@@ -1,21 +1,23 @@
 package com.example.android.githubclient.mainScreen.adapters
 
 import android.app.Activity
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.adapters.AdapterDelegateAbstract
 import com.example.android.githubclient.base.presentation.model.User
+import com.example.android.githubclient.mainScreen.adapters.UserDelegate.ViewHolder
 import kotlinx.android.synthetic.main.item_user.view.*
 
 /**
  * Created by admin on 08.03.2018.
  */
-class UserDelegate(val context: Activity, val callback: (View, String) -> Unit) :
-        AdapterDelegateAbstract<Any, Any, UserDelegate.ViewHolder>() {
+class UserDelegate(val context: FragmentActivity?, val callback: (View, String) -> Unit) :
+        AdapterDelegateAbstract<Any, Any, ViewHolder>() {
 
     override fun isForViewType(item: Any): Boolean {
         return item is User

@@ -1,13 +1,9 @@
 package com.example.android.githubclient.base.presentation.presenter
 
-import android.util.Log
 import com.example.android.githubclient.base.interactor.UserInteractor
 import com.example.android.githubclient.base.presentation.model.SearchModel
 import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.presentation.view.UserListView
-import com.example.android.githubclient.base.requests.UsersRequestInterface
-import io.reactivex.Observable
-import io.reactivex.observers.DisposableObserver
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

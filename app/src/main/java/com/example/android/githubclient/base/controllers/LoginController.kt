@@ -1,7 +1,6 @@
 package com.example.android.githubclient.base.controllers
 
 import android.accounts.NetworkErrorException
-import android.util.Log
 import com.example.android.githubclient.base.ConstValues
 import com.example.android.githubclient.base.presentation.model.User
 import com.example.android.githubclient.base.utils.Prefs

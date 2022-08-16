@@ -1,6 +1,5 @@
 package com.example.android.githubclient.base.data
 
-import android.util.Log
 import com.example.android.githubclient.base.data.network.RepoNetworkDataManager
 import com.example.android.githubclient.base.data.storage.RepoStorageDataManager
 import com.example.android.githubclient.base.data.storage.RepoStorageDataManagerInterface

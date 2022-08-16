@@ -1,20 +1,22 @@
 package com.example.android.githubclient.mainScreen.adapters
 
 import android.app.Activity
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android.githubclient.R
 import com.example.android.githubclient.base.adapters.AdapterDelegateAbstract
 import com.example.android.githubclient.base.presentation.model.Repo
+import com.example.android.githubclient.mainScreen.adapters.RepoDelegate.*
 import kotlinx.android.synthetic.main.item_repo.view.*
 
 /**
  * Created by admin on 15.03.2018.
  */
-class RepoDelegate(val context: Activity, val callback: (View, String, String) -> Unit) :
-        AdapterDelegateAbstract<Any, Any, RepoDelegate.ViewHolder>() {
+class RepoDelegate(val context: FragmentActivity?, val callback: (View, String, String) -> Unit) :
+        AdapterDelegateAbstract<Any, Any, ViewHolder>() {
 
     override fun isForViewType(item: Any): Boolean {
         return item is Repo
