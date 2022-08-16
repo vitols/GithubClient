@@ -5,8 +5,8 @@ The repo contains a client application for GitHub written in Kotlin for Android 
 This application is a continuation of the first version written in Java (check out [GithubUsers repository](https://github.com/vitols/GithubUsers)).
 
 The app has two operating modes - anonymous and authorized.
-With the anonymous access it is allowed to explore user profiles, repos, etc.
-When authorized, one could access their profile and private repositories, edit personal info.
+With the anonymous access it is allowed to have access to user profiles and search through them.
+While when authorized, one could access their profile and private repositories, edit personal info.
 
 ## Getting Started
 
