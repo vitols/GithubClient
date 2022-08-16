@@ -15,8 +15,8 @@ The issued `CLIENT_ID` and `CLIENT_SECRET` should be added to `com.example.andro
 
 #### Built With
 
-* [GitHub's OAuth](https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps)
-* [Java 8](https://java.com/en/download/)
+* [GitHub's OAuth](https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps) 
+* [Kotlin](https://kotlinlang.org/) - Kotlin programming lang (v.1.7.10)
 * [RxJava](https://github.com/ReactiveX/RxJava) - A library for composing asynchronous and event-based programs
 * [Glide](https://github.com/bumptech/glide) - Image loading framework
 * [ThreeTenABP](https://github.com/JakeWharton/ThreeTenABP) - Working with time
