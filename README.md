@@ -15,7 +15,10 @@ The issued `CLIENT_ID` and `CLIENT_SECRET` should be added to `com.example.andro
 
 ### Screenshots
 
-<img src="profile_screen.gif" width="300"/>   <img src="repo_screen.gif" width="300"/>   <img src="users_screen.gif" width="300"/>
+| <img src="profile_screen.gif" width="250"/> | <img src="repo_screen.gif" width="250"/> | <img src="users_screen.gif" width="250"/> | 
+|:--:                                         | :--:                                     | :--:                                      |
+| *Profile Screen*                            | *Repositories Screen*                    |                            *Users Screen* |
+
 
 #### Built With
 
